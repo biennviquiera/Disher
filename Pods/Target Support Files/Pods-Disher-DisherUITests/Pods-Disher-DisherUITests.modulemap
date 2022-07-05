@@ -1,0 +1,6 @@
+framework module Pods_Disher_DisherUITests {
+  umbrella header "Pods-Disher-DisherUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

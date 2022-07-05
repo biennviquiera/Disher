@@ -1,0 +1,6 @@
+framework module Pods_Disher {
+  umbrella header "Pods-Disher-umbrella.h"
+
+  export *
+  module * { export * }
+}

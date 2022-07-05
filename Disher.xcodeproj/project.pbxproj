@@ -1,0 +1,756 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 55;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		40239AE3F067D09FA4035A8F /* Pods_Disher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E50CEFC9C8F1EC139AE23A2 /* Pods_Disher.framework */; };
+		466CABE52874B7A10017AE06 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 466CABE42874B7A10017AE06 /* AppDelegate.m */; };
+		466CABE82874B7A10017AE06 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 466CABE72874B7A10017AE06 /* SceneDelegate.m */; };
+		466CABEE2874B7A10017AE06 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 466CABEC2874B7A10017AE06 /* Main.storyboard */; };
+		466CABF02874B7A20017AE06 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 466CABEF2874B7A20017AE06 /* Assets.xcassets */; };
+		466CABF32874B7A20017AE06 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 466CABF12874B7A20017AE06 /* LaunchScreen.storyboard */; };
+		466CABF62874B7A20017AE06 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 466CABF52874B7A20017AE06 /* main.m */; };
+		466CAC002874B7A20017AE06 /* DisherTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 466CABFF2874B7A20017AE06 /* DisherTests.m */; };
+		466CAC0A2874B7A20017AE06 /* DisherUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 466CAC092874B7A20017AE06 /* DisherUITests.m */; };
+		466CAC0C2874B7A20017AE06 /* DisherUITestsLaunchTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 466CAC0B2874B7A20017AE06 /* DisherUITestsLaunchTests.m */; };
+		466CAC1A2874BEBE0017AE06 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 466CAC192874BEBE0017AE06 /* LoginViewController.m */; };
+		575280DA955E8068F46DBA10 /* Pods_DisherTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB466D980503E2495E5D062 /* Pods_DisherTests.framework */; };
+		FCA4F54C135F8BEA6C11BE3C /* Pods_Disher_DisherUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FD9C316F028C91ED37ECAC9 /* Pods_Disher_DisherUITests.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		466CABFC2874B7A20017AE06 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 466CABD82874B7A10017AE06 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 466CABDF2874B7A10017AE06;
+			remoteInfo = Disher;
+		};
+		466CAC062874B7A20017AE06 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 466CABD82874B7A10017AE06 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 466CABDF2874B7A10017AE06;
+			remoteInfo = Disher;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		466CABE02874B7A10017AE06 /* Disher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Disher.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		466CABE32874B7A10017AE06 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		466CABE42874B7A10017AE06 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		466CABE62874B7A10017AE06 /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
+		466CABE72874B7A10017AE06 /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
+		466CABED2874B7A10017AE06 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		466CABEF2874B7A20017AE06 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		466CABF22874B7A20017AE06 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		466CABF42874B7A20017AE06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		466CABF52874B7A20017AE06 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		466CABFB2874B7A20017AE06 /* DisherTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DisherTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		466CABFF2874B7A20017AE06 /* DisherTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DisherTests.m; sourceTree = "<group>"; };
+		466CAC052874B7A20017AE06 /* DisherUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DisherUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		466CAC092874B7A20017AE06 /* DisherUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DisherUITests.m; sourceTree = "<group>"; };
+		466CAC0B2874B7A20017AE06 /* DisherUITestsLaunchTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DisherUITestsLaunchTests.m; sourceTree = "<group>"; };
+		466CAC182874BEBE0017AE06 /* LoginViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		466CAC192874BEBE0017AE06 /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		4F1CD5E5DBB7FB579DDF9112 /* Pods-DisherTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DisherTests.release.xcconfig"; path = "Target Support Files/Pods-DisherTests/Pods-DisherTests.release.xcconfig"; sourceTree = "<group>"; };
+		5C85EFF2CFA37C67319E2E02 /* Pods-Disher.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Disher.release.xcconfig"; path = "Target Support Files/Pods-Disher/Pods-Disher.release.xcconfig"; sourceTree = "<group>"; };
+		5FD9C316F028C91ED37ECAC9 /* Pods_Disher_DisherUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Disher_DisherUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		6368B9DB248CF5E8516B6B17 /* Pods-Disher-DisherUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Disher-DisherUITests.debug.xcconfig"; path = "Target Support Files/Pods-Disher-DisherUITests/Pods-Disher-DisherUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		9E50CEFC9C8F1EC139AE23A2 /* Pods_Disher.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Disher.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A06B32D51011112B873F25B8 /* Pods-Disher-DisherUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Disher-DisherUITests.release.xcconfig"; path = "Target Support Files/Pods-Disher-DisherUITests/Pods-Disher-DisherUITests.release.xcconfig"; sourceTree = "<group>"; };
+		AA7DF21F7E7223F19EED2433 /* Pods-DisherTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DisherTests.debug.xcconfig"; path = "Target Support Files/Pods-DisherTests/Pods-DisherTests.debug.xcconfig"; sourceTree = "<group>"; };
+		BCB466D980503E2495E5D062 /* Pods_DisherTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DisherTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA3702110709A2C419E661D8 /* Pods-Disher.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Disher.debug.xcconfig"; path = "Target Support Files/Pods-Disher/Pods-Disher.debug.xcconfig"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		466CABDD2874B7A10017AE06 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				40239AE3F067D09FA4035A8F /* Pods_Disher.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		466CABF82874B7A20017AE06 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				575280DA955E8068F46DBA10 /* Pods_DisherTests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		466CAC022874B7A20017AE06 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FCA4F54C135F8BEA6C11BE3C /* Pods_Disher_DisherUITests.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		466CABD72874B7A10017AE06 = {
+			isa = PBXGroup;
+			children = (
+				466CABE22874B7A10017AE06 /* Disher */,
+				466CABFE2874B7A20017AE06 /* DisherTests */,
+				466CAC082874B7A20017AE06 /* DisherUITests */,
+				466CABE12874B7A10017AE06 /* Products */,
+				5174B424DCD2E3DCDBECE666 /* Pods */,
+				FB877948DC75D5370174F181 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		466CABE12874B7A10017AE06 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				466CABE02874B7A10017AE06 /* Disher.app */,
+				466CABFB2874B7A20017AE06 /* DisherTests.xctest */,
+				466CAC052874B7A20017AE06 /* DisherUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		466CABE22874B7A10017AE06 /* Disher */ = {
+			isa = PBXGroup;
+			children = (
+				466CABE32874B7A10017AE06 /* AppDelegate.h */,
+				466CABE42874B7A10017AE06 /* AppDelegate.m */,
+				466CABE62874B7A10017AE06 /* SceneDelegate.h */,
+				466CABE72874B7A10017AE06 /* SceneDelegate.m */,
+				466CABEC2874B7A10017AE06 /* Main.storyboard */,
+				466CAC182874BEBE0017AE06 /* LoginViewController.h */,
+				466CAC192874BEBE0017AE06 /* LoginViewController.m */,
+				466CABEF2874B7A20017AE06 /* Assets.xcassets */,
+				466CABF12874B7A20017AE06 /* LaunchScreen.storyboard */,
+				466CABF42874B7A20017AE06 /* Info.plist */,
+				466CABF52874B7A20017AE06 /* main.m */,
+			);
+			path = Disher;
+			sourceTree = "<group>";
+		};
+		466CABFE2874B7A20017AE06 /* DisherTests */ = {
+			isa = PBXGroup;
+			children = (
+				466CABFF2874B7A20017AE06 /* DisherTests.m */,
+			);
+			path = DisherTests;
+			sourceTree = "<group>";
+		};
+		466CAC082874B7A20017AE06 /* DisherUITests */ = {
+			isa = PBXGroup;
+			children = (
+				466CAC092874B7A20017AE06 /* DisherUITests.m */,
+				466CAC0B2874B7A20017AE06 /* DisherUITestsLaunchTests.m */,
+			);
+			path = DisherUITests;
+			sourceTree = "<group>";
+		};
+		5174B424DCD2E3DCDBECE666 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CA3702110709A2C419E661D8 /* Pods-Disher.debug.xcconfig */,
+				5C85EFF2CFA37C67319E2E02 /* Pods-Disher.release.xcconfig */,
+				6368B9DB248CF5E8516B6B17 /* Pods-Disher-DisherUITests.debug.xcconfig */,
+				A06B32D51011112B873F25B8 /* Pods-Disher-DisherUITests.release.xcconfig */,
+				AA7DF21F7E7223F19EED2433 /* Pods-DisherTests.debug.xcconfig */,
+				4F1CD5E5DBB7FB579DDF9112 /* Pods-DisherTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		FB877948DC75D5370174F181 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9E50CEFC9C8F1EC139AE23A2 /* Pods_Disher.framework */,
+				5FD9C316F028C91ED37ECAC9 /* Pods_Disher_DisherUITests.framework */,
+				BCB466D980503E2495E5D062 /* Pods_DisherTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		466CABDF2874B7A10017AE06 /* Disher */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 466CAC0F2874B7A20017AE06 /* Build configuration list for PBXNativeTarget "Disher" */;
+			buildPhases = (
+				619F36CB84EF5551625A76F0 /* [CP] Check Pods Manifest.lock */,
+				466CABDC2874B7A10017AE06 /* Sources */,
+				466CABDD2874B7A10017AE06 /* Frameworks */,
+				466CABDE2874B7A10017AE06 /* Resources */,
+				DD1E5A3F6B0A7EB5B0D4A30C /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Disher;
+			productName = Disher;
+			productReference = 466CABE02874B7A10017AE06 /* Disher.app */;
+			productType = "com.apple.product-type.application";
+		};
+		466CABFA2874B7A20017AE06 /* DisherTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 466CAC122874B7A20017AE06 /* Build configuration list for PBXNativeTarget "DisherTests" */;
+			buildPhases = (
+				0D68375A1747C45452BDCAA3 /* [CP] Check Pods Manifest.lock */,
+				466CABF72874B7A20017AE06 /* Sources */,
+				466CABF82874B7A20017AE06 /* Frameworks */,
+				466CABF92874B7A20017AE06 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				466CABFD2874B7A20017AE06 /* PBXTargetDependency */,
+			);
+			name = DisherTests;
+			productName = DisherTests;
+			productReference = 466CABFB2874B7A20017AE06 /* DisherTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		466CAC042874B7A20017AE06 /* DisherUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 466CAC152874B7A20017AE06 /* Build configuration list for PBXNativeTarget "DisherUITests" */;
+			buildPhases = (
+				C14EA47A595222BB44EF3A5B /* [CP] Check Pods Manifest.lock */,
+				466CAC012874B7A20017AE06 /* Sources */,
+				466CAC022874B7A20017AE06 /* Frameworks */,
+				466CAC032874B7A20017AE06 /* Resources */,
+				A1485CF7722124F5B3C773C8 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				466CAC072874B7A20017AE06 /* PBXTargetDependency */,
+			);
+			name = DisherUITests;
+			productName = DisherUITests;
+			productReference = 466CAC052874B7A20017AE06 /* DisherUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		466CABD82874B7A10017AE06 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1340;
+				TargetAttributes = {
+					466CABDF2874B7A10017AE06 = {
+						CreatedOnToolsVersion = 13.4;
+					};
+					466CABFA2874B7A20017AE06 = {
+						CreatedOnToolsVersion = 13.4;
+						TestTargetID = 466CABDF2874B7A10017AE06;
+					};
+					466CAC042874B7A20017AE06 = {
+						CreatedOnToolsVersion = 13.4;
+						TestTargetID = 466CABDF2874B7A10017AE06;
+					};
+				};
+			};
+			buildConfigurationList = 466CABDB2874B7A10017AE06 /* Build configuration list for PBXProject "Disher" */;
+			compatibilityVersion = "Xcode 13.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 466CABD72874B7A10017AE06;
+			productRefGroup = 466CABE12874B7A10017AE06 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				466CABDF2874B7A10017AE06 /* Disher */,
+				466CABFA2874B7A20017AE06 /* DisherTests */,
+				466CAC042874B7A20017AE06 /* DisherUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		466CABDE2874B7A10017AE06 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				466CABF32874B7A20017AE06 /* LaunchScreen.storyboard in Resources */,
+				466CABF02874B7A20017AE06 /* Assets.xcassets in Resources */,
+				466CABEE2874B7A10017AE06 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		466CABF92874B7A20017AE06 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		466CAC032874B7A20017AE06 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0D68375A1747C45452BDCAA3 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-DisherTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		619F36CB84EF5551625A76F0 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Disher-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A1485CF7722124F5B3C773C8 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Disher-DisherUITests/Pods-Disher-DisherUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Disher-DisherUITests/Pods-Disher-DisherUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Disher-DisherUITests/Pods-Disher-DisherUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C14EA47A595222BB44EF3A5B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Disher-DisherUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DD1E5A3F6B0A7EB5B0D4A30C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Disher/Pods-Disher-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-Disher/Pods-Disher-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Disher/Pods-Disher-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		466CABDC2874B7A10017AE06 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				466CAC1A2874BEBE0017AE06 /* LoginViewController.m in Sources */,
+				466CABE52874B7A10017AE06 /* AppDelegate.m in Sources */,
+				466CABF62874B7A20017AE06 /* main.m in Sources */,
+				466CABE82874B7A10017AE06 /* SceneDelegate.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		466CABF72874B7A20017AE06 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				466CAC002874B7A20017AE06 /* DisherTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		466CAC012874B7A20017AE06 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				466CAC0A2874B7A20017AE06 /* DisherUITests.m in Sources */,
+				466CAC0C2874B7A20017AE06 /* DisherUITestsLaunchTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		466CABFD2874B7A20017AE06 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 466CABDF2874B7A10017AE06 /* Disher */;
+			targetProxy = 466CABFC2874B7A20017AE06 /* PBXContainerItemProxy */;
+		};
+		466CAC072874B7A20017AE06 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 466CABDF2874B7A10017AE06 /* Disher */;
+			targetProxy = 466CAC062874B7A20017AE06 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		466CABEC2874B7A10017AE06 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				466CABED2874B7A10017AE06 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		466CABF12874B7A20017AE06 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				466CABF22874B7A20017AE06 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		466CAC0D2874B7A20017AE06 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		466CAC0E2874B7A20017AE06 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++17";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		466CAC102874B7A20017AE06 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = CA3702110709A2C419E661D8 /* Pods-Disher.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SWX2RW72JQ;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Disher/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bienn.Disher;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		466CAC112874B7A20017AE06 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5C85EFF2CFA37C67319E2E02 /* Pods-Disher.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SWX2RW72JQ;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Disher/Info.plist;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bienn.Disher;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		466CAC132874B7A20017AE06 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = AA7DF21F7E7223F19EED2433 /* Pods-DisherTests.debug.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SWX2RW72JQ;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bienn.DisherTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Disher.app/Disher";
+			};
+			name = Debug;
+		};
+		466CAC142874B7A20017AE06 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4F1CD5E5DBB7FB579DDF9112 /* Pods-DisherTests.release.xcconfig */;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SWX2RW72JQ;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bienn.DisherTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Disher.app/Disher";
+			};
+			name = Release;
+		};
+		466CAC162874B7A20017AE06 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6368B9DB248CF5E8516B6B17 /* Pods-Disher-DisherUITests.debug.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SWX2RW72JQ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bienn.DisherUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Disher;
+			};
+			name = Debug;
+		};
+		466CAC172874B7A20017AE06 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A06B32D51011112B873F25B8 /* Pods-Disher-DisherUITests.release.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = SWX2RW72JQ;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bienn.DisherUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Disher;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		466CABDB2874B7A10017AE06 /* Build configuration list for PBXProject "Disher" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				466CAC0D2874B7A20017AE06 /* Debug */,
+				466CAC0E2874B7A20017AE06 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		466CAC0F2874B7A20017AE06 /* Build configuration list for PBXNativeTarget "Disher" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				466CAC102874B7A20017AE06 /* Debug */,
+				466CAC112874B7A20017AE06 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		466CAC122874B7A20017AE06 /* Build configuration list for PBXNativeTarget "DisherTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				466CAC132874B7A20017AE06 /* Debug */,
+				466CAC142874B7A20017AE06 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		466CAC152874B7A20017AE06 /* Build configuration list for PBXNativeTarget "DisherUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				466CAC162874B7A20017AE06 /* Debug */,
+				466CAC172874B7A20017AE06 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 466CABD82874B7A10017AE06 /* Project object */;
+}
