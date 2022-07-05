@@ -6,8 +6,12 @@
 //
 
 #import "LoginViewController.h"
+@import Parse;
+
 
 @interface LoginViewController ()
+@property (weak, nonatomic) IBOutlet UITextField *usernameFIeld;
+@property (weak, nonatomic) IBOutlet UITextField *passwordField;
 
 @end
 
@@ -16,7 +20,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    
+    
 }
+
+- (IBAction)didTapLogin:(id)sender {
+}
+
+- (IBAction)didTapSignup:(id)sender {
+}
+
 
 /*
 #pragma mark - Navigation
