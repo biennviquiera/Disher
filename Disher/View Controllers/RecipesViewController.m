@@ -6,6 +6,9 @@
 //
 
 #import "RecipesViewController.h"
+#import "Parse/Parse.h"
+#import "SceneDelegate.h"
+#import "LoginViewController.h"
 
 @interface RecipesViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -41,6 +44,21 @@
     // Configure the cell...
     
     return cell;
+}
+
+- (IBAction)didTapLogout:(id)sender {
+    [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
+        if (error) {
+            
+        }
+        else {
+            SceneDelegate *myDelegate = (SceneDelegate *) self.view.window.windowScene.delegate;
+            UIStoryboard *current = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+            LoginViewController *newVC = [current instantiateViewControllerWithIdentifier:@"LoginViewController"];
+            
+            [UIView transitionWithView:myDelegate.window duration:0.5 options:UIViewAnimationOptionTransitionFlipFromRight animations:^{myDelegate.window.rootViewController = newVC;} completion:nil];
+        }
+    }];
 }
 
 /*

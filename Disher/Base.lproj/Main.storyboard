@@ -11,7 +11,7 @@
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="LoginViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" id="BYZ-38-t0r" customClass="LoginViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -80,7 +80,7 @@
         <!--My Lists-->
         <scene sceneID="8Kg-5M-UdA">
             <objects>
-                <tableViewController modalPresentationStyle="fullScreen" id="L2I-gr-Xas" customClass="ListsViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="ListsViewController" modalPresentationStyle="fullScreen" id="L2I-gr-Xas" customClass="ListsViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="8Vs-17-DTS">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -107,12 +107,12 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="J7t-qp-oxW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1581.5384615384614" y="949.76303317535542"/>
+            <point key="canvasLocation" x="2510.7692307692305" y="949.76303317535542"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="ivF-fG-YDM">
             <objects>
-                <tabBarController modalPresentationStyle="fullScreen" id="ZFS-EP-tOn" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabBarController" modalPresentationStyle="fullScreen" id="ZFS-EP-tOn" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="pg8-y5-cBe"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="4f7-vW-DkW">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
@@ -120,8 +120,8 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </tabBar>
                     <connections>
-                        <segue destination="h4P-Hn-8Ut" kind="relationship" relationship="viewControllers" destinationCreationSelector="recipesSegue" id="MhR-PM-0M6"/>
-                        <segue destination="L2I-gr-Xas" kind="relationship" relationship="viewControllers" destinationCreationSelector="listsSegue" id="EEd-hO-Ero"/>
+                        <segue destination="khl-Y8-xMq" kind="relationship" relationship="viewControllers" id="MhR-PM-0M6"/>
+                        <segue destination="L2I-gr-Xas" kind="relationship" relationship="viewControllers" id="EEd-hO-Ero"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f0P-vw-lFt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -131,7 +131,7 @@
         <!--Recipes-->
         <scene sceneID="dhc-gd-w7R">
             <objects>
-                <tableViewController title="Recipes" modalPresentationStyle="fullScreen" id="h4P-Hn-8Ut" customClass="RecipesViewController" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="RecipesViewController" title="Recipes" modalPresentationStyle="fullScreen" id="h4P-Hn-8Ut" customClass="RecipesViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="Kqk-N6-Doh">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -151,13 +151,37 @@
                             <outlet property="delegate" destination="h4P-Hn-8Ut" id="6nT-fp-BPS"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Recipes" image="fork.knife" catalog="system" id="oj8-0D-hHb"/>
-                    <navigationItem key="navigationItem" id="GB8-J9-Qj7"/>
+                    <navigationItem key="navigationItem" id="GB8-J9-Qj7">
+                        <barButtonItem key="leftBarButtonItem" title="Logout" style="done" id="HOc-ps-wWT">
+                            <connections>
+                                <action selector="didTapLogout:" destination="h4P-Hn-8Ut" id="diH-Zf-cjS"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="Kqk-N6-Doh" id="zSF-9A-Td3"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rMK-bE-mxU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="963.07692307692309" y="949.76303317535542"/>
+        </scene>
+        <!--Recipes-->
+        <scene sceneID="FDL-da-ga8">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="khl-Y8-xMq" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Recipes" image="fork.knife" catalog="system" id="oj8-0D-hHb"/>
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="AAt-Yn-aaG">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="56"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="h4P-Hn-8Ut" kind="relationship" relationship="rootViewController" id="4jP-tZ-YHd"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lEp-rK-1Qz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="33.846153846153847" y="949.76303317535542"/>
         </scene>
