@@ -6,6 +6,7 @@
 //
 
 #import "ListsViewController.h"
+#import "ListCell.h"
 
 @interface ListsViewController () <UITableViewDelegate, UITableViewDataSource>
 
@@ -37,7 +38,7 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ListCell" forIndexPath:indexPath];
+    ListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ListCell" forIndexPath:indexPath];
     
     // Configure the cell...
     

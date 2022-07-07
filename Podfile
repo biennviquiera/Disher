@@ -8,6 +8,8 @@ target 'Disher' do
   # Pods for Disher
    pod 'AFNetworking'
    pod 'Parse'
+   pod 'Parse/UI'
+
 
   target 'DisherTests' do
     inherit! :search_paths
