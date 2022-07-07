@@ -65,8 +65,8 @@
     newUser.password = self.passwordField.text;
     
     [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        if (error) {            NSString *errorString = [error userInfo][@"error"];
-            
+        if (error) {            
+            NSString *errorString = [error userInfo][@"error"];
             UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error signing up"
                                                                            message:errorString
                                                                     preferredStyle:UIAlertControllerStyleAlert];
