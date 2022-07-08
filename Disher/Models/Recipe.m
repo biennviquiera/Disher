@@ -9,4 +9,13 @@
 
 @implementation Recipe
 
+@dynamic dishName;
+@dynamic imageURL;
+@dynamic source;
+@dynamic recipeID;
+
++ (NSString *) parseClassName {
+    return @"Recipe";
+}
+
 @end

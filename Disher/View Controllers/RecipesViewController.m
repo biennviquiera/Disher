@@ -27,7 +27,7 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     //Update global results arrays
-    [self queryAPIs:@"sandwich" completionHandler:^() {
+    [self queryAPIs:@"banana" completionHandler:^() {
         [self.tableView reloadData];
     }];
 }
@@ -65,7 +65,6 @@
 - (IBAction)didTapLogout:(id)sender {
     [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
         [self.logoutButton setEnabled:NO];
-        
         if (error) { //TODO: Add error alert for logout
             [self.logoutButton setEnabled:YES];
         }
@@ -73,7 +72,6 @@
             SceneDelegate *myDelegate = (SceneDelegate *) self.view.window.windowScene.delegate;
             UIStoryboard *current = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
             LoginViewController *newVC = [current instantiateViewControllerWithIdentifier:@"LoginViewController"];
-            
             [UIView transitionWithView:myDelegate.window duration:0.5 options:UIViewAnimationOptionTransitionFlipFromRight animations:^{myDelegate.window.rootViewController = newVC;} completion:nil];
         }
     }];

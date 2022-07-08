@@ -9,7 +9,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface List : PFObject
+@interface List : PFObject<PFSubclassing>
+
+@property (nonatomic, strong) NSNumber *listID;
+@property (nonatomic, strong) NSArray *recipes;
 
 @end
 

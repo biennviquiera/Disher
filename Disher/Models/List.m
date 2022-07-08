@@ -8,5 +8,11 @@
 #import "List.h"
 
 @implementation List
+@dynamic listID;
+@dynamic recipes;
+
++ (nonnull NSString *)parseClassName {
+    return @"List";
+}
 
 @end
