@@ -16,7 +16,6 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *logoutButton;
 @property (nonatomic, strong) NSArray *mealDBresults;
 @property (nonatomic, strong) NSArray *spoonResults;
-
 @end
 
 
@@ -27,13 +26,10 @@
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    [self querySearchSpoonacular:@"Chicken" completionHandler:^(NSArray *meals) {
-//        self.mealDBresults = meals;
-        self.spoonResults = meals;
+    //Update global results arrays
+    [self queryAPIs:@"Chicken" completionHandler:^() {
         [self.tableView reloadData];
     }];
-    
-    
 }
 
 #pragma mark - Table view data source
@@ -44,56 +40,29 @@
 //}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.spoonResults.count + self.mealDBresults.count;
+    return self.spoonResults.count + self.mealDBresults.count - 1;
 }
-
-#pragma mark - MealDB only cells
-//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    RecipeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RecipeCell" forIndexPath:indexPath];
-//
-//    // Configure the cell...
-//    cell.recipeName.text = self.mealDBresults[indexPath.row][@"strMeal"];
-//    cell.recipeDescription.text = self.mealDBresults[indexPath.row][@"strArea"];
-//    NSString *imageLink = self.mealDBresults[indexPath.row][@"strMealThumb"];
-//    NSURL *imageURL = [NSURL URLWithString:imageLink];
-//
-//    [cell.recipeImage setImageWithURL:imageURL];
-//    return cell;
-//}
-//
-//- (IBAction)didTapLogout:(id)sender {
-//    NSLog(@"pressed logout");
-//    [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
-//        [self.logoutButton setEnabled:NO];
-//
-//        if (error) { //TODO: Add error alert for logout
-//            [self.logoutButton setEnabled:YES];
-//        }
-//        else {
-//            SceneDelegate *myDelegate = (SceneDelegate *) self.view.window.windowScene.delegate;
-//            UIStoryboard *current = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-//            LoginViewController *newVC = [current instantiateViewControllerWithIdentifier:@"LoginViewController"];
-//
-//            [UIView transitionWithView:myDelegate.window duration:0.5 options:UIViewAnimationOptionTransitionFlipFromRight animations:^{myDelegate.window.rootViewController = newVC;} completion:nil];
-//        }
-//    }];
-//}
-
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     RecipeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RecipeCell" forIndexPath:indexPath];
     
-    // Configure the cell...
-    cell.recipeName.text = self.spoonResults[indexPath.row][@"title"];
-    NSString *imageLink = self.spoonResults[indexPath.row][@"image"];
-    NSURL *imageURL = [NSURL URLWithString:imageLink];
-    
-    [cell.recipeImage setImageWithURL:imageURL];
+    // loop through mealdb results first, then go to spoonacular results
+    if (indexPath.row < self.mealDBresults.count) {
+        cell.recipeName.text = self.mealDBresults[indexPath.row][@"strMeal"];
+        NSString *imageLink = self.mealDBresults[indexPath.row][@"strMealThumb"];
+        NSURL *imageURL = [NSURL URLWithString:imageLink];
+        [cell.recipeImage setImageWithURL:imageURL];
+    }
+    else if (indexPath.row - self.mealDBresults.count + 1 < self.spoonResults.count){
+        cell.recipeName.text = self.spoonResults[indexPath.row - self.mealDBresults.count + 1][@"title"];
+        NSString *imageLink = self.spoonResults[indexPath.row - self.mealDBresults.count + 1][@"image"];
+        NSURL *imageURL = [NSURL URLWithString:imageLink];
+        [cell.recipeImage setImageWithURL:imageURL];
+    }
     return cell;
 }
 
 - (IBAction)didTapLogout:(id)sender {
-    NSLog(@"pressed logout");
     [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
         [self.logoutButton setEnabled:NO];
         
@@ -146,24 +115,32 @@
     NSString *key = [dict objectForKey: @"spoon_key"];
     NSString *apiKeyArg = [NSString stringWithFormat:@"&apiKey=%@", key];
     NSString *queryURL = [NSString stringWithFormat:@"https://api.spoonacular.com/recipes/complexSearch?query=\"%@\"%@", name, apiKeyArg];
-    NSLog(@"Origianl is %@", queryURL);
     queryURL = [queryURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     
     NSURL *url = [NSURL URLWithString:queryURL];
-    NSLog(@"url is %@", url);
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-           if (error != nil) { //TODO: Add error message / retry function
+           if (error != nil) { //TODO: Add error message
                
            }
            else {
                NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-               NSLog(@"%@", dataDictionary[@"results"]);
                completionHandler(dataDictionary[@"results"]);
            }
     }];
     [task resume];
+}
+
+- (void) queryAPIs:(NSString *) input completionHandler:(void(^)(void))completionHandler {
+    [self querySearchSpoonacular:input completionHandler:^(NSArray *returnedMeals) {
+        self.spoonResults = returnedMeals;
+        completionHandler();
+    }];
+    [self queryMealDB:input completionHandler:^(NSArray *returnedMeals) {
+        self.mealDBresults = returnedMeals;
+        completionHandler();
+    }];
 }
 
 
