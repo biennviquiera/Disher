@@ -65,7 +65,7 @@
     newUser.password = self.passwordField.text;
     
     [newUser signUpInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-        if (error) {            
+        if (error) {
             NSString *errorString = [error userInfo][@"error"];
             UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error signing up"
                                                                            message:errorString
@@ -87,7 +87,6 @@
 
 /*
 #pragma mark - Navigation
-
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
