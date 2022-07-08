@@ -198,6 +198,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="logoutButton" destination="HOc-ps-wWT" id="MMf-rw-pOd"/>
                         <outlet property="tableView" destination="Kqk-N6-Doh" id="zSF-9A-Td3"/>
                     </connections>
                 </tableViewController>
