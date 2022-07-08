@@ -23,6 +23,7 @@
 		46AABABD28764DD8006E1E49 /* RecipeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 46AABABC28764DD8006E1E49 /* RecipeCell.m */; };
 		46AABAC028764DE5006E1E49 /* ListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 46AABABF28764DE5006E1E49 /* ListCell.m */; };
 		46CEAC8628789AE500C10B1B /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 46CEAC8528789AE500C10B1B /* Keys.plist */; };
+		46CEAC892878D2F900C10B1B /* List.m in Sources */ = {isa = PBXBuildFile; fileRef = 46CEAC882878D2F900C10B1B /* List.m */; };
 		46E437652877477300222232 /* Recipe.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E437642877477300222232 /* Recipe.m */; };
 		575280DA955E8068F46DBA10 /* Pods_DisherTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BCB466D980503E2495E5D062 /* Pods_DisherTests.framework */; };
 		FCA4F54C135F8BEA6C11BE3C /* Pods_Disher_DisherUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5FD9C316F028C91ED37ECAC9 /* Pods_Disher_DisherUITests.framework */; };
@@ -72,6 +73,8 @@
 		46AABABE28764DE5006E1E49 /* ListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ListCell.h; sourceTree = "<group>"; };
 		46AABABF28764DE5006E1E49 /* ListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ListCell.m; sourceTree = "<group>"; };
 		46CEAC8528789AE500C10B1B /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
+		46CEAC872878D2F900C10B1B /* List.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = List.h; sourceTree = "<group>"; };
+		46CEAC882878D2F900C10B1B /* List.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = List.m; sourceTree = "<group>"; };
 		46E437632877477300222232 /* Recipe.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Recipe.h; sourceTree = "<group>"; };
 		46E437642877477300222232 /* Recipe.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Recipe.m; sourceTree = "<group>"; };
 		4F1CD5E5DBB7FB579DDF9112 /* Pods-DisherTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DisherTests.release.xcconfig"; path = "Target Support Files/Pods-DisherTests/Pods-DisherTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -201,6 +204,8 @@
 			children = (
 				46E437632877477300222232 /* Recipe.h */,
 				46E437642877477300222232 /* Recipe.m */,
+				46CEAC872878D2F900C10B1B /* List.h */,
+				46CEAC882878D2F900C10B1B /* List.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -472,6 +477,7 @@
 				46AABAC028764DE5006E1E49 /* ListCell.m in Sources */,
 				466CABE52874B7A10017AE06 /* AppDelegate.m in Sources */,
 				466CABF62874B7A20017AE06 /* main.m in Sources */,
+				46CEAC892878D2F900C10B1B /* List.m in Sources */,
 				463A8D1D2877A8BD00A6F01C /* LoginViewController.m in Sources */,
 				46AABABA28764D33006E1E49 /* RecipesViewController.m in Sources */,
 				466CABE82874B7A10017AE06 /* SceneDelegate.m in Sources */,

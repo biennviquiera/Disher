@@ -27,7 +27,7 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     //Update global results arrays
-    [self queryAPIs:@"Chicken" completionHandler:^() {
+    [self queryAPIs:@"sandwich" completionHandler:^() {
         [self.tableView reloadData];
     }];
 }
@@ -40,7 +40,7 @@
 //}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.spoonResults.count + self.mealDBresults.count - 1;
+    return self.spoonResults.count + self.mealDBresults.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -53,9 +53,9 @@
         NSURL *imageURL = [NSURL URLWithString:imageLink];
         [cell.recipeImage setImageWithURL:imageURL];
     }
-    else if (indexPath.row - self.mealDBresults.count + 1 < self.spoonResults.count){
-        cell.recipeName.text = self.spoonResults[indexPath.row - self.mealDBresults.count + 1][@"title"];
-        NSString *imageLink = self.spoonResults[indexPath.row - self.mealDBresults.count + 1][@"image"];
+    else if (indexPath.row >= self.mealDBresults.count) {
+        cell.recipeName.text = self.spoonResults[indexPath.row - self.mealDBresults.count][@"title"];
+        NSString *imageLink = self.spoonResults[indexPath.row - self.mealDBresults.count][@"image"];
         NSURL *imageURL = [NSURL URLWithString:imageLink];
         [cell.recipeImage setImageWithURL:imageURL];
     }
@@ -86,22 +86,16 @@
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-           if (error != nil) {
-               NSLog(@"%@", [error localizedDescription]);
-               UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Cannot reach MealDB"
-                                          message:@"Please try again."
-                                          preferredStyle:UIAlertControllerStyleAlert];
-
-               UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                              handler:^(UIAlertAction * action) {
-               [self viewDidLoad];
-               }];
-               [alert addAction:defaultAction];
-               [self presentViewController:alert animated: YES completion: nil];
+           if (error != nil) {//TODO: add error message
            }
            else {
                NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-               completionHandler(dataDictionary[@"meals"]);
+               if (dataDictionary[@"meals"] == [NSNull null] ) {
+                   NSLog(@"null detected form mealdb");
+               }
+               else {
+                   completionHandler(dataDictionary[@"meals"]);
+               }
 
            }
     }];
@@ -122,11 +116,15 @@
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
            if (error != nil) { //TODO: Add error message
-               
            }
            else {
                NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-               completionHandler(dataDictionary[@"results"]);
+               if (![(NSArray *)dataDictionary[@"results"] count]) {
+                   NSLog(@"null detected from spoonacular");
+               }
+               else {
+                   completionHandler(dataDictionary[@"results"]);
+               }
            }
     }];
     [task resume];
