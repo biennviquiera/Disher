@@ -55,14 +55,13 @@
         NSString *imageLink = self.mealDBresults[indexPath.row][@"strMealThumb"];
         NSURL *imageURL = [NSURL URLWithString:imageLink];
         [cell.recipeImage setImageWithURL:imageURL];
-        //TODO: add sub-label to display source
+        cell.recipeSource.text = @"TheMealDB";
     }
     else {
         cell.recipeName.text = self.spoonResults[indexPath.row - self.mealDBresults.count][@"title"];
         NSString *imageLink = self.spoonResults[indexPath.row - self.mealDBresults.count][@"image"];
         NSURL *imageURL = [NSURL URLWithString:imageLink];
-        [cell.recipeImage setImageWithURL:imageURL];
-        //TODO: add sub-label to display source
+        [cell.recipeImage setImageWithURL:imageURL];cell.recipeSource.text = @"Spoonacular";
     }
     return cell;
 }
