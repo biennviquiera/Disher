@@ -6,13 +6,14 @@
 //
 
 #import <Parse/Parse.h>
+#import "Recipe.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface List : PFObject<PFSubclassing>
 
 @property (nonatomic, strong) NSNumber *listID;
-@property (nonatomic, strong) NSArray *recipes;
+@property (nonatomic, strong) NSArray<Recipe *> *recipes;
 
 @end
 

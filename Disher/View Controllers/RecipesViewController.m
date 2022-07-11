@@ -16,6 +16,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *logoutButton;
 @property (nonatomic, strong) NSArray *mealDBresults;
 @property (nonatomic, strong) NSArray *spoonResults;
+@property (nonatomic, strong) NSString *searchQuery;
 @end
 
 
@@ -26,8 +27,10 @@
     
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.searchQuery = @"chicken";
+    
     //Update global results arrays
-    [self queryAPIs:@"banana" completionHandler:^() {
+    [self queryAPIs:self.searchQuery completionHandler:^() {
         [self.tableView reloadData];
     }];
 }
@@ -52,12 +55,14 @@
         NSString *imageLink = self.mealDBresults[indexPath.row][@"strMealThumb"];
         NSURL *imageURL = [NSURL URLWithString:imageLink];
         [cell.recipeImage setImageWithURL:imageURL];
+        //TODO: add sub-label to display source
     }
-    else if (indexPath.row >= self.mealDBresults.count) {
+    else {
         cell.recipeName.text = self.spoonResults[indexPath.row - self.mealDBresults.count][@"title"];
         NSString *imageLink = self.spoonResults[indexPath.row - self.mealDBresults.count][@"image"];
         NSURL *imageURL = [NSURL URLWithString:imageLink];
         [cell.recipeImage setImageWithURL:imageURL];
+        //TODO: add sub-label to display source
     }
     return cell;
 }
@@ -129,14 +134,28 @@
 }
 
 - (void) queryAPIs:(NSString *) input completionHandler:(void(^)(void))completionHandler {
-    [self querySearchSpoonacular:input completionHandler:^(NSArray *returnedMeals) {
-        self.spoonResults = returnedMeals;
-        completionHandler();
-    }];
-    [self queryMealDB:input completionHandler:^(NSArray *returnedMeals) {
-        self.mealDBresults = returnedMeals;
-        completionHandler();
-    }];
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_group_enter(group);
+    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^ {
+        [self querySearchSpoonacular:input completionHandler:^(NSArray *returnedMeals) {
+            self.spoonResults = returnedMeals;
+            dispatch_group_leave(group);
+        }];
+    });
+    dispatch_group_enter(group);
+    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^ {
+        [self queryMealDB:input completionHandler:^(NSArray *returnedMeals) {
+            self.mealDBresults = returnedMeals;
+            dispatch_group_leave(group);
+        }];
+    });
+    dispatch_group_notify(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^ {
+        // All group blocks have now completed
+        NSLog(@"completion");
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completionHandler();
+        });
+    });
 }
 
 
