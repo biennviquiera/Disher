@@ -157,12 +157,20 @@
                                             <nil key="textColor"/>
                                             <nil key="highlightedColor"/>
                                         </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Source" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bVs-dl-whN">
+                                            <rect key="frame" x="328" y="86" width="40" height="15"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="T2m-fh-K7e" firstAttribute="leading" secondItem="6xl-T3-tw8" secondAttribute="trailing" constant="8" id="E6h-Sp-nKE"/>
                                         <constraint firstItem="T2m-fh-K7e" firstAttribute="top" secondItem="GWb-Oq-aUn" secondAttribute="top" constant="14" id="Edx-Dc-gme"/>
+                                        <constraint firstAttribute="trailing" secondItem="bVs-dl-whN" secondAttribute="trailing" constant="22" id="Nse-Ms-zZg"/>
                                         <constraint firstItem="6xl-T3-tw8" firstAttribute="top" secondItem="GWb-Oq-aUn" secondAttribute="top" constant="14" id="Une-MN-EJe"/>
                                         <constraint firstAttribute="trailing" secondItem="T2m-fh-K7e" secondAttribute="trailing" constant="20" symbolic="YES" id="YJT-bO-bgR"/>
+                                        <constraint firstAttribute="bottom" secondItem="bVs-dl-whN" secondAttribute="bottom" constant="17" id="bWr-mv-ZIo"/>
                                         <constraint firstItem="6xl-T3-tw8" firstAttribute="leading" secondItem="GWb-Oq-aUn" secondAttribute="leading" constant="4" id="dXO-z7-yl7"/>
                                         <constraint firstAttribute="bottom" secondItem="6xl-T3-tw8" secondAttribute="bottom" constant="21" id="eSm-Og-OuU"/>
                                         <constraint firstItem="T2m-fh-K7e" firstAttribute="centerY" secondItem="6xl-T3-tw8" secondAttribute="centerY" id="fob-nW-KTS"/>
@@ -173,6 +181,7 @@
                                 <connections>
                                     <outlet property="recipeImage" destination="6xl-T3-tw8" id="ohj-tw-MDF"/>
                                     <outlet property="recipeName" destination="T2m-fh-K7e" id="Op4-uu-O5y"/>
+                                    <outlet property="recipeSource" destination="bVs-dl-whN" id="NTB-H4-n1s"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
