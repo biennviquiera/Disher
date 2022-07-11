@@ -46,7 +46,7 @@
             
             UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error logging in"
                                                                            message:errorString
-                                                                    preferredStyle:UIAlertControllerStyleAlert];
+                                                                     preferredStyle:UIAlertControllerStyleAlert];
              
             UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Try again"
                                                                     style:UIAlertActionStyleDefault

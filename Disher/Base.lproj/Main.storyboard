@@ -182,6 +182,7 @@
                                     <outlet property="recipeImage" destination="6xl-T3-tw8" id="ohj-tw-MDF"/>
                                     <outlet property="recipeName" destination="T2m-fh-K7e" id="Op4-uu-O5y"/>
                                     <outlet property="recipeSource" destination="bVs-dl-whN" id="NTB-H4-n1s"/>
+                                    <segue destination="19o-GA-Nkl" kind="show" identifier="detailSegue" id="pgs-5g-6dh"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>
@@ -205,6 +206,34 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rMK-bE-mxU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="963.07692307692309" y="949.76303317535542"/>
+        </scene>
+        <!--Detail View Controller-->
+        <scene sceneID="Zkt-vy-v6r">
+            <objects>
+                <viewController modalPresentationStyle="fullScreen" id="19o-GA-Nkl" customClass="DetailViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="GNn-Ww-JKb">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DiN-mn-BrZ">
+                                <rect key="frame" x="162" y="206" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="w64-nG-RY0"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="vOg-5R-bcz"/>
+                    <connections>
+                        <outlet property="textlabel" destination="DiN-mn-BrZ" id="lPx-Wp-6qs"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EYW-HB-SaK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="957" y="1699"/>
         </scene>
         <!--Recipes-->
         <scene sceneID="FDL-da-ga8">

@@ -11,6 +11,8 @@
 #import "LoginViewController.h"
 #import "RecipeCell.h"
 #import "UIKit+AFNetworking.h"
+#import "Recipe.h"
+#import "DetailViewController.h"
 
 @interface RecipesViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *logoutButton;
@@ -51,17 +53,28 @@
     
     // loop through mealdb results first, then go to spoonacular results
     if (indexPath.row < self.mealDBresults.count) {
-        cell.recipeName.text = self.mealDBresults[indexPath.row][@"strMeal"];
+        NSString *recipeName = self.mealDBresults[indexPath.row][@"strMeal"];
         NSString *imageLink = self.mealDBresults[indexPath.row][@"strMealThumb"];
+        NSString *mealID = self.mealDBresults[indexPath.row][@"idMeal"];
+        cell.recipeName.text = recipeName;
         NSURL *imageURL = [NSURL URLWithString:imageLink];
         [cell.recipeImage setImageWithURL:imageURL];
         cell.recipeSource.text = @"TheMealDB";
+        //create uniform data model for mealdb
+        Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:@"mealdb" withID:mealID];
+        cell.recipe = newRecipe;
     }
     else {
-        cell.recipeName.text = self.spoonResults[indexPath.row - self.mealDBresults.count][@"title"];
+        NSString *recipeName = self.spoonResults[indexPath.row - self.mealDBresults.count][@"title"];
+        NSString *mealID = [NSString stringWithFormat:@"%@", self.spoonResults[indexPath.row - self.mealDBresults.count][@"id"]];
+        cell.recipeName.text = recipeName;
         NSString *imageLink = self.spoonResults[indexPath.row - self.mealDBresults.count][@"image"];
         NSURL *imageURL = [NSURL URLWithString:imageLink];
         [cell.recipeImage setImageWithURL:imageURL];cell.recipeSource.text = @"Spoonacular";
+        //create uniform data model for spoonacular
+        Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:@"spoonacular" withID:mealID];
+        cell.recipe = newRecipe;
+
     }
     return cell;
 }
@@ -160,14 +173,16 @@
 
 
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if ([[segue identifier] isEqualToString:@"detailSegue"]) {
+        DetailViewController *detailVC = [segue destinationViewController];
+        detailVC.passedRecipe = ((RecipeCell *) sender).recipe;
+    }
 }
-*/
+
 
 @end
