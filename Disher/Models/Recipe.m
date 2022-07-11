@@ -18,4 +18,13 @@
     return @"Recipe";
 }
 
++ (Recipe *) initWithRecipe:(NSString *) name withURL:(NSString *) imgURL withSource:(NSString *) dishSource withID:(NSString *) recipenum {
+    Recipe *newRecipe = [Recipe new];
+    newRecipe.dishName = name;
+    newRecipe.imageURL = imgURL;
+    newRecipe.source = dishSource;
+    newRecipe.recipeID = recipenum;
+    return newRecipe;
+}
+
 @end
