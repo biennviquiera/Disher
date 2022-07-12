@@ -182,7 +182,7 @@
                                     <outlet property="recipeImage" destination="6xl-T3-tw8" id="ohj-tw-MDF"/>
                                     <outlet property="recipeName" destination="T2m-fh-K7e" id="Op4-uu-O5y"/>
                                     <outlet property="recipeSource" destination="bVs-dl-whN" id="NTB-H4-n1s"/>
-                                    <segue destination="19o-GA-Nkl" kind="show" identifier="detailSegue" id="pgs-5g-6dh"/>
+                                    <segue destination="19o-GA-Nkl" kind="show" identifier="detailSegue" id="cWS-ah-vib"/>
                                 </connections>
                             </tableViewCell>
                         </prototypes>

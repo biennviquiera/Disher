@@ -6,6 +6,7 @@
 //
 
 #import "RecipeCell.h"
+#import <SWTableViewCell.h>
 
 @implementation RecipeCell
 
