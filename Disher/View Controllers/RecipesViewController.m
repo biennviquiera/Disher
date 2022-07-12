@@ -14,10 +14,11 @@
 #import "Recipe.h"
 #import "DetailViewController.h"
 
-@interface RecipesViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface RecipesViewController () <UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *logoutButton;
 @property (nonatomic, strong) NSArray *mealDBresults;
 @property (nonatomic, strong) NSArray *spoonResults;
+@property (nonatomic, strong) NSMutableArray<Recipe *> *tableViewRecipes;
 @property (nonatomic, strong) NSString *searchQuery;
 @end
 
@@ -26,7 +27,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.tableViewRecipes = [[NSMutableArray alloc] init];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.searchQuery = @"chicken";
@@ -62,7 +63,10 @@
         cell.recipeSource.text = @"TheMealDB";
         //create uniform data model for mealdb
         Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:@"mealdb" withID:mealID];
+        [self.tableViewRecipes addObject:newRecipe];
         cell.recipe = newRecipe;
+        cell.rightUtilityButtons = [self rightButtons];
+        
     }
     else {
         NSString *recipeName = self.spoonResults[indexPath.row - self.mealDBresults.count][@"title"];
@@ -73,6 +77,7 @@
         [cell.recipeImage setImageWithURL:imageURL];cell.recipeSource.text = @"Spoonacular";
         //create uniform data model for spoonacular
         Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:@"spoonacular" withID:mealID];
+        [self.tableViewRecipes addObject:newRecipe];
         cell.recipe = newRecipe;
 
     }
@@ -170,9 +175,19 @@
     });
 }
 
+//Table View Cell Methods
+- (NSArray *)rightButtons
+{
+    NSMutableArray *rightUtilityButtons = [NSMutableArray new];
+    [rightUtilityButtons sw_addUtilityButtonWithColor:
+     [UIColor colorWithRed:0.78f green:0.78f blue:0.8f alpha:1.0]
+                                                title:@"Save to List"];
+    return rightUtilityButtons;
+}
 
-
-
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self performSegueWithIdentifier:@"detailSegue" sender:indexPath];
+}
 
 #pragma mark - Navigation
 
@@ -180,7 +195,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"detailSegue"]) {
         DetailViewController *detailVC = [segue destinationViewController];
-        detailVC.passedRecipe = ((RecipeCell *) sender).recipe;
+        detailVC.passedRecipe = self.tableViewRecipes[((NSIndexPath *)sender).row];
     }
 }
 

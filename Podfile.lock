@@ -21,23 +21,27 @@ PODS:
     - Bolts/Tasks (= 1.9.1)
   - Parse/UI (1.19.3):
     - Parse/Core
+  - SWTableViewCell (0.3.7)
 
 DEPENDENCIES:
   - AFNetworking
   - Parse
   - Parse/UI
+  - SWTableViewCell
 
 SPEC REPOS:
   trunk:
     - AFNetworking
     - Bolts
     - Parse
+    - SWTableViewCell
 
 SPEC CHECKSUMS:
   AFNetworking: 7864c38297c79aaca1500c33288e429c3451fdce
   Bolts: 8c1e8aab2f603387b8b9924f57d1d64f43d3ffdc
   Parse: 0abb63a0ff6fa34a3f64b81d595a294e2ece143a
+  SWTableViewCell: 2a94aadc9d47b2b611fa064566bf57948b95b579
 
-PODFILE CHECKSUM: 55ee27cffeca5c02b9e9bce1e23dae04c99ab276
+PODFILE CHECKSUM: cb00fc6b0f8a8d63e78bcb2a2fd3a150fbbb526a
 
 COCOAPODS: 1.11.3
