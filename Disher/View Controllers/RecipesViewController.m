@@ -51,7 +51,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     RecipeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RecipeCell" forIndexPath:indexPath];
-    
+    cell.delegate = self;
     // loop through mealdb results first, then go to spoonacular results
     if (indexPath.row < self.mealDBresults.count) {
         NSString *recipeName = self.mealDBresults[indexPath.row][@"strMeal"];
@@ -180,13 +180,37 @@
 {
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
     [rightUtilityButtons sw_addUtilityButtonWithColor:
-     [UIColor colorWithRed:0.78f green:0.78f blue:0.8f alpha:1.0]
-                                                title:@"Save to List"];
+         [UIColor colorWithRed:0.0f green:0.92f blue:0.24f alpha:0.0]
+                                                 icon: [UIImage systemImageNamed:@"heart.fill"]];
     return rightUtilityButtons;
+}
+
+- (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell {
+    return YES;
+}
+
+- (void)swipeableTableViewCell:(RecipeCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
+    switch (index) {
+        case 0: { //click on save button
+            //TODO: Check for existing entry in database
+            [cell.recipe saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                if (!error) {
+                    NSLog(@"%@ was saved", cell.recipe.dishName);
+                }
+                else {
+                    NSLog(@"Error, %@", error.localizedDescription);
+                }
+            }];
+            break;
+        }
+        default:
+            break;
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self performSegueWithIdentifier:@"detailSegue" sender:indexPath];
+    
 }
 
 #pragma mark - Navigation

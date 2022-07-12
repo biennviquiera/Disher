@@ -18,7 +18,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.textlabel.text = self.passedRecipe.dishName;
-    [self.passedRecipe saveInBackground];
     // Do any additional setup after loading the view.
 }
 
