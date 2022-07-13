@@ -23,6 +23,18 @@
 		46AABABA28764D33006E1E49 /* RecipesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46AABAB928764D33006E1E49 /* RecipesViewController.m */; };
 		46AABABD28764DD8006E1E49 /* RecipeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 46AABABC28764DD8006E1E49 /* RecipeCell.m */; };
 		46AABAC028764DE5006E1E49 /* ListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 46AABABF28764DE5006E1E49 /* ListCell.m */; };
+		46AC91A7287F392800A766C8 /* INSSearchBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 46AC9199287F392800A766C8 /* INSSearchBar.m */; };
+		46AC91A8287F392800A766C8 /* NavBarIconSearchBar_blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 46AC919A287F392800A766C8 /* NavBarIconSearchBar_blue@2x.png */; };
+		46AC91A9287F392800A766C8 /* NavBarIconSearchCircle_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 46AC919B287F392800A766C8 /* NavBarIconSearchCircle_blue.png */; };
+		46AC91AA287F392800A766C8 /* NavBarIconSearch_white@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 46AC919C287F392800A766C8 /* NavBarIconSearch_white@2x.png */; };
+		46AC91AB287F392800A766C8 /* NavBarIconSearchCircle_blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 46AC919D287F392800A766C8 /* NavBarIconSearchCircle_blue@2x.png */; };
+		46AC91AC287F392800A766C8 /* NavBarIconSearchBar2_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 46AC919E287F392800A766C8 /* NavBarIconSearchBar2_blue.png */; };
+		46AC91AD287F392800A766C8 /* NavBarIconSearch_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 46AC91A0287F392800A766C8 /* NavBarIconSearch_blue.png */; };
+		46AC91AE287F392800A766C8 /* NavBarIconSearchBar2_blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 46AC91A1287F392800A766C8 /* NavBarIconSearchBar2_blue@2x.png */; };
+		46AC91AF287F392800A766C8 /* NavBarIconSearch_blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 46AC91A2287F392800A766C8 /* NavBarIconSearch_blue@2x.png */; };
+		46AC91B0287F392800A766C8 /* NavBarIconSearchBar_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 46AC91A4287F392800A766C8 /* NavBarIconSearchBar_blue.png */; };
+		46AC91B1287F392800A766C8 /* NavBarIconSearch_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 46AC91A5287F392800A766C8 /* NavBarIconSearch_white.png */; };
+		46AC91B2287F392800A766C8 /* INSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 46AC91A6287F392800A766C8 /* INSAppDelegate.m */; };
 		46CEAC8628789AE500C10B1B /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 46CEAC8528789AE500C10B1B /* Keys.plist */; };
 		46CEAC892878D2F900C10B1B /* List.m in Sources */ = {isa = PBXBuildFile; fileRef = 46CEAC882878D2F900C10B1B /* List.m */; };
 		46E437652877477300222232 /* Recipe.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E437642877477300222232 /* Recipe.m */; };
@@ -75,6 +87,20 @@
 		46AABABC28764DD8006E1E49 /* RecipeCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RecipeCell.m; sourceTree = "<group>"; };
 		46AABABE28764DE5006E1E49 /* ListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ListCell.h; sourceTree = "<group>"; };
 		46AABABF28764DE5006E1E49 /* ListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ListCell.m; sourceTree = "<group>"; };
+		46AC9199287F392800A766C8 /* INSSearchBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INSSearchBar.m; sourceTree = "<group>"; };
+		46AC919A287F392800A766C8 /* NavBarIconSearchBar_blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NavBarIconSearchBar_blue@2x.png"; sourceTree = "<group>"; };
+		46AC919B287F392800A766C8 /* NavBarIconSearchCircle_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NavBarIconSearchCircle_blue.png; sourceTree = "<group>"; };
+		46AC919C287F392800A766C8 /* NavBarIconSearch_white@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NavBarIconSearch_white@2x.png"; sourceTree = "<group>"; };
+		46AC919D287F392800A766C8 /* NavBarIconSearchCircle_blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NavBarIconSearchCircle_blue@2x.png"; sourceTree = "<group>"; };
+		46AC919E287F392800A766C8 /* NavBarIconSearchBar2_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NavBarIconSearchBar2_blue.png; sourceTree = "<group>"; };
+		46AC919F287F392800A766C8 /* INSSearchBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INSSearchBar.h; sourceTree = "<group>"; };
+		46AC91A0287F392800A766C8 /* NavBarIconSearch_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NavBarIconSearch_blue.png; sourceTree = "<group>"; };
+		46AC91A1287F392800A766C8 /* NavBarIconSearchBar2_blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NavBarIconSearchBar2_blue@2x.png"; sourceTree = "<group>"; };
+		46AC91A2287F392800A766C8 /* NavBarIconSearch_blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "NavBarIconSearch_blue@2x.png"; sourceTree = "<group>"; };
+		46AC91A3287F392800A766C8 /* INSAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = INSAppDelegate.h; sourceTree = "<group>"; };
+		46AC91A4287F392800A766C8 /* NavBarIconSearchBar_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NavBarIconSearchBar_blue.png; sourceTree = "<group>"; };
+		46AC91A5287F392800A766C8 /* NavBarIconSearch_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NavBarIconSearch_white.png; sourceTree = "<group>"; };
+		46AC91A6287F392800A766C8 /* INSAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INSAppDelegate.m; sourceTree = "<group>"; };
 		46CEAC8528789AE500C10B1B /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		46CEAC872878D2F900C10B1B /* List.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = List.h; sourceTree = "<group>"; };
 		46CEAC882878D2F900C10B1B /* List.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = List.m; sourceTree = "<group>"; };
@@ -144,6 +170,7 @@
 		466CABE22874B7A10017AE06 /* Disher */ = {
 			isa = PBXGroup;
 			children = (
+				46AC9198287F382E00A766C8 /* INSSearchBar */,
 				46E437622877475800222232 /* Models */,
 				466CAC1C28760B1E0017AE06 /* Views */,
 				466CAC1B28760AFE0017AE06 /* View Controllers */,
@@ -202,6 +229,27 @@
 				46AABABF28764DE5006E1E49 /* ListCell.m */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		46AC9198287F382E00A766C8 /* INSSearchBar */ = {
+			isa = PBXGroup;
+			children = (
+				46AC91A3287F392800A766C8 /* INSAppDelegate.h */,
+				46AC91A6287F392800A766C8 /* INSAppDelegate.m */,
+				46AC919F287F392800A766C8 /* INSSearchBar.h */,
+				46AC9199287F392800A766C8 /* INSSearchBar.m */,
+				46AC91A0287F392800A766C8 /* NavBarIconSearch_blue.png */,
+				46AC91A2287F392800A766C8 /* NavBarIconSearch_blue@2x.png */,
+				46AC91A5287F392800A766C8 /* NavBarIconSearch_white.png */,
+				46AC919C287F392800A766C8 /* NavBarIconSearch_white@2x.png */,
+				46AC91A4287F392800A766C8 /* NavBarIconSearchBar_blue.png */,
+				46AC919A287F392800A766C8 /* NavBarIconSearchBar_blue@2x.png */,
+				46AC919E287F392800A766C8 /* NavBarIconSearchBar2_blue.png */,
+				46AC91A1287F392800A766C8 /* NavBarIconSearchBar2_blue@2x.png */,
+				46AC919B287F392800A766C8 /* NavBarIconSearchCircle_blue.png */,
+				46AC919D287F392800A766C8 /* NavBarIconSearchCircle_blue@2x.png */,
+			);
+			path = INSSearchBar;
 			sourceTree = "<group>";
 		};
 		46E437622877475800222232 /* Models */ = {
@@ -347,7 +395,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				46CEAC8628789AE500C10B1B /* Keys.plist in Resources */,
+				46AC91AF287F392800A766C8 /* NavBarIconSearch_blue@2x.png in Resources */,
+				46AC91B1287F392800A766C8 /* NavBarIconSearch_white.png in Resources */,
 				466CABF32874B7A20017AE06 /* LaunchScreen.storyboard in Resources */,
+				46AC91AE287F392800A766C8 /* NavBarIconSearchBar2_blue@2x.png in Resources */,
+				46AC91AD287F392800A766C8 /* NavBarIconSearch_blue.png in Resources */,
+				46AC91AC287F392800A766C8 /* NavBarIconSearchBar2_blue.png in Resources */,
+				46AC91AA287F392800A766C8 /* NavBarIconSearch_white@2x.png in Resources */,
+				46AC91A9287F392800A766C8 /* NavBarIconSearchCircle_blue.png in Resources */,
+				46AC91A8287F392800A766C8 /* NavBarIconSearchBar_blue@2x.png in Resources */,
+				46AC91B0287F392800A766C8 /* NavBarIconSearchBar_blue.png in Resources */,
+				46AC91AB287F392800A766C8 /* NavBarIconSearchCircle_blue@2x.png in Resources */,
 				466CABF02874B7A20017AE06 /* Assets.xcassets in Resources */,
 				466CABEE2874B7A10017AE06 /* Main.storyboard in Resources */,
 			);
@@ -479,10 +537,12 @@
 			files = (
 				46AABAB728764D26006E1E49 /* ListsViewController.m in Sources */,
 				46E437652877477300222232 /* Recipe.m in Sources */,
+				46AC91A7287F392800A766C8 /* INSSearchBar.m in Sources */,
 				46AABAC028764DE5006E1E49 /* ListCell.m in Sources */,
 				466CABE52874B7A10017AE06 /* AppDelegate.m in Sources */,
 				466CABF62874B7A20017AE06 /* main.m in Sources */,
 				46CEAC892878D2F900C10B1B /* List.m in Sources */,
+				46AC91B2287F392800A766C8 /* INSAppDelegate.m in Sources */,
 				463A8D1D2877A8BD00A6F01C /* LoginViewController.m in Sources */,
 				465E460D287CCD3F0017943B /* DetailViewController.m in Sources */,
 				46AABABA28764D33006E1E49 /* RecipesViewController.m in Sources */,
