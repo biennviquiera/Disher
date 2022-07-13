@@ -22,6 +22,15 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    [self.view addGestureRecognizer:gestureRecognizer];
+    gestureRecognizer.cancelsTouchesInView = NO;
+}
+
+
+- (void)dismissKeyboard
+{
+     [self.view endEditing:YES];
 }
 
 //BUTTON ACTIONS
@@ -46,7 +55,7 @@
             
             UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error logging in"
                                                                            message:errorString
-                                                                    preferredStyle:UIAlertControllerStyleAlert];
+                                                                     preferredStyle:UIAlertControllerStyleAlert];
              
             UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Try again"
                                                                     style:UIAlertActionStyleDefault

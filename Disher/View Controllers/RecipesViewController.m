@@ -11,12 +11,18 @@
 #import "LoginViewController.h"
 #import "RecipeCell.h"
 #import "UIKit+AFNetworking.h"
+#import "Recipe.h"
+#import "DetailViewController.h"
+#import "INSSearchBar.h"
 
-@interface RecipesViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface RecipesViewController () <UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate, UITableViewDelegate, INSSearchBarDelegate>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *logoutButton;
 @property (nonatomic, strong) NSArray *mealDBresults;
 @property (nonatomic, strong) NSArray *spoonResults;
+@property (nonatomic, strong) NSMutableArray<Recipe *> *tableViewRecipes;
 @property (nonatomic, strong) NSString *searchQuery;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) INSSearchBar *searchBarWithDelegate;
 @end
 
 
@@ -24,16 +30,23 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    self.tableViewRecipes = [[NSMutableArray alloc] init];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.searchQuery = @"chicken";
     
     //Update global results arrays
-    [self queryAPIs:self.searchQuery completionHandler:^() {
+    [self queryMealDB:self.searchQuery completionHandler:^(NSArray *returnedMeals) {
+        self.mealDBresults = returnedMeals;
         [self.tableView reloadData];
     }];
+    
+    self.view.backgroundColor = [UIColor colorWithRed:0.000 green:0.418 blue:0.673 alpha:1.000];
+    self.searchBarWithDelegate = [[INSSearchBar alloc] initWithFrame:CGRectMake(20.0, 100.0, 44.0, 34.0)];
+    self.searchBarWithDelegate.delegate = self;
+    [self.view addSubview:self.searchBarWithDelegate];
 }
+
 
 #pragma mark - Table view data source
 
@@ -48,21 +61,34 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     RecipeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RecipeCell" forIndexPath:indexPath];
-    
+    cell.delegate = self;
     // loop through mealdb results first, then go to spoonacular results
     if (indexPath.row < self.mealDBresults.count) {
-        cell.recipeName.text = self.mealDBresults[indexPath.row][@"strMeal"];
+        NSString *recipeName = self.mealDBresults[indexPath.row][@"strMeal"];
         NSString *imageLink = self.mealDBresults[indexPath.row][@"strMealThumb"];
+        NSString *mealID = self.mealDBresults[indexPath.row][@"idMeal"];
+        cell.recipeName.text = recipeName;
         NSURL *imageURL = [NSURL URLWithString:imageLink];
         [cell.recipeImage setImageWithURL:imageURL];
-        //TODO: add sub-label to display source
+        cell.recipeSource.text = @"TheMealDB";
+        //create uniform data model for mealdb
+        Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:@"mealdb" withID:mealID];
+        [self.tableViewRecipes addObject:newRecipe];
+        cell.recipe = newRecipe;
+        cell.rightUtilityButtons = [self rightButtons];
+        
     }
     else {
-        cell.recipeName.text = self.spoonResults[indexPath.row - self.mealDBresults.count][@"title"];
+        NSString *recipeName = self.spoonResults[indexPath.row - self.mealDBresults.count][@"title"];
+        NSString *mealID = [NSString stringWithFormat:@"%@", self.spoonResults[indexPath.row - self.mealDBresults.count][@"id"]];
+        cell.recipeName.text = recipeName;
         NSString *imageLink = self.spoonResults[indexPath.row - self.mealDBresults.count][@"image"];
         NSURL *imageURL = [NSURL URLWithString:imageLink];
-        [cell.recipeImage setImageWithURL:imageURL];
-        //TODO: add sub-label to display source
+        [cell.recipeImage setImageWithURL:imageURL];cell.recipeSource.text = @"Spoonacular";
+        //create uniform data model for spoonacular
+        Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:@"spoonacular" withID:mealID];
+        [self.tableViewRecipes addObject:newRecipe];
+        cell.recipe = newRecipe;
     }
     return cell;
 }
@@ -158,17 +184,71 @@
     });
 }
 
+//Table View Cell Methods
+- (NSArray *)rightButtons
+{
+    NSMutableArray *rightUtilityButtons = [NSMutableArray new];
+    [rightUtilityButtons sw_addUtilityButtonWithColor:
+         [UIColor colorWithRed:0.0f green:0.92f blue:0.24f alpha:0.0]
+                                                 icon: [UIImage systemImageNamed:@"heart.fill"]];
+    return rightUtilityButtons;
+}
+
+- (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell {
+    return YES;
+}
+
+- (void)swipeableTableViewCell:(RecipeCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
+    switch (index) {
+        case 0: { //click on save button
+            //TODO: Check for existing entry in database
+            [cell.recipe saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                if (!error) {
+                    NSLog(@"%@ was saved", cell.recipe.dishName);
+                }
+                else {
+                    NSLog(@"Error, %@", error.localizedDescription);
+                }
+            }];
+            break;
+        }
+        default:
+            break;
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    [self performSegueWithIdentifier:@"detailSegue" sender:indexPath];
+    
+}
+
+//search bar delegate methods
+
+- (CGRect)destinationFrameForSearchBar:(INSSearchBar *)searchBar {
+    return CGRectMake(20.0, 100.0, CGRectGetWidth(self.view.bounds) - 40.0, 34.0);
+}
 
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self.view endEditing:YES];
+}
 
-/*
+//- (void)searchBarTextDidChange:(INSSearchBar *)searchBar
+//{
+//    NSLog(@"search bar changed");
+//}
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if ([[segue identifier] isEqualToString:@"detailSegue"]) {
+        DetailViewController *detailVC = [segue destinationViewController];
+        detailVC.passedRecipe = self.tableViewRecipes[((NSIndexPath *)sender).row];
+    }
 }
-*/
+
+
+
 
 @end

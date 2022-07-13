@@ -9,7 +9,7 @@ target 'Disher' do
    pod 'AFNetworking'
    pod 'Parse'
    pod 'Parse/UI'
-
+   pod 'SWTableViewCell'
 
   target 'DisherTests' do
     inherit! :search_paths
