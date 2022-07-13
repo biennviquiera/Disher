@@ -13,13 +13,16 @@
 #import "UIKit+AFNetworking.h"
 #import "Recipe.h"
 #import "DetailViewController.h"
+#import "INSSearchBar.h"
 
-@interface RecipesViewController () <UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate, UITableViewDelegate>
+@interface RecipesViewController () <UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate, UITableViewDelegate, INSSearchBarDelegate>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *logoutButton;
 @property (nonatomic, strong) NSArray *mealDBresults;
 @property (nonatomic, strong) NSArray *spoonResults;
 @property (nonatomic, strong) NSMutableArray<Recipe *> *tableViewRecipes;
 @property (nonatomic, strong) NSString *searchQuery;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) INSSearchBar *searchBarWithDelegate;
 @end
 
 
@@ -33,9 +36,17 @@
     self.searchQuery = @"chicken";
     
     //Update global results arrays
-    [self queryAPIs:self.searchQuery completionHandler:^() {
+    [self queryMealDB:self.searchQuery completionHandler:^(NSArray *returnedMeals) {
+        self.mealDBresults = returnedMeals;
         [self.tableView reloadData];
     }];
+    
+    self.view.backgroundColor = [UIColor colorWithRed:0.000 green:0.418 blue:0.673 alpha:1.000];
+        
+    self.searchBarWithDelegate = [[INSSearchBar alloc] initWithFrame:CGRectMake(20.0, 100.0, 44.0, 34.0)];
+    self.searchBarWithDelegate.delegate = self;
+    
+    [self.view addSubview:self.searchBarWithDelegate];
 }
 
 #pragma mark - Table view data source
@@ -212,6 +223,18 @@
     
 }
 
+//search bar delegate methods
+
+- (CGRect)destinationFrameForSearchBar:(INSSearchBar *)searchBar {
+    return CGRectMake(20.0, 100.0, CGRectGetWidth(self.view.bounds) - 40.0, 34.0);
+}
+
+
+//- (void)searchBarTextDidChange:(INSSearchBar *)searchBar
+//{
+//    NSLog(@"search bar changed");
+//}
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -221,6 +244,8 @@
         detailVC.passedRecipe = self.tableViewRecipes[((NSIndexPath *)sender).row];
     }
 }
+
+
 
 
 @end
