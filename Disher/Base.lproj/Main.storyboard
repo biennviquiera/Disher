@@ -215,8 +215,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DiN-mn-BrZ">
-                                <rect key="frame" x="162" y="206" width="42" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title of Recipe" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DiN-mn-BrZ">
+                                <rect key="frame" x="20" y="323.66666666666669" width="350" height="25.333333333333314"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="21"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="IU1-R5-uv3">
+                                <rect key="frame" x="75" y="56" width="240" height="259.66666666666669"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Description of recipe" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pEG-oy-BIr">
+                                <rect key="frame" x="20" y="357" width="354" height="182"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Ingredients of Recipe" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lsw-QX-KnF">
+                                <rect key="frame" x="16" y="593" width="162" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -225,15 +241,27 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="w64-nG-RY0"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="DiN-mn-BrZ" firstAttribute="top" secondItem="IU1-R5-uv3" secondAttribute="bottom" constant="8" symbolic="YES" id="0D1-wt-JcC"/>
+                            <constraint firstItem="IU1-R5-uv3" firstAttribute="leading" secondItem="w64-nG-RY0" secondAttribute="leading" constant="75" id="8VZ-La-ndU"/>
+                            <constraint firstItem="w64-nG-RY0" firstAttribute="bottom" secondItem="DiN-mn-BrZ" secondAttribute="bottom" constant="412" id="ErM-KP-vuD"/>
+                            <constraint firstItem="DiN-mn-BrZ" firstAttribute="leading" secondItem="w64-nG-RY0" secondAttribute="leading" constant="20" id="M4O-A0-Eck"/>
+                            <constraint firstItem="w64-nG-RY0" firstAttribute="trailing" secondItem="IU1-R5-uv3" secondAttribute="trailing" constant="75" id="TmF-qU-z7E"/>
+                            <constraint firstItem="w64-nG-RY0" firstAttribute="trailing" secondItem="DiN-mn-BrZ" secondAttribute="trailing" constant="20" id="Y5a-Ts-A21"/>
+                            <constraint firstItem="IU1-R5-uv3" firstAttribute="top" secondItem="w64-nG-RY0" secondAttribute="top" id="gYI-N2-dQP"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="vOg-5R-bcz"/>
                     <connections>
-                        <outlet property="textlabel" destination="DiN-mn-BrZ" id="lPx-Wp-6qs"/>
+                        <outlet property="descriptionLabel" destination="pEG-oy-BIr" id="WiQ-lt-zBs"/>
+                        <outlet property="ingredientsLabel" destination="lsw-QX-KnF" id="og6-YJ-cyM"/>
+                        <outlet property="recipeCover" destination="IU1-R5-uv3" id="ftO-9G-eql"/>
+                        <outlet property="titleLabel" destination="DiN-mn-BrZ" id="0d7-G0-04C"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EYW-HB-SaK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="957" y="1699"/>
+            <point key="canvasLocation" x="956.92307692307691" y="1698.341232227488"/>
         </scene>
         <!--Recipes-->
         <scene sceneID="FDL-da-ga8">
