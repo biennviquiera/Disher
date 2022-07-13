@@ -7,18 +7,25 @@
 
 #import "DetailViewController.h"
 #import "Recipe.h"
+#import "UIKit+AFNetworking.h"
 #import "Parse.h"
 
 @interface DetailViewController ()
-@property (weak, nonatomic) IBOutlet UILabel *textlabel;
+@property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+@property (weak, nonatomic) IBOutlet UILabel *ingredientsLabel;
+@property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
+@property (weak, nonatomic) IBOutlet UIImageView *recipeCover;
 @end
 
 @implementation DetailViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.textlabel.text = self.passedRecipe.dishName;
+    self.titleLabel.text = self.passedRecipe.dishName;
+    self.descriptionLabel.text = self.passedRecipe.source;
     // Do any additional setup after loading the view.
+    NSURL *cellImg = [NSURL URLWithString:self.passedRecipe.imageURL];
+    [self.recipeCover setImageWithURL:cellImg];
 }
 
 /*

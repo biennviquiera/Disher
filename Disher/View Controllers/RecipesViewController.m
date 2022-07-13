@@ -79,7 +79,6 @@
         Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:@"spoonacular" withID:mealID];
         [self.tableViewRecipes addObject:newRecipe];
         cell.recipe = newRecipe;
-
     }
     return cell;
 }
