@@ -14,8 +14,8 @@
             filePath = "Disher/View Controllers/LoginViewController.m"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "39"
-            endingLineNumber = "39"
+            startingLineNumber = "48"
+            endingLineNumber = "48"
             landmarkName = "-loginUser"
             landmarkType = "7">
          </BreakpointContent>

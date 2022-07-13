@@ -42,12 +42,11 @@
     }];
     
     self.view.backgroundColor = [UIColor colorWithRed:0.000 green:0.418 blue:0.673 alpha:1.000];
-        
     self.searchBarWithDelegate = [[INSSearchBar alloc] initWithFrame:CGRectMake(20.0, 100.0, 44.0, 34.0)];
     self.searchBarWithDelegate.delegate = self;
-    
     [self.view addSubview:self.searchBarWithDelegate];
 }
+
 
 #pragma mark - Table view data source
 
@@ -229,6 +228,10 @@
     return CGRectMake(20.0, 100.0, CGRectGetWidth(self.view.bounds) - 40.0, 34.0);
 }
 
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self.view endEditing:YES];
+}
 
 //- (void)searchBarTextDidChange:(INSSearchBar *)searchBar
 //{
