@@ -23,6 +23,7 @@
 @property (nonatomic, strong) NSString *searchQuery;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) INSSearchBar *searchBarWithDelegate;
+
 @end
 
 
@@ -36,8 +37,7 @@
     self.searchQuery = @"chicken";
     
     //Update global results arrays
-    [self queryMealDB:self.searchQuery completionHandler:^(NSArray *returnedMeals) {
-        self.mealDBresults = returnedMeals;
+    [self queryAPIs:self.searchQuery completionHandler:^{
         [self.tableView reloadData];
     }];
     
@@ -45,6 +45,7 @@
     self.searchBarWithDelegate = [[INSSearchBar alloc] initWithFrame:CGRectMake(20.0, 100.0, 44.0, 34.0)];
     self.searchBarWithDelegate.delegate = self;
     [self.view addSubview:self.searchBarWithDelegate];
+    self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
 }
 
 
@@ -62,34 +63,32 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     RecipeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RecipeCell" forIndexPath:indexPath];
     cell.delegate = self;
+    NSString *recipeName;
+    NSString *imageLink;
+    NSString *mealID;
+    NSString *source;
     // loop through mealdb results first, then go to spoonacular results
     if (indexPath.row < self.mealDBresults.count) {
-        NSString *recipeName = self.mealDBresults[indexPath.row][@"strMeal"];
-        NSString *imageLink = self.mealDBresults[indexPath.row][@"strMealThumb"];
-        NSString *mealID = self.mealDBresults[indexPath.row][@"idMeal"];
-        cell.recipeName.text = recipeName;
-        NSURL *imageURL = [NSURL URLWithString:imageLink];
-        [cell.recipeImage setImageWithURL:imageURL];
-        cell.recipeSource.text = @"TheMealDB";
-        //create uniform data model for mealdb
-        Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:@"mealdb" withID:mealID];
-        [self.tableViewRecipes addObject:newRecipe];
-        cell.recipe = newRecipe;
-        cell.rightUtilityButtons = [self rightButtons];
-        
+        recipeName = self.mealDBresults[indexPath.row][@"strMeal"];
+        imageLink = self.mealDBresults[indexPath.row][@"strMealThumb"];
+        mealID = self.mealDBresults[indexPath.row][@"idMeal"];
+        source = @"TheMealDB";
     }
     else {
-        NSString *recipeName = self.spoonResults[indexPath.row - self.mealDBresults.count][@"title"];
-        NSString *mealID = [NSString stringWithFormat:@"%@", self.spoonResults[indexPath.row - self.mealDBresults.count][@"id"]];
-        cell.recipeName.text = recipeName;
-        NSString *imageLink = self.spoonResults[indexPath.row - self.mealDBresults.count][@"image"];
-        NSURL *imageURL = [NSURL URLWithString:imageLink];
-        [cell.recipeImage setImageWithURL:imageURL];cell.recipeSource.text = @"Spoonacular";
-        //create uniform data model for spoonacular
-        Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:@"spoonacular" withID:mealID];
-        [self.tableViewRecipes addObject:newRecipe];
-        cell.recipe = newRecipe;
+        recipeName = self.spoonResults[indexPath.row - self.mealDBresults.count][@"title"];
+        imageLink = self.spoonResults[indexPath.row - self.mealDBresults.count][@"image"];
+        mealID = [NSString stringWithFormat:@"%@", self.spoonResults[indexPath.row - self.mealDBresults.count][@"id"]];
+        source = @"Spoonacular";
     }
+    cell.recipeName.text = recipeName;
+    NSURL *imageURL = [NSURL URLWithString:imageLink];
+    [cell.recipeImage setImageWithURL:imageURL];
+    cell.recipeSource.text = source;
+    Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:@"mealdb" withID:mealID];
+    [self.tableViewRecipes addObject:newRecipe];
+    cell.recipe = newRecipe;
+    cell.rightUtilityButtons = [self rightButtons];
+    
     return cell;
 }
 
@@ -185,8 +184,7 @@
 }
 
 //Table View Cell Methods
-- (NSArray *)rightButtons
-{
+- (NSArray *)rightButtons {
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
     [rightUtilityButtons sw_addUtilityButtonWithColor:
          [UIColor colorWithRed:0.0f green:0.92f blue:0.24f alpha:0.0]
@@ -229,9 +227,6 @@
 }
 
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [self.view endEditing:YES];
-}
 
 //- (void)searchBarTextDidChange:(INSSearchBar *)searchBar
 //{
