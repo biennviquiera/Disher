@@ -80,13 +80,13 @@
         mealID = [NSString stringWithFormat:@"%@", self.spoonResults[indexPath.row - self.mealDBresults.count][@"id"]];
         source = @"Spoonacular";
     }
-    cell.recipeName.text = recipeName;
-    NSURL *imageURL = [NSURL URLWithString:imageLink];
-    [cell.recipeImage setImageWithURL:imageURL];
-    cell.recipeSource.text = source;
-    Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:@"mealdb" withID:mealID];
+    Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:source withID:mealID];
     [self.tableViewRecipes addObject:newRecipe];
     cell.recipe = newRecipe;
+    cell.recipeName.text = newRecipe.dishName;
+    NSURL *imageURL = [NSURL URLWithString:newRecipe.imageURL];
+    [cell.recipeImage setImageWithURL:imageURL];
+    cell.recipeSource.text = newRecipe.source;
     cell.rightUtilityButtons = [self rightButtons];
     
     return cell;
@@ -120,6 +120,7 @@
                NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
                if (dataDictionary[@"meals"] == [NSNull null] ) {
                    NSLog(@"null detected form mealdb");
+                   completionHandler(@[]);
                }
                else {
                    completionHandler(dataDictionary[@"meals"]);
@@ -148,6 +149,7 @@
            else {
                NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
                if (![(NSArray *)dataDictionary[@"results"] count]) {
+                   completionHandler(@[]);
                    NSLog(@"null detected from spoonacular");
                }
                else {
@@ -159,6 +161,7 @@
 }
 
 - (void) queryAPIs:(NSString *) input completionHandler:(void(^)(void))completionHandler {
+    [self.tableViewRecipes removeAllObjects];
     dispatch_group_t group = dispatch_group_create();
     dispatch_group_enter(group);
     dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^ {
@@ -217,7 +220,6 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self performSegueWithIdentifier:@"detailSegue" sender:indexPath];
-    
 }
 
 //search bar delegate methods
@@ -226,12 +228,13 @@
     return CGRectMake(20.0, 100.0, CGRectGetWidth(self.view.bounds) - 40.0, 34.0);
 }
 
+- (void)searchBarDidTapReturn:(INSSearchBar *)searchBar {
+    [self queryAPIs:searchBar.searchField.text completionHandler:^{
+        [self.tableView reloadData];
+    }];
+}
 
 
-//- (void)searchBarTextDidChange:(INSSearchBar *)searchBar
-//{
-//    NSLog(@"search bar changed");
-//}
 
 #pragma mark - Navigation
 
@@ -242,8 +245,6 @@
         detailVC.passedRecipe = self.tableViewRecipes[((NSIndexPath *)sender).row];
     }
 }
-
-
 
 
 @end
