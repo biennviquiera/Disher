@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UIImageView *recipeImage;
 @property (weak, nonatomic) IBOutlet UILabel *recipeSource;
 @property (strong, nonatomic) Recipe *recipe;
+@property NSUInteger index;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -39,6 +39,7 @@
     
     //Update global results arrays
     [self queryAPIs:self.searchQuery completionHandler:^{
+        // merge two results into tableViewRecipes
         [self.tableView reloadData];
     }];
     
@@ -89,6 +90,7 @@
     [cell.recipeImage setImageWithURL:imageURL];
     cell.recipeSource.text = newRecipe.source;
     cell.rightUtilityButtons = [self rightButtons];
+    cell.index = self.tableViewRecipes.count - 1;
     
     return cell;
 }
@@ -251,7 +253,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"detailSegue"]) {
         DetailViewController *detailVC = [segue destinationViewController];
-        detailVC.passedRecipe = self.tableViewRecipes[((NSIndexPath *)sender).row];
+        detailVC.passedRecipe = self.tableViewRecipes[(((RecipeCell *)[self.tableView cellForRowAtIndexPath:(NSIndexPath *)sender]).index)];
     }
 }
 
