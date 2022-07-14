@@ -23,6 +23,7 @@
 @property (nonatomic, strong) NSString *searchQuery;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) INSSearchBar *searchBarWithDelegate;
+@property BOOL searchingFlag;
 
 @end
 
@@ -161,6 +162,7 @@
 }
 
 - (void) queryAPIs:(NSString *) input completionHandler:(void(^)(void))completionHandler {
+    self.searchingFlag = YES;
     [self.tableViewRecipes removeAllObjects];
     dispatch_group_t group = dispatch_group_create();
     dispatch_group_enter(group);
@@ -181,6 +183,7 @@
         // All group blocks have now completed
         NSLog(@"completion");
         dispatch_async(dispatch_get_main_queue(), ^{
+            self.searchingFlag = NO;
             completionHandler();
         });
     });
@@ -229,9 +232,15 @@
 }
 
 - (void)searchBarDidTapReturn:(INSSearchBar *)searchBar {
-    [self queryAPIs:searchBar.searchField.text completionHandler:^{
-        [self.tableView reloadData];
-    }];
+    if (!self.searchingFlag) {
+        [self queryAPIs:searchBar.searchField.text completionHandler:^{
+            [self.tableView reloadData];
+        }];
+    }
+    else {
+        NSLog(@"fail. currently searching");
+    }
+    
 }
 
 
