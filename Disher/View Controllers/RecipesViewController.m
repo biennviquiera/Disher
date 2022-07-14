@@ -13,6 +13,7 @@
 #import "UIKit+AFNetworking.h"
 #import "Recipe.h"
 #import "DetailViewController.h"
+#import "SaveViewController.h"
 #import "INSSearchBar.h"
 
 @interface RecipesViewController () <UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate, UITableViewDelegate, INSSearchBarDelegate>
@@ -208,14 +209,15 @@
     switch (index) {
         case 0: { //click on save button
             //TODO: Check for existing entry in database
-            [cell.recipe saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-                if (!error) {
-                    NSLog(@"%@ was saved", cell.recipe.dishName);
-                }
-                else {
-                    NSLog(@"Error, %@", error.localizedDescription);
-                }
-            }];
+            [self performSegueWithIdentifier:@"saveSegue" sender:cell];
+//            [cell.recipe saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+//                if (!error) {
+//                    NSLog(@"%@ was saved", cell.recipe.dishName);
+//                }
+//                else {
+//                    NSLog(@"Error, %@", error.localizedDescription);
+//                }
+//            }];
             break;
         }
         default:
@@ -254,6 +256,10 @@
     if ([[segue identifier] isEqualToString:@"detailSegue"]) {
         DetailViewController *detailVC = [segue destinationViewController];
         detailVC.passedRecipe = self.tableViewRecipes[(((RecipeCell *)[self.tableView cellForRowAtIndexPath:(NSIndexPath *)sender]).index)];
+    }
+    if ([[segue identifier] isEqualToString:@"saveSegue"]) {
+        SaveViewController *saveVC = [segue destinationViewController];
+        saveVC.passedRecipe = ((RecipeCell *)sender).recipe;
     }
 }
 
