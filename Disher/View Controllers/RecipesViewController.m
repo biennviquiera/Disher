@@ -25,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) INSSearchBar *searchBarWithDelegate;
 @property BOOL searchingFlag;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *searchSegmentedControl;
 
 @end
 
@@ -39,7 +40,7 @@
     self.searchQuery = @"chicken";
     
     //Update global results arrays
-    [self queryAPIs:self.searchQuery completionHandler:^{
+    [self queryAPIs:self.searchQuery withOption:0 completionHandler:^{
         // merge two results into tableViewRecipes
         [self.tableView reloadData];
     }];
@@ -84,6 +85,7 @@
         source = @"Spoonacular";
     }
     Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:source withID:mealID];
+    cell.index = self.tableViewRecipes.count;
     [self.tableViewRecipes addObject:newRecipe];
     cell.recipe = newRecipe;
     cell.recipeName.text = newRecipe.dishName;
@@ -91,8 +93,6 @@
     [cell.recipeImage setImageWithURL:imageURL];
     cell.recipeSource.text = newRecipe.source;
     cell.rightUtilityButtons = [self rightButtons];
-    cell.index = self.tableViewRecipes.count - 1;
-    
     return cell;
 }
 
@@ -113,8 +113,14 @@
 
 
 // API Querying Methods
-- (void) queryMealDB:(NSString *) name completionHandler:(void(^)(NSArray *returnedMeals))completionHandler {
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.themealdb.com/api/json/v1/1/search.php?s=%@", name]];
+- (void) queryMealDB:(NSString *)name withOption:(NSInteger)option completionHandler:(void(^)(NSArray *returnedMeals))completionHandler {
+    NSURL *url;
+    if (option == 0) {
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.themealdb.com/api/json/v1/1/search.php?s=%@", name]];
+    }
+    else {
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.themealdb.com/api/json/v1/1/filter.php?i=%@", name]];
+    }
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
@@ -122,7 +128,7 @@
            }
            else {
                NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-               if (dataDictionary[@"meals"] == [NSNull null] ) {
+                    if (dataDictionary[@"meals"] == [NSNull null] ) {
                    NSLog(@"null detected form mealdb");
                    completionHandler(@[]);
                }
@@ -135,49 +141,62 @@
     [task resume];
 }
 
-- (void) querySearchSpoonacular:(NSString *) name completionHandler:(void(^)(NSArray *returnedMeals))completionHandler {
+- (void) querySearchSpoonacular:(NSString *)name withOption:(NSInteger)option completionHandler:(void(^)(NSArray *returnedMeals))completionHandler {
     //Use API Key in Keys.plist file
     NSString *path = [[NSBundle mainBundle] pathForResource: @"Keys" ofType: @"plist"];
     NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: path];
     NSString *key = [dict objectForKey: @"spoon_key"];
     NSString *apiKeyArg = [NSString stringWithFormat:@"&apiKey=%@", key];
-    NSString *queryURL = [NSString stringWithFormat:@"https://api.spoonacular.com/recipes/complexSearch?query=\"%@\"%@", name, apiKeyArg];
-    queryURL = [queryURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    NSString *queryURL;
+    if (option == 0) { // normal search
+        queryURL = [NSString stringWithFormat:@"https://api.spoonacular.com/recipes/complexSearch?query=\"%@\"%@", name, apiKeyArg];
+        queryURL = [queryURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    }
+    else { //ingredient search
+        queryURL = [NSString stringWithFormat:@"https://api.spoonacular.com/recipes/findByIngredients?ingredients=\"%@\"%@", name, apiKeyArg];
+        queryURL = [queryURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    }
     
     NSURL *url = [NSURL URLWithString:queryURL];
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-           if (error != nil) { //TODO: Add error message
-           }
-           else {
-               NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+       if (error != nil) { //TODO: Add error message
+       }
+       else {
+           NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+           if (option == 0) {
                if (![(NSArray *)dataDictionary[@"results"] count]) {
                    completionHandler(@[]);
                    NSLog(@"null detected from spoonacular");
                }
                else {
-                   completionHandler(dataDictionary[@"results"]);
-               }
+                       completionHandler(dataDictionary[@"results"]);
+                   }
            }
+           else if (option == 1) {
+               NSArray *arr = (NSArray *)dataDictionary;
+               completionHandler(arr);
+           }
+       }
     }];
     [task resume];
 }
 
-- (void) queryAPIs:(NSString *) input completionHandler:(void(^)(void))completionHandler {
+- (void) queryAPIs:(NSString *) input withOption:(NSInteger) option completionHandler:(void(^)(void))completionHandler {
     self.searchingFlag = YES;
     [self.tableViewRecipes removeAllObjects];
     dispatch_group_t group = dispatch_group_create();
     dispatch_group_enter(group);
     dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^ {
-        [self querySearchSpoonacular:input completionHandler:^(NSArray *returnedMeals) {
+        [self querySearchSpoonacular:input withOption:option completionHandler:^(NSArray *returnedMeals) {
             self.spoonResults = returnedMeals;
             dispatch_group_leave(group);
         }];
     });
     dispatch_group_enter(group);
     dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^ {
-        [self queryMealDB:input completionHandler:^(NSArray *returnedMeals) {
+        [self queryMealDB:input withOption:option completionHandler:^(NSArray *returnedMeals) {
             self.mealDBresults = returnedMeals;
             dispatch_group_leave(group);
         }];
@@ -192,6 +211,10 @@
     });
 }
 
+//Ingredient Search
+
+
+
 //Table View Cell Methods
 - (NSArray *)rightButtons {
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
@@ -200,6 +223,8 @@
                                                  icon: [UIImage systemImageNamed:@"heart.fill"]];
     return rightUtilityButtons;
 }
+
+
 
 - (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell {
     return YES;
@@ -236,15 +261,16 @@
 }
 
 - (void)searchBarDidTapReturn:(INSSearchBar *)searchBar {
-    if (!self.searchingFlag) {
-        [self queryAPIs:searchBar.searchField.text completionHandler:^{
+    if (self.searchSegmentedControl.selectedSegmentIndex == 0) {
+        [self queryAPIs:searchBar.searchField.text withOption:0 completionHandler:^{
             [self.tableView reloadData];
         }];
     }
     else {
-        NSLog(@"fail. currently searching");
+        [self queryAPIs:searchBar.searchField.text withOption:1 completionHandler:^{
+            [self.tableView reloadData];
+        }];
     }
-    
 }
 
 
