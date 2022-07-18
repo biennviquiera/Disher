@@ -35,6 +35,7 @@
 		46AC91B0287F392800A766C8 /* NavBarIconSearchBar_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 46AC91A4287F392800A766C8 /* NavBarIconSearchBar_blue.png */; };
 		46AC91B1287F392800A766C8 /* NavBarIconSearch_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 46AC91A5287F392800A766C8 /* NavBarIconSearch_white.png */; };
 		46AC91B2287F392800A766C8 /* INSAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 46AC91A6287F392800A766C8 /* INSAppDelegate.m */; };
+		46B262AC2885DF5100FE8503 /* CreateListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46B262AA2885DF5000FE8503 /* CreateListViewController.m */; };
 		46CEAC8628789AE500C10B1B /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 46CEAC8528789AE500C10B1B /* Keys.plist */; };
 		46CEAC892878D2F900C10B1B /* List.m in Sources */ = {isa = PBXBuildFile; fileRef = 46CEAC882878D2F900C10B1B /* List.m */; };
 		46E2ABEB2880D82500803A0C /* SaveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E2ABEA2880D82500803A0C /* SaveViewController.m */; };
@@ -102,6 +103,8 @@
 		46AC91A4287F392800A766C8 /* NavBarIconSearchBar_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NavBarIconSearchBar_blue.png; sourceTree = "<group>"; };
 		46AC91A5287F392800A766C8 /* NavBarIconSearch_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = NavBarIconSearch_white.png; sourceTree = "<group>"; };
 		46AC91A6287F392800A766C8 /* INSAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = INSAppDelegate.m; sourceTree = "<group>"; };
+		46B262AA2885DF5000FE8503 /* CreateListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateListViewController.m; sourceTree = "<group>"; };
+		46B262AB2885DF5000FE8503 /* CreateListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateListViewController.h; sourceTree = "<group>"; };
 		46CEAC8528789AE500C10B1B /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		46CEAC872878D2F900C10B1B /* List.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = List.h; sourceTree = "<group>"; };
 		46CEAC882878D2F900C10B1B /* List.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = List.m; sourceTree = "<group>"; };
@@ -211,6 +214,8 @@
 		466CAC1B28760AFE0017AE06 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				46B262AB2885DF5000FE8503 /* CreateListViewController.h */,
+				46B262AA2885DF5000FE8503 /* CreateListViewController.m */,
 				466CAC182874BEBE0017AE06 /* LoginViewController.h */,
 				463A8D1C2877A8BD00A6F01C /* LoginViewController.m */,
 				46AABAB528764D26006E1E49 /* ListsViewController.h */,
@@ -542,6 +547,7 @@
 			files = (
 				46AABAB728764D26006E1E49 /* ListsViewController.m in Sources */,
 				46E437652877477300222232 /* Recipe.m in Sources */,
+				46B262AC2885DF5100FE8503 /* CreateListViewController.m in Sources */,
 				46AC91A7287F392800A766C8 /* INSSearchBar.m in Sources */,
 				46AABAC028764DE5006E1E49 /* ListCell.m in Sources */,
 				466CABE52874B7A10017AE06 /* AppDelegate.m in Sources */,

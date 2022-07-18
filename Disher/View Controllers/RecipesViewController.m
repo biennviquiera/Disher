@@ -237,7 +237,6 @@
 }
 
 //search bar delegate methods
-
 - (CGRect)destinationFrameForSearchBar:(INSSearchBar *)searchBar {
     return CGRectMake(20.0, 100.0, CGRectGetWidth(self.view.bounds) - 40.0, 34.0);
 }

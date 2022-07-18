@@ -6,13 +6,28 @@
 //
 
 #import "List.h"
+#import <Parse/Parse.h>
 
 @implementation List
-@dynamic listID;
+@dynamic listName;
 @dynamic recipes;
+@dynamic image;
 
 + (nonnull NSString *)parseClassName {
     return @"List";
 }
+
++ (void) createList:(NSString *) name completionHandler:(nonnull void (^)(void))completionHandler{
+    List *newList = [List new];
+    newList.listName = name;
+    newList.recipes = @[];
+    
+    [newList saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (!error) {
+            completionHandler();
+        }
+    }];
+}
+
 
 @end

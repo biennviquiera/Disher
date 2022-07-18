@@ -17,11 +17,18 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    // Use API Keys in Keys.plist
+    NSString *clientIDPath = [[NSBundle mainBundle] pathForResource: @"Keys" ofType: @"plist"];
+    NSDictionary *clientIDDict = [NSDictionary dictionaryWithContentsOfFile: clientIDPath];
+    NSString *clientIDKey = [clientIDDict objectForKey: @"parse_clientID"];
     
+    NSString *appIDPath = [[NSBundle mainBundle] pathForResource: @"Keys" ofType: @"plist"];
+    NSDictionary *appIDDict = [NSDictionary dictionaryWithContentsOfFile: appIDPath];
+    NSString *appIDKey = [appIDDict objectForKey: @"parse_appID"];
     // Initialize Parse
     [Parse initializeWithConfiguration:[ParseClientConfiguration configurationWithBlock:^(id<ParseMutableClientConfiguration> configuration) {
-        configuration.applicationId = @"WYY4Xsr6fYiNKSjn2laCW3OZqp6UN1XcXzZzrNcK";
-        configuration.clientKey = @"C02Yc1RMTsHC3boP407IeHp76iBvH6KnYfuGSDZE";
+        configuration.applicationId = appIDKey;
+        configuration.clientKey = clientIDKey;
         configuration.server = @"https://parseapi.back4app.com";
     }]];
     return YES;

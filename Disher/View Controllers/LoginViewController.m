@@ -32,11 +32,13 @@
 //BUTTON ACTIONS
 - (IBAction)didTapLogin:(id)sender {
     [self.loginButton setEnabled:NO];
+    [self.signupButton setEnabled:NO];
     [self loginUser];
 }
 
 - (IBAction)didTapSignup:(id)sender {
     [self.signupButton setEnabled:NO];
+    [self.loginButton setEnabled:NO];
     [self registerUser];
 }
 
@@ -59,6 +61,7 @@
             [alert addAction:defaultAction];
             [self presentViewController:alert animated:YES completion:nil];
             [self.loginButton setEnabled:YES];
+            [self.signupButton setEnabled:YES];
         }
         else {
             [self performSegueWithIdentifier:@"loginSegue" sender:nil];
@@ -84,6 +87,7 @@
             [alert addAction:defaultAction];
             [self presentViewController:alert animated:YES completion:nil];
             [self.signupButton setEnabled:YES];
+            [self.loginButton setEnabled:YES];
         }
         else {
             [self performSegueWithIdentifier:@"loginSegue" sender:nil];
