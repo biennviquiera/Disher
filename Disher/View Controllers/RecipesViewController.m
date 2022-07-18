@@ -24,14 +24,10 @@
 @property (nonatomic, strong) NSString *searchQuery;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) INSSearchBar *searchBarWithDelegate;
-@property BOOL searchingFlag;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *searchSegmentedControl;
-
 @end
 
-
 @implementation RecipesViewController
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.tableViewRecipes = [[NSMutableArray alloc] init];
@@ -39,27 +35,19 @@
     self.tableView.dataSource = self;
     self.searchQuery = @"chicken";
     
-    //Update global results arrays
-    [self queryAPIs:self.searchQuery withOption:0 completionHandler:^{
-        // merge two results into tableViewRecipes
-        [self.tableView reloadData];
-    }];
-    
     self.view.backgroundColor = [UIColor colorWithRed:0.000 green:0.418 blue:0.673 alpha:1.000];
     self.searchBarWithDelegate = [[INSSearchBar alloc] initWithFrame:CGRectMake(20.0, 100.0, 44.0, 34.0)];
     self.searchBarWithDelegate.delegate = self;
     [self.view addSubview:self.searchBarWithDelegate];
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
+    
+    [self queryAPIs:self.searchQuery withOption:0 completionHandler:^{
+        [self.tableView reloadData];
+    }];
 }
 
-
 #pragma mark - Table view data source
-
-//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-//#warning Incomplete implementation, return the number of sections
-//    return 5;
-//}
-
+// Table View Methods
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.spoonResults.count + self.mealDBresults.count;
 }
@@ -71,7 +59,6 @@
     NSString *imageLink;
     NSString *mealID;
     NSString *source;
-    // loop through mealdb results first, then go to spoonacular results
     if (indexPath.row < self.mealDBresults.count) {
         recipeName = self.mealDBresults[indexPath.row][@"strMeal"];
         imageLink = self.mealDBresults[indexPath.row][@"strMealThumb"];
@@ -96,6 +83,7 @@
     return cell;
 }
 
+// Button Methods
 - (IBAction)didTapLogout:(id)sender {
     [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
         [self.logoutButton setEnabled:NO];
@@ -110,7 +98,6 @@
         }
     }];
 }
-
 
 // API Querying Methods
 - (void) queryMealDB:(NSString *)name withOption:(NSInteger)option completionHandler:(void(^)(NSArray *returnedMeals))completionHandler {
@@ -129,7 +116,7 @@
            else {
                NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
                     if (dataDictionary[@"meals"] == [NSNull null] ) {
-                   NSLog(@"null detected form mealdb");
+                   NSLog(@"null detected from mealdb");
                    completionHandler(@[]);
                }
                else {
@@ -148,11 +135,11 @@
     NSString *key = [dict objectForKey: @"spoon_key"];
     NSString *apiKeyArg = [NSString stringWithFormat:@"&apiKey=%@", key];
     NSString *queryURL;
-    if (option == 0) { // normal search
+    if (option == 0) {
         queryURL = [NSString stringWithFormat:@"https://api.spoonacular.com/recipes/complexSearch?query=\"%@\"%@", name, apiKeyArg];
         queryURL = [queryURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     }
-    else { //ingredient search
+    else {
         queryURL = [NSString stringWithFormat:@"https://api.spoonacular.com/recipes/findByIngredients?ingredients=\"%@\"%@", name, apiKeyArg];
         queryURL = [queryURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     }
@@ -184,7 +171,6 @@
 }
 
 - (void) queryAPIs:(NSString *) input withOption:(NSInteger) option completionHandler:(void(^)(void))completionHandler {
-    self.searchingFlag = YES;
     [self.tableViewRecipes removeAllObjects];
     dispatch_group_t group = dispatch_group_create();
     dispatch_group_enter(group);
@@ -202,29 +188,33 @@
         }];
     });
     dispatch_group_notify(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^ {
-        // All group blocks have now completed
-        NSLog(@"completion");
-        dispatch_async(dispatch_get_main_queue(), ^{
-            self.searchingFlag = NO;
+            dispatch_async(dispatch_get_main_queue(), ^{
             completionHandler();
         });
     });
 }
 
-//Ingredient Search
-
-
-
 //Table View Cell Methods
 - (NSArray *)rightButtons {
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
+    UIColor *color = [UIColor whiteColor];
+    UIImage *image = [UIImage systemImageNamed:@"heart.fill"];// Image to mask with
+    UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    [color setFill];
+    CGContextTranslateCTM(context, 0, image.size.height);
+    CGContextScaleCTM(context, 1.0, -1.0);
+    CGContextClipToMask(context, CGRectMake(0, 0, image.size.width, image.size.height), [image CGImage]);
+    CGContextFillRect(context, CGRectMake(0, 0, image.size.width, image.size.height));
+
+    UIImage *coloredImg = UIGraphicsGetImageFromCurrentImageContext();
+
+    UIGraphicsEndImageContext();
     [rightUtilityButtons sw_addUtilityButtonWithColor:
-         [UIColor colorWithRed:0.0f green:0.92f blue:0.24f alpha:0.0]
-                                                 icon: [UIImage systemImageNamed:@"heart.fill"]];
+         [UIColor colorWithRed:0.0f green:0.92f blue:0.24f alpha:1.0]
+                                                 icon: coloredImg];
     return rightUtilityButtons;
 }
-
-
 
 - (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell {
     return YES;

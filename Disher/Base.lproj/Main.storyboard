@@ -68,7 +68,9 @@
                         <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                     </view>
                     <connections>
+                        <outlet property="loginButton" destination="NJ1-SY-ddg" id="VzL-eZ-SJ3"/>
                         <outlet property="passwordField" destination="FhQ-sL-LVB" id="GQl-IH-n2R"/>
+                        <outlet property="signupButton" destination="3jI-bJ-8Nb" id="IQi-Mf-aQU"/>
                         <outlet property="usernameField" destination="N76-I4-e2g" id="krE-XR-ioI"/>
                         <segue destination="ZFS-EP-tOn" kind="show" identifier="loginSegue" id="nsZ-lH-WxW"/>
                     </connections>

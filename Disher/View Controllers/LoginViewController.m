@@ -9,42 +9,38 @@
 #import "List.h"
 @import Parse;
 
-
 @interface LoginViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
-
+@property (weak, nonatomic) IBOutlet UIButton *loginButton;
+@property (weak, nonatomic) IBOutlet UIButton *signupButton;
 @end
 
 @implementation LoginViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:gestureRecognizer];
     gestureRecognizer.cancelsTouchesInView = NO;
 }
 
-
-- (void)dismissKeyboard
-{
+- (void)dismissKeyboard {
      [self.view endEditing:YES];
 }
 
 //BUTTON ACTIONS
-
 - (IBAction)didTapLogin:(id)sender {
+    [self.loginButton setEnabled:NO];
     [self loginUser];
 }
 
 - (IBAction)didTapSignup:(id)sender {
+    [self.signupButton setEnabled:NO];
     [self registerUser];
 }
 
 //HELPER METHODS
-
 - (void) loginUser {
     NSString *username = self.usernameField.text;
     NSString *password = self.passwordField.text;
@@ -62,8 +58,9 @@
                                                                   handler:^(UIAlertAction * action) {}];
             [alert addAction:defaultAction];
             [self presentViewController:alert animated:YES completion:nil];
-        } else {
-            NSLog(@"User logged in successfully");
+            [self.loginButton setEnabled:YES];
+        }
+        else {
             [self performSegueWithIdentifier:@"loginSegue" sender:nil];
         }
     }];
@@ -81,28 +78,17 @@
             UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error signing up"
                                                                            message:errorString
                                                                     preferredStyle:UIAlertControllerStyleAlert];
-             
             UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Try again"
                                                                     style:UIAlertActionStyleDefault
                                                                   handler:^(UIAlertAction * action) {}];
-             
             [alert addAction:defaultAction];
             [self presentViewController:alert animated:YES completion:nil];
+            [self.signupButton setEnabled:YES];
         }
         else {
             [self performSegueWithIdentifier:@"loginSegue" sender:nil];
         }
     }];
 }
-
-
-/*
-#pragma mark - Navigation
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
