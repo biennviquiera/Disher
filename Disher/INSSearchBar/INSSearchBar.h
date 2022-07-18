@@ -64,6 +64,7 @@ typedef NS_ENUM(NSUInteger, INSSearchBarState)
  *  @param destinationState The state that the bar will be in once transitioning completes. The current state of the search bar can be queried and will return the state before transitioning.
  */
 
+@optional
 - (void)searchBar:(INSSearchBar *)searchBar willStartTransitioningToState:(INSSearchBarState)destinationState;
 
 /**
@@ -72,7 +73,7 @@ typedef NS_ENUM(NSUInteger, INSSearchBarState)
  *  @param searchBar        The search bar that went through state transitioning.
  *  @param destinationState The state that the bar was in before transitioning started. The current state of the search bar can be queried and will return the state after transitioning.
  */
-
+@optional
 - (void)searchBar:(INSSearchBar *)searchBar didEndTransitioningFromState:(INSSearchBarState)previousState;
 
 /**
@@ -82,7 +83,7 @@ typedef NS_ENUM(NSUInteger, INSSearchBarState)
  *
  *  @param searchBar        The search bar whose return key was pressed.
  */
-
+@optional
 - (void)searchBarDidTapReturn:(INSSearchBar *)searchBar;
 
 /**
@@ -92,7 +93,7 @@ typedef NS_ENUM(NSUInteger, INSSearchBarState)
  *
  *  @param searchBar        The search bar whose text did change.
  */
-
+@optional
 - (void)searchBarTextDidChange:(INSSearchBar *)searchBar;
 
 @end
