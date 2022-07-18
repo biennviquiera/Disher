@@ -235,14 +235,6 @@
         case 0: { //click on save button
             //TODO: Check for existing entry in database
             [self performSegueWithIdentifier:@"saveSegue" sender:cell];
-//            [cell.recipe saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-//                if (!error) {
-//                    NSLog(@"%@ was saved", cell.recipe.dishName);
-//                }
-//                else {
-//                    NSLog(@"Error, %@", error.localizedDescription);
-//                }
-//            }];
             break;
         }
         default:
