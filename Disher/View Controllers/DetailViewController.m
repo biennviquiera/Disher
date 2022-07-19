@@ -23,7 +23,6 @@
     [super viewDidLoad];
     self.titleLabel.text = self.passedRecipe.dishName;
     self.descriptionLabel.text = self.passedRecipe.source;
-    // Do any additional setup after loading the view.
     NSURL *cellImg = [NSURL URLWithString:self.passedRecipe.imageURL];
     [self.recipeCover setImageWithURL:cellImg];
 }

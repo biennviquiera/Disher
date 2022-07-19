@@ -8,6 +8,11 @@
 #import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
+@protocol ListDelegate <NSObject>
+
+- (void)didCreateList:(NSString *) listName;
+
+@end
 
 @interface ListsViewController : UIViewController
 
