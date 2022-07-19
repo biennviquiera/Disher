@@ -40,7 +40,6 @@
 }
 
 - (void) queryLists {
-    //TODO: only return current user's lists
     PFQuery *query = [PFQuery queryWithClassName:@"List"];
     [query orderByDescending:@"updatedAt"];
     [query includeKey:@"listName"];
