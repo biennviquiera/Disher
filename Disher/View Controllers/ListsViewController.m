@@ -42,16 +42,15 @@
 - (void) queryLists {
     PFQuery *query = [PFQuery queryWithClassName:@"List"];
     [query orderByDescending:@"updatedAt"];
-    [query includeKey:@"listName"];
-    [query includeKey:@"recipes"];
-    [query includeKey:@"objectID"];
+    NSArray *userLists = [PFUser currentUser][@"lists"];
+    [query whereKey:@"objectId" containedIn:userLists];
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
         if (objects) {
             self.lists = objects;
             [self.tableView reloadData];
         }
         else {
-            
+            NSLog(@"none found");
         }
     }];
 }

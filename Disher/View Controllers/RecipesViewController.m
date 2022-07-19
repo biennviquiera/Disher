@@ -195,6 +195,13 @@
     });
 }
 
+- (NSString *) ingredientFormatSpoonacular:(NSString *)input {
+    NSString *newString = input;
+    newString = [newString stringByReplacingOccurrencesOfString:@" " withString:@","];
+    return newString;
+    
+}
+
 //Table View Cell Methods
 - (NSArray *)rightButtons {
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
@@ -255,13 +262,6 @@
     }
 }
 
-- (NSString *) ingredientFormatSpoonacular:(NSString *)input {
-    NSString *newString = input;
-    newString = [newString stringByReplacingOccurrencesOfString:@" " withString:@","];
-    NSLog(@"newstring for spoonacular: %@", newString);
-    return newString;
-    
-}
 
 #pragma mark - Navigation
 
