@@ -140,6 +140,7 @@
         queryURL = [queryURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     }
     else {
+        name = [self ingredientFormatSpoonacular:name];
         queryURL = [NSString stringWithFormat:@"https://api.spoonacular.com/recipes/findByIngredients?ingredients=\"%@\"%@", name, apiKeyArg];
         queryURL = [queryURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     }
@@ -254,7 +255,13 @@
     }
 }
 
-
+- (NSString *) ingredientFormatSpoonacular:(NSString *)input {
+    NSString *newString = input;
+    newString = [newString stringByReplacingOccurrencesOfString:@" " withString:@","];
+    NSLog(@"newstring for spoonacular: %@", newString);
+    return newString;
+    
+}
 
 #pragma mark - Navigation
 
