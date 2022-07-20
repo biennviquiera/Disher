@@ -22,7 +22,8 @@
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    [self queryLists];
+    self.lists = [List queryLists];
+    [self.tableView reloadData];
     
 }
 
@@ -39,28 +40,12 @@
     return cell;
 }
 
-- (void) queryLists {
-    PFQuery *query = [PFQuery queryWithClassName:@"List"];
-    [query orderByDescending:@"updatedAt"];
-    NSArray *userLists = [PFUser currentUser][@"lists"];
-    [query whereKey:@"objectId" containedIn:userLists];
-    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-        if (objects) {
-            self.lists = objects;
-            [self.tableView reloadData];
-        }
-        else {
-            NSLog(@"none found");
-        }
-    }];
-}
-
 - (void) didCreateList:(NSString *) listName {
     [self refreshData];
 }
 
 - (void) refreshData {
-    [self queryLists];
+    self.lists = [List queryLists];
     [self.tableView reloadData];
 }
 

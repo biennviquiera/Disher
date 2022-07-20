@@ -6,9 +6,14 @@
 //
 
 #import "SaveViewController.h"
+#import "List.h"
+#import "SaveCell.h"
+#import "Parse/Parse.h"
 
-@interface SaveViewController ()
-
+@interface SaveViewController () <UITableViewDelegate, UITableViewDataSource>
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (weak, nonatomic) IBOutlet UILabel *listName;
+@property (nonatomic, strong) NSArray *lists;
 @end
 
 @implementation SaveViewController
@@ -18,6 +23,38 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.lists = [List queryLists];
+    
+    [self.tableView reloadData];
 }
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return self.lists.count;
+}
+
+- (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    SaveCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SaveCell" forIndexPath:indexPath];
+    List *currentList = self.lists[indexPath.row];
+    cell.list = currentList;
+    cell.listName.text = currentList[@"listName"];
+    return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
+    //TODO: CHECK FOR ALREADY EXISTING ENTRY
+    Recipe *selectedRecipe = self.passedRecipe;
+    [selectedRecipe saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        List *selectedList = self.lists[indexPath.row];
+        [selectedList addUniqueObject:selectedRecipe.objectId forKey:@"recipes"];
+        [selectedList saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+            if (!error) {
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }
+        }];
+    }];
+}
+
 
 @end
