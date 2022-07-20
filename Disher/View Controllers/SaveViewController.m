@@ -43,17 +43,33 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
-    //TODO: CHECK FOR ALREADY EXISTING ENTRY
     Recipe *selectedRecipe = self.passedRecipe;
-    [selectedRecipe saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+    PFQuery *query = [PFQuery queryWithClassName:@"Recipe"];
+    [query whereKey:@"recipeID" equalTo:selectedRecipe.recipeID];
+    [query whereKey:@"dishName" equalTo:selectedRecipe.dishName];
+    [query whereKey:@"source" equalTo:selectedRecipe.source];
+
+    Recipe *foundObject = [query getFirstObject];
+    if (foundObject) {
         List *selectedList = self.lists[indexPath.row];
-        [selectedList addUniqueObject:selectedRecipe.objectId forKey:@"recipes"];
+        [selectedList addUniqueObject:foundObject.objectId forKey:@"recipes"];
         [selectedList saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
             if (!error) {
                 [self dismissViewControllerAnimated:YES completion:nil];
             }
         }];
-    }];
+    }
+    else {
+        [selectedRecipe saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+            List *selectedList = self.lists[indexPath.row];
+            [selectedList addUniqueObject:selectedRecipe.objectId forKey:@"recipes"];
+            [selectedList saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+                if (!error) {
+                    [self dismissViewControllerAnimated:YES completion:nil];
+                }
+            }];
+        }];
+    }
 }
 
 

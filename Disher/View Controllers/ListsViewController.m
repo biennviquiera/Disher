@@ -7,6 +7,7 @@
 
 #import "ListsViewController.h"
 #import "CreateListViewController.h"
+#import "ListContentViewController.h"
 #import "ListCell.h"
 #import "List.h"
 
@@ -37,6 +38,7 @@
     ListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ListCell" forIndexPath:indexPath];
     List *currentList = self.lists[indexPath.row];
     cell.listName.text = currentList[@"listName"];
+    cell.list = currentList;
     return cell;
 }
 
@@ -58,6 +60,10 @@
     if ([[segue identifier] isEqualToString:@"createSegue"]) {
         CreateListViewController *newVC = [segue destinationViewController];
         newVC.delegate = self;
+    }
+    else if ([[segue identifier] isEqualToString:@"listContentSegue"]) {
+        ListContentViewController *newVC = [segue destinationViewController];
+        newVC.passedList = ((ListCell *)sender).list;
     }
 }
 

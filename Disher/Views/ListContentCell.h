@@ -6,7 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "List.h"
+#import "Recipe.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *recipeImg;
 @property (weak, nonatomic) IBOutlet UILabel *recipeSource;
-@property (strong, nonatomic) List *list;
+@property (strong, nonatomic) Recipe *recipe;
 
 @end
 

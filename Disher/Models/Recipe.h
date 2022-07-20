@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (Recipe *) initWithRecipe:(NSString *) name withURL:(NSString *) imgURL withSource:(NSString *) dishSource withID:(NSString *) recipeNum;
 
++ (Recipe *) getRecipeWithID:(NSString *)parseRecipeID;
 @end
 
 
