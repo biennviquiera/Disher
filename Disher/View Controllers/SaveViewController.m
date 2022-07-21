@@ -26,7 +26,6 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.lists = [List queryLists];
-    
     [self.tableView reloadData];
 }
 
@@ -44,33 +43,32 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     Recipe *selectedRecipe = self.passedRecipe;
+    List *selectedList = self.lists[indexPath.row];
     PFQuery *query = [PFQuery queryWithClassName:@"Recipe"];
     [query whereKey:@"recipeID" equalTo:selectedRecipe.recipeID];
     [query whereKey:@"dishName" equalTo:selectedRecipe.dishName];
     [query whereKey:@"source" equalTo:selectedRecipe.source];
-    //TODO: REFACTOR REPEATED CODE
     Recipe *foundObject = [query getFirstObject];
     if (foundObject) {
-        List *selectedList = self.lists[indexPath.row];
-        [selectedList addUniqueObject:foundObject.objectId forKey:@"recipes"];
-        [selectedList saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-            if (!error) {
-                [self dismissViewControllerAnimated:YES completion:nil];
-            }
-        }];
+        [self uploadRecipeToList:foundObject withList:selectedList];
     }
     else {
         [selectedRecipe saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-            List *selectedList = self.lists[indexPath.row];
-            [selectedList addUniqueObject:selectedRecipe.objectId forKey:@"recipes"];
-            [selectedList saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-                if (!error) {
-                    [self dismissViewControllerAnimated:YES completion:nil];
-                }
-                //TODO: ADD ERROR HANDLING
-            }];
+        [self uploadRecipeToList:selectedRecipe withList:selectedList];
         }];
     }
+}
+
+- (void) uploadRecipeToList:(Recipe *)recipe withList:(List *)list {
+    [list addUniqueObject:recipe.objectId forKey:@"recipes"];
+    [list saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        if (!error) {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }
+        else {
+            NSLog(@"Could not upload recipe to list");
+        }
+    }];
 }
 
 
