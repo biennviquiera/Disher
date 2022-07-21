@@ -9,8 +9,9 @@
 #import "ListContentCell.h"
 #import "Parse/Parse.h"
 #import "Recipe.h"
+#import "ListContentCell.h"
 #import "UIKit+AFNetworking.h"
-
+#import "RecipeInListViewController.h"
 
 @interface ListContentViewController () <UITableViewDelegate, UITableViewDataSource>
 @property (weak, nonatomic) IBOutlet UILabel *listName;
@@ -36,6 +37,7 @@
     return self.passedList.recipes.count;
 }
 
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     ListContentCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ListContentCell"];
     Recipe *currRecipe = self.recipeList[indexPath.row];
@@ -46,6 +48,7 @@
     [cell.recipeImg setImageWithURL:imageURL];
     return cell;
 }
+
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -58,8 +61,14 @@
     }];
 }
 
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    Recipe *selectedRecipe = ((ListContentCell *)[self.tableView cellForRowAtIndexPath:indexPath]).recipe;
+    NSLog(@"we will be passing %@", selectedRecipe);
+    [self performSegueWithIdentifier:@"listRecipeSegue" sender:selectedRecipe];
+}
+
 - (void) reloadListRecipes:(id)something completionHandler:(void(^)(NSArray *returnedRecipes))completionHandler{
-    
     PFQuery *query = [PFQuery queryWithClassName:@"Recipe"];
     [query whereKey:@"objectId" containedIn:self.recipeListIDs];
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
@@ -71,14 +80,18 @@
 
 
 
-/*
 #pragma mark - Navigation
 //TODO: Pass data from id lookup
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([[segue identifier] isEqualToString:@"listRecipeSegue"]) {
+        RecipeInListViewController *newVC = [segue destinationViewController];
+        newVC.passedRecipe = sender;
+    }
+    
 }
-*/
+
 
 @end
