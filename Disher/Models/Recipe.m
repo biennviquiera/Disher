@@ -27,9 +27,4 @@
     return newRecipe;
 }
 
-+ (Recipe *) getRecipeWithID:(NSString *)parseRecipeID {
-    PFQuery *query = [PFQuery queryWithClassName:@"Recipe"];
-    Recipe *returnedRecipe = [query getObjectWithId:parseRecipeID];
-    return returnedRecipe;
-}
 @end

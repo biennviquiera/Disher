@@ -48,7 +48,7 @@
     [query whereKey:@"recipeID" equalTo:selectedRecipe.recipeID];
     [query whereKey:@"dishName" equalTo:selectedRecipe.dishName];
     [query whereKey:@"source" equalTo:selectedRecipe.source];
-
+    //TODO: REFACTOR REPEATED CODE
     Recipe *foundObject = [query getFirstObject];
     if (foundObject) {
         List *selectedList = self.lists[indexPath.row];
@@ -67,6 +67,7 @@
                 if (!error) {
                     [self dismissViewControllerAnimated:YES completion:nil];
                 }
+                //TODO: ADD ERROR HANDLING
             }];
         }];
     }

@@ -16,6 +16,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *listName;
 @property (weak, nonatomic) IBOutlet UIImageView *listImg;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) NSArray *recipeListIDs;
+@property (strong, nonatomic) NSArray *recipeList;
 
 @end
 
@@ -27,8 +29,7 @@
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.listName.text = self.passedList.listName;
-    
-    [self.tableView reloadData];
+    self.recipeListIDs = self.passedList.recipes;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -37,8 +38,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     ListContentCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ListContentCell"];
-    NSString *recipeID = (NSString *)self.passedList.recipes[indexPath.row];
-    Recipe *currRecipe = [Recipe getRecipeWithID:recipeID];
+    Recipe *currRecipe = self.recipeList[indexPath.row];
     cell.recipe = currRecipe;
     cell.nameLabel.text = currRecipe.dishName;
     cell.recipeSource.text = currRecipe.source;
@@ -49,16 +49,26 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
-    [self reloadListRecipes];
-    [self.tableView reloadData]; // to reload selected cell
+    PFQuery *new = [PFQuery queryWithClassName:@"List"];
+    self.passedList = [new getObjectWithId:self.passedList.objectId];
+    self.recipeListIDs = self.passedList.recipes;
+    [self reloadListRecipes:(id)nil completionHandler:^(NSArray *returnedRecipes) {
+        self.recipeList = returnedRecipes;
+        [self.tableView reloadData];
+    }];
 }
 
-- (void) reloadListRecipes {
-    NSString *listID = self.passedList.objectId;
-    PFQuery *query = [PFQuery queryWithClassName:@"List"];
-    self.passedList = [query getObjectWithId:listID];
+- (void) reloadListRecipes:(id)something completionHandler:(void(^)(NSArray *returnedRecipes))completionHandler{
+    
+    PFQuery *query = [PFQuery queryWithClassName:@"Recipe"];
+    [query whereKey:@"objectId" containedIn:self.recipeListIDs];
+    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
+        if (!error) {
+            completionHandler(objects);
+        }
+    }];
 }
+
 
 
 /*

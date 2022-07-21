@@ -23,9 +23,12 @@
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     self.lists = [List queryLists];
     [self.tableView reloadData];
-    
 }
 
 #pragma mark - Table view data source
