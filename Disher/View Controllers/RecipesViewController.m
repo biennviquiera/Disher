@@ -230,7 +230,6 @@
 - (void)swipeableTableViewCell:(RecipeCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
     switch (index) {
         case 0: { //click on save button
-            //TODO: Check for existing entry in database
             [self performSegueWithIdentifier:@"saveSegue" sender:cell];
             break;
         }

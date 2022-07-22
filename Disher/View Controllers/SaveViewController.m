@@ -65,7 +65,7 @@
         if (!error) {
             [self dismissViewControllerAnimated:YES completion:nil];
         }
-        else {
+        else { //TODO: alert user
             NSLog(@"Could not upload recipe to list");
         }
     }];
