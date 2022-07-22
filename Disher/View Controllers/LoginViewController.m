@@ -9,7 +9,7 @@
 #import "List.h"
 @import Parse;
 
-@interface LoginViewController ()
+@interface LoginViewController () <UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UITextField *usernameField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordField;
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
@@ -23,6 +23,8 @@
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:gestureRecognizer];
     gestureRecognizer.cancelsTouchesInView = NO;
+    self.usernameField.delegate = self;
+    self.passwordField.delegate = self;
 }
 
 - (void)dismissKeyboard {
@@ -94,5 +96,11 @@
         }
     }];
 }
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [self didTapLogin:nil];
+    return YES;
+}
+
 
 @end

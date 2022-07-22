@@ -195,6 +195,12 @@
     });
 }
 
+- (NSString *) ingredientFormatSpoonacular:(NSString *)input {
+    NSString *newString = input;
+    newString = [newString stringByReplacingOccurrencesOfString:@" " withString:@","];
+    return newString;
+}
+
 //Table View Cell Methods
 - (NSArray *)rightButtons {
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
@@ -224,7 +230,6 @@
 - (void)swipeableTableViewCell:(RecipeCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
     switch (index) {
         case 0: { //click on save button
-            //TODO: Check for existing entry in database
             [self performSegueWithIdentifier:@"saveSegue" sender:cell];
             break;
         }
@@ -255,13 +260,6 @@
     }
 }
 
-- (NSString *) ingredientFormatSpoonacular:(NSString *)input {
-    NSString *newString = input;
-    newString = [newString stringByReplacingOccurrencesOfString:@" " withString:@","];
-    NSLog(@"newstring for spoonacular: %@", newString);
-    return newString;
-    
-}
 
 #pragma mark - Navigation
 

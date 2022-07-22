@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *recipeID;
 
 + (Recipe *) initWithRecipe:(NSString *) name withURL:(NSString *) imgURL withSource:(NSString *) dishSource withID:(NSString *) recipeNum;
++ (void) getRecipeInfo:(NSString *) recipeID withSource:(NSString *) source withCompletion:(void(^)(NSDictionary *recipeInformation))completionHandler;
 
 @end
 

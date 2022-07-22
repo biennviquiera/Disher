@@ -7,6 +7,7 @@
 
 #import "ListsViewController.h"
 #import "CreateListViewController.h"
+#import "ListContentViewController.h"
 #import "ListCell.h"
 #import "List.h"
 
@@ -22,8 +23,12 @@
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    [self queryLists];
-    
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    self.lists = [List queryLists];
+    [self.tableView reloadData];
 }
 
 #pragma mark - Table view data source
@@ -36,24 +41,8 @@
     ListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ListCell" forIndexPath:indexPath];
     List *currentList = self.lists[indexPath.row];
     cell.listName.text = currentList[@"listName"];
+    cell.list = currentList;
     return cell;
-}
-
-- (void) queryLists {
-    PFQuery *query = [PFQuery queryWithClassName:@"List"];
-    [query orderByDescending:@"updatedAt"];
-    [query includeKey:@"listName"];
-    [query includeKey:@"recipes"];
-    [query includeKey:@"objectID"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-        if (objects) {
-            self.lists = objects;
-            [self.tableView reloadData];
-        }
-        else {
-            
-        }
-    }];
 }
 
 - (void) didCreateList:(NSString *) listName {
@@ -61,7 +50,7 @@
 }
 
 - (void) refreshData {
-    [self queryLists];
+    self.lists = [List queryLists];
     [self.tableView reloadData];
 }
 
@@ -74,6 +63,10 @@
     if ([[segue identifier] isEqualToString:@"createSegue"]) {
         CreateListViewController *newVC = [segue destinationViewController];
         newVC.delegate = self;
+    }
+    else if ([[segue identifier] isEqualToString:@"listContentSegue"]) {
+        ListContentViewController *newVC = [segue destinationViewController];
+        newVC.passedList = ((ListCell *)sender).list;
     }
 }
 
