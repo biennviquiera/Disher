@@ -16,7 +16,7 @@
 #import "SaveViewController.h"
 #import "INSSearchBar.h"
 
-@interface RecipesViewController () <UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate, UITableViewDelegate, INSSearchBarDelegate>
+@interface RecipesViewController () <UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate, UITableViewDelegate, INSSearchBarDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *logoutButton;
 @property (nonatomic, strong) NSArray *mealDBresults;
 @property (nonatomic, strong) NSArray *spoonResults;
@@ -25,6 +25,9 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) INSSearchBar *searchBarWithDelegate;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *searchSegmentedControl;
+@property (weak, nonatomic) IBOutlet UIPickerView *pickerView;
+@property (weak, nonatomic) IBOutlet UITextField *cuisineField;
+@property (nonatomic, strong) NSMutableArray *filteredTableViewRecipes;
 @property BOOL seenIngredientMsg;
 @end
 
@@ -34,7 +37,13 @@
     self.tableViewRecipes = [[NSMutableArray alloc] init];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.pickerView.delegate = self;
+    self.pickerView.dataSource = self;
+    self.filteredTableViewRecipes = [NSMutableArray new];
+    [self.filteredTableViewRecipes setArray:@[@"Item 1", @"Item 2", @"Item 3"]];
     self.searchQuery = @"chicken";
+    
+    self.cuisineField.inputView = self.pickerView;
     
     self.view.backgroundColor = [UIColor colorWithRed:0.000 green:0.418 blue:0.673 alpha:1.000];
     self.searchBarWithDelegate = [[INSSearchBar alloc] initWithFrame:CGRectMake(20.0, 100.0, 44.0, 34.0)];
@@ -101,6 +110,24 @@
     cell.rightUtilityButtons = [self rightButtons];
     return cell;
 }
+
+// Picker View Methods
+
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
+    return 1;
+}
+
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
+
+    return self.filteredTableViewRecipes.count;
+}
+
+- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
+
+    return self.filteredTableViewRecipes[row];
+}
+
+
 
 // Button Methods
 - (IBAction)didTapLogout:(id)sender {
