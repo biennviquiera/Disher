@@ -10,10 +10,11 @@
 #import "ListContentViewController.h"
 #import "ListCell.h"
 #import "List.h"
+#import "Parse/Parse.h"
 
 @interface ListsViewController () <UITableViewDelegate, UITableViewDataSource, ListDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic) NSArray *lists;
+@property (strong, nonatomic) NSMutableArray *lists;
 @end
 
 @implementation ListsViewController
@@ -23,11 +24,12 @@
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.lists = [NSMutableArray new];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    self.lists = [List queryLists];
+    [self.lists setArray:[List queryLists]];
     [self.tableView reloadData];
 }
 
@@ -50,8 +52,18 @@
 }
 
 - (void) refreshData {
-    self.lists = [List queryLists];
+    [self.lists setArray:[List queryLists]];
     [self.tableView reloadData];
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        PFQuery *query = [PFQuery queryWithClassName:@"List"];
+        List *listToRemove = [query getObjectWithId:((ListCell *)[self.tableView cellForRowAtIndexPath:indexPath]).list.objectId];
+        [listToRemove deleteInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+            [self refreshData];
+        }];
+    }
 }
 
 

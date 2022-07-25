@@ -115,9 +115,13 @@
                                     <rect key="frame" x="0.0" y="0.0" width="390" height="32"/>
                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     <segments>
-                                        <segment title="Search by name"/>
+                                        <segment title="Simple search"/>
                                         <segment title="Search by Ingredient"/>
                                     </segments>
+                                    <connections>
+                                        <action selector="didTapSearchByIngredient:" destination="EXT-wB-Cd6" eventType="touchUpInside" id="9lU-VU-FfU"/>
+                                        <action selector="didTapSearchByIngredient:" destination="EXT-wB-Cd6" eventType="valueChanged" id="faZ-hc-aGI"/>
+                                    </connections>
                                 </segmentedControl>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="RecipeCell" rowHeight="118" id="qpN-nA-zEG" customClass="RecipeCell">

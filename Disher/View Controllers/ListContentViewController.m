@@ -64,8 +64,19 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     Recipe *selectedRecipe = ((ListContentCell *)[self.tableView cellForRowAtIndexPath:indexPath]).recipe;
-    NSLog(@"we will be passing %@", selectedRecipe);
     [self performSegueWithIdentifier:@"listRecipeSegue" sender:selectedRecipe];
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        PFQuery *query = [PFQuery queryWithClassName:@"List"];
+        List *listToUpdate = [query getObjectWithId:self.passedList.objectId];
+        NSString *recipeToRemove = ((ListContentCell *)[self.tableView cellForRowAtIndexPath:indexPath]).recipe.objectId;
+        [listToUpdate removeObject:recipeToRemove forKey:@"recipes"];
+        [listToUpdate saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+            [self viewWillAppear:YES];
+        }];
+    }
 }
 
 - (void) reloadListRecipes:(id)something completionHandler:(void(^)(NSArray *returnedRecipes))completionHandler{

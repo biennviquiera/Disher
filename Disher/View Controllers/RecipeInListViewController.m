@@ -24,7 +24,7 @@
     if ([self.passedRecipe.source isEqualToString:@"Spoonacular"]) {
         [Recipe getRecipeInfo:self.passedRecipe.recipeID withSource:@"Spoonacular" withCompletion:^(NSDictionary * _Nonnull recipeInformation) {
             self.dishTitleLabel.text = [recipeInformation objectForKey:@"title"];
-            self.descriptionLabel.text = [recipeInformation objectForKey:@"instructions"];
+            self.descriptionLabel.text = [self flattenHtml:[recipeInformation objectForKey:@"instructions"]];
             NSString *imageLink = [recipeInformation objectForKey:@"image"];
             NSURL *imageURL = [NSURL URLWithString:imageLink];
             [self.dishImageView setImageWithURL:imageURL];
@@ -40,6 +40,20 @@
             [self.dishImageView setImageWithURL:imageURL];
         }];
     }
+}
+
+- (NSString *)flattenHtml: (NSString *) html {
+        NSScanner *theScanner;
+        NSString *text = nil;
+        theScanner = [NSScanner scannerWithString: html];
+        while ([theScanner isAtEnd] == NO) {
+                [theScanner scanUpToString: @"<" intoString: NULL];
+                [theScanner scanUpToString: @">" intoString: &text];
+                html = [html stringByReplacingOccurrencesOfString:
+                        [NSString stringWithFormat: @"%@>", text]
+                        withString: @" "];
+        }
+        return html;
 }
 
 /*
