@@ -25,6 +25,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) INSSearchBar *searchBarWithDelegate;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *searchSegmentedControl;
+@property BOOL seenIngredientMsg;
 @end
 
 @implementation RecipesViewController
@@ -41,10 +42,28 @@
     [self.view addSubview:self.searchBarWithDelegate];
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     
+    [self.searchSegmentedControl addTarget:self action:@selector(didTapSearchByIngredient:) forControlEvents:UIControlEventTouchUpInside];
+    
     [self queryAPIs:self.searchQuery withOption:0 completionHandler:^{
         [self.tableView reloadData];
     }];
 }
+- (IBAction)didTapSearchByIngredient:(UISegmentedControl *)sender {
+    NSInteger selectedSegment = sender.selectedSegmentIndex;
+    if (selectedSegment == 1 && !self.seenIngredientMsg) {
+        NSString *message = @"Input ingredients separated by commas. \n ex: garlic,eggs,rice";
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Ingredient Search"
+                                                                       message:message
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK"
+                                                                style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {}];
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
+        self.seenIngredientMsg = 1;
+    }
+}
+
 
 #pragma mark - Table view data source
 // Table View Methods
@@ -195,6 +214,12 @@
     });
 }
 
+- (NSString *) ingredientFormatSpoonacular:(NSString *)input {
+    NSString *newString = input;
+    newString = [newString stringByReplacingOccurrencesOfString:@" " withString:@","];
+    return newString;
+}
+
 //Table View Cell Methods
 - (NSArray *)rightButtons {
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
@@ -224,7 +249,6 @@
 - (void)swipeableTableViewCell:(RecipeCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
     switch (index) {
         case 0: { //click on save button
-            //TODO: Check for existing entry in database
             [self performSegueWithIdentifier:@"saveSegue" sender:cell];
             break;
         }
@@ -243,6 +267,7 @@
 }
 
 - (void)searchBarDidTapReturn:(INSSearchBar *)searchBar {
+    //
     if (self.searchSegmentedControl.selectedSegmentIndex == 0) {
         [self queryAPIs:searchBar.searchField.text withOption:0 completionHandler:^{
             [self.tableView reloadData];
@@ -255,13 +280,13 @@
     }
 }
 
-- (NSString *) ingredientFormatSpoonacular:(NSString *)input {
-    NSString *newString = input;
-    newString = [newString stringByReplacingOccurrencesOfString:@" " withString:@","];
-    NSLog(@"newstring for spoonacular: %@", newString);
-    return newString;
-    
-}
+//- (NSString *) parseUserInput:(NSString *) input {
+//    //get all the ingredients in an array
+//    NSArray *items = [input componentsSeparatedByString:@","];
+//    
+//    //remove duplicates in array
+//    return
+//}
 
 #pragma mark - Navigation
 

@@ -34,4 +34,13 @@
 }
 
 
++ (NSArray *) queryLists {
+    PFQuery *query = [PFQuery queryWithClassName:@"List"];
+    [query orderByDescending:@"updatedAt"];
+    NSArray *userLists = [PFUser currentUser][@"lists"];
+    [query whereKey:@"objectId" containedIn:userLists];
+    NSArray *objects = [query findObjects:nil];
+    return objects;
+}
+
 @end

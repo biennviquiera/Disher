@@ -17,6 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) PFFileObject *image;
 
 + (void) createList:(NSString *) name completionHandler:(void(^)(void))completionHandler;
+
+
++ (NSArray *) queryLists;
 @end
 
 NS_ASSUME_NONNULL_END

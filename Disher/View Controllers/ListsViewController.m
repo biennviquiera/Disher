@@ -7,12 +7,14 @@
 
 #import "ListsViewController.h"
 #import "CreateListViewController.h"
+#import "ListContentViewController.h"
 #import "ListCell.h"
 #import "List.h"
+#import "Parse/Parse.h"
 
 @interface ListsViewController () <UITableViewDelegate, UITableViewDataSource, ListDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic) NSArray *lists;
+@property (strong, nonatomic) NSMutableArray *lists;
 @end
 
 @implementation ListsViewController
@@ -22,8 +24,13 @@
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    [self queryLists];
-    
+    self.lists = [NSMutableArray new];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.lists setArray:[List queryLists]];
+    [self.tableView reloadData];
 }
 
 #pragma mark - Table view data source
@@ -36,24 +43,8 @@
     ListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ListCell" forIndexPath:indexPath];
     List *currentList = self.lists[indexPath.row];
     cell.listName.text = currentList[@"listName"];
+    cell.list = currentList;
     return cell;
-}
-
-- (void) queryLists {
-    PFQuery *query = [PFQuery queryWithClassName:@"List"];
-    [query orderByDescending:@"updatedAt"];
-    [query includeKey:@"listName"];
-    [query includeKey:@"recipes"];
-    [query includeKey:@"objectID"];
-    [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
-        if (objects) {
-            self.lists = objects;
-            [self.tableView reloadData];
-        }
-        else {
-            
-        }
-    }];
 }
 
 - (void) didCreateList:(NSString *) listName {
@@ -61,8 +52,18 @@
 }
 
 - (void) refreshData {
-    [self queryLists];
+    [self.lists setArray:[List queryLists]];
     [self.tableView reloadData];
+}
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        PFQuery *query = [PFQuery queryWithClassName:@"List"];
+        List *listToRemove = [query getObjectWithId:((ListCell *)[self.tableView cellForRowAtIndexPath:indexPath]).list.objectId];
+        [listToRemove deleteInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+            [self refreshData];
+        }];
+    }
 }
 
 
@@ -74,6 +75,10 @@
     if ([[segue identifier] isEqualToString:@"createSegue"]) {
         CreateListViewController *newVC = [segue destinationViewController];
         newVC.delegate = self;
+    }
+    else if ([[segue identifier] isEqualToString:@"listContentSegue"]) {
+        ListContentViewController *newVC = [segue destinationViewController];
+        newVC.passedList = ((ListCell *)sender).list;
     }
 }
 
