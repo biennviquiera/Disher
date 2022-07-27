@@ -363,6 +363,8 @@
     [self.tableView reloadData];
     [self.cuisinesSet addObjectsFromArray:self.cuisines];
     [self.cuisines setArray:[self.cuisinesSet allObjects]];
+    [self.cuisines setArray:[self.cuisines sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]];
+    [self.pickerView reloadAllComponents];
 }
 
 #pragma mark - Navigation
