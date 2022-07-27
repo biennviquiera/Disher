@@ -9,23 +9,25 @@
 #import "List.h"
 #import "SaveCell.h"
 #import "Parse/Parse.h"
+#import "CreateListViewController.h"
 
-@interface SaveViewController () <UITableViewDelegate, UITableViewDataSource>
+@interface SaveViewController () <UITableViewDelegate, UITableViewDataSource, SaveDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *listName;
-@property (nonatomic, strong) NSArray *lists;
+@property (nonatomic, strong) NSMutableArray *lists;
 @end
 
 @implementation SaveViewController
-- (IBAction)didTouchExit:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+- (IBAction)didTapCreate:(id)sender {
+    [self performSegueWithIdentifier:@"saveToCreateSegue" sender:nil];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    self.lists = [List queryLists];
+    self.lists = [NSMutableArray new];
+    [self.lists setArray:[List queryLists]];
     [self.tableView reloadData];
 }
 
@@ -60,6 +62,7 @@
 }
 
 - (void) uploadRecipeToList:(Recipe *)recipe withList:(List *)list {
+    NSLog(@"recipe id is %@", recipe.objectId);
     [list addUniqueObject:recipe.objectId forKey:@"recipes"];
     [list saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (!error) {
@@ -69,6 +72,28 @@
             NSLog(@"Could not upload recipe to list");
         }
     }];
+}
+
+// delegate methods for creating a new list inside of the save view controller
+- (void) didCreateList {
+    [self refreshData];
+}
+
+- (void) refreshData {
+    [self.lists setArray:[List queryLists]];
+    [self.tableView reloadData];
+}
+
+
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    if ([[segue identifier] isEqualToString:@"saveToCreateSegue"]) {
+        CreateListViewController *newVC = [segue destinationViewController];
+        newVC.saveDelegate = self;
+    }
 }
 
 

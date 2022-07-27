@@ -27,6 +27,7 @@
         [self dismissViewControllerAnimated:YES completion:nil];
         //reload after creating list
         [self.delegate didCreateList:self.textField.text];
+        [self.saveDelegate didCreateList];
     }];
 }
 
