@@ -178,7 +178,7 @@
                                     <action selector="didTapSearchByIngredient:" destination="EXT-wB-Cd6" eventType="valueChanged" id="faZ-hc-aGI"/>
                                 </connections>
                             </segmentedControl>
-                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Sort by cuisine..." textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="RHI-Lx-Icf">
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Sort by cuisine..." textAlignment="center" minimumFontSize="17" background="NavBarIconSearch_blue.png" translatesAutoresizingMaskIntoConstraints="NO" id="RHI-Lx-Icf">
                                 <rect key="frame" x="54" y="174" width="282" height="34"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
@@ -222,6 +222,10 @@
                                 <rect key="frame" x="321" y="28" width="46" height="31"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <buttonConfiguration key="configuration" style="plain"/>
+                                <connections>
+                                    <action selector="didTapCreate:" destination="8f5-7e-OEz" eventType="touchUpInside" id="oO4-lr-MyH"/>
+                                    <segue destination="0zu-T1-B05" kind="presentation" identifier="saveToCreateSegue" id="3uB-zT-T0t"/>
+                                </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="mb7-4l-V1r">
                                 <rect key="frame" x="0.0" y="59" width="390" height="777"/>
@@ -444,7 +448,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="pDf-do-aQ4">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="No instructions available." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="pDf-do-aQ4">
                                 <rect key="frame" x="16" y="251" width="358" height="510"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -605,7 +609,11 @@
             <point key="canvasLocation" x="2881.5384615384614" y="1697.6303317535544"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="3uB-zT-T0t"/>
+    </inferredMetricsTieBreakers>
     <resources>
+        <image name="NavBarIconSearch_blue.png" width="22" height="22"/>
         <image name="fork.knife" catalog="system" width="92" height="128"/>
         <image name="highlighter" catalog="system" width="128" height="119"/>
         <image name="list.bullet.rectangle.portrait" catalog="system" width="115" height="128"/>

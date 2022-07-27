@@ -13,17 +13,19 @@
 @dynamic imageURL;
 @dynamic source;
 @dynamic recipeID;
+@dynamic cuisine;
 
 + (NSString *) parseClassName {
     return @"Recipe";
 }
 
-+ (Recipe *) initWithRecipe:(NSString *) name withURL:(NSString *) imgURL withSource:(NSString *) dishSource withID:(NSString *) recipeNum {
++ (Recipe *) initWithRecipe:(NSString *) name withURL:(NSString *) imgURL withSource:(NSString *) dishSource withID:(NSString *) recipeNum withCuisine:(nonnull NSArray *)cuisine{
     Recipe *newRecipe = [Recipe new];
     newRecipe.dishName = name;
     newRecipe.imageURL = imgURL;
     newRecipe.source = dishSource;
     newRecipe.recipeID = recipeNum;
+    newRecipe.cuisine = cuisine;
     return newRecipe;
 }
 

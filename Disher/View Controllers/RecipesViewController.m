@@ -16,7 +16,7 @@
 #import "SaveViewController.h"
 #import "INSSearchBar.h"
 
-@interface RecipesViewController () <UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate, UITableViewDelegate, INSSearchBarDelegate, UIPickerViewDelegate, UIPickerViewDataSource>
+@interface RecipesViewController () <UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate, UITableViewDelegate, INSSearchBarDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *logoutButton;
 @property (nonatomic, strong) NSArray *mealDBresults;
 @property (nonatomic, strong) NSArray *spoonResults;
@@ -27,7 +27,11 @@
 @property (weak, nonatomic) IBOutlet UISegmentedControl *searchSegmentedControl;
 @property (weak, nonatomic) IBOutlet UIPickerView *pickerView;
 @property (weak, nonatomic) IBOutlet UITextField *cuisineField;
-@property (nonatomic, strong) NSMutableArray *filteredTableViewRecipes;
+@property (nonatomic, strong) NSMutableArray *cuisines;
+@property (nonatomic, strong) NSMutableSet *cuisinesSet;
+@property (nonatomic, strong) NSArray<Recipe *> *unfilteredTableViewRecipes;
+@property (nonatomic, strong) NSArray<Recipe *> *filteredTableViewRecipes;
+
 @property BOOL seenIngredientMsg;
 @end
 
@@ -39,22 +43,21 @@
     self.tableView.dataSource = self;
     self.pickerView.delegate = self;
     self.pickerView.dataSource = self;
-    self.filteredTableViewRecipes = [NSMutableArray new];
-    [self.filteredTableViewRecipes setArray:@[@"Item 1", @"Item 2", @"Item 3"]];
+    self.cuisineField.delegate = self;
+    self.cuisineField.tintColor = [UIColor clearColor];
+    self.cuisines = [NSMutableArray new];
+    self.cuisinesSet = [NSMutableSet new];
     self.searchQuery = @"chicken";
-    
     self.cuisineField.inputView = self.pickerView;
-    
     self.view.backgroundColor = [UIColor colorWithRed:0.000 green:0.418 blue:0.673 alpha:1.000];
     self.searchBarWithDelegate = [[INSSearchBar alloc] initWithFrame:CGRectMake(20.0, 100.0, 44.0, 34.0)];
     self.searchBarWithDelegate.delegate = self;
     [self.view addSubview:self.searchBarWithDelegate];
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
-    
     [self.searchSegmentedControl addTarget:self action:@selector(didTapSearchByIngredient:) forControlEvents:UIControlEventTouchUpInside];
     
     [self queryAPIs:self.searchQuery withOption:0 completionHandler:^{
-        [self.tableView reloadData];
+        [self refreshData];
     }];
 }
 - (IBAction)didTapSearchByIngredient:(UISegmentedControl *)sender {
@@ -77,57 +80,67 @@
 #pragma mark - Table view data source
 // Table View Methods
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.spoonResults.count + self.mealDBresults.count;
+    return self.tableViewRecipes.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     RecipeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RecipeCell" forIndexPath:indexPath];
     cell.delegate = self;
-    NSString *recipeName;
-    NSString *imageLink;
-    NSString *mealID;
-    NSString *source;
-    if (indexPath.row < self.mealDBresults.count) {
-        recipeName = self.mealDBresults[indexPath.row][@"strMeal"];
-        imageLink = self.mealDBresults[indexPath.row][@"strMealThumb"];
-        mealID = self.mealDBresults[indexPath.row][@"idMeal"];
-        source = @"TheMealDB";
-    }
-    else {
-        recipeName = self.spoonResults[indexPath.row - self.mealDBresults.count][@"title"];
-        imageLink = self.spoonResults[indexPath.row - self.mealDBresults.count][@"image"];
-        mealID = [NSString stringWithFormat:@"%@", self.spoonResults[indexPath.row - self.mealDBresults.count][@"id"]];
-        source = @"Spoonacular";
-    }
-    Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:source withID:mealID];
-    cell.index = self.tableViewRecipes.count;
-    [self.tableViewRecipes addObject:newRecipe];
-    cell.recipe = newRecipe;
-    cell.recipeName.text = newRecipe.dishName;
-    NSURL *imageURL = [NSURL URLWithString:newRecipe.imageURL];
+    Recipe *currRecipe = self.tableViewRecipes[indexPath.row];
+    cell.recipe = currRecipe;
+    cell.recipeName.text = currRecipe.dishName;
+    NSURL *imageURL = [NSURL URLWithString:currRecipe.imageURL];
     [cell.recipeImage setImageWithURL:imageURL];
-    cell.recipeSource.text = newRecipe.source;
+    cell.recipeSource.text = currRecipe.source;
     cell.rightUtilityButtons = [self rightButtons];
     return cell;
 }
 
 // Picker View Methods
-
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
     return 1;
 }
 
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
-
-    return self.filteredTableViewRecipes.count;
+    return self.cuisines.count + 1;
 }
 
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
-
-    return self.filteredTableViewRecipes[row];
+    if (row == 0) {
+        return @"";
+    }
+    else {
+        return self.cuisines[row - 1];
+    }
 }
 
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    return NO;
+}
 
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
+    if (row == 0) {
+        self.cuisineField.text = @"";
+        [self.tableViewRecipes setArray:self.unfilteredTableViewRecipes];
+        [self refreshData];
+    }
+    else {
+        NSString *selectedCuisine = self.cuisines[row - 1];
+        self.cuisineField.text = selectedCuisine;
+        [self.tableViewRecipes setArray:self.unfilteredTableViewRecipes];
+        self.filteredTableViewRecipes = [self.tableViewRecipes filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(Recipe* object, NSDictionary *bindings) {
+              // Return YES for each object you want in filteredArray.
+            if ([object.cuisine containsObject:self.cuisineField.text]) {
+                return YES;
+            }
+            else {
+                return NO;
+            }
+        }]];
+        [self.tableViewRecipes setArray:self.filteredTableViewRecipes];
+        [self refreshData];
+    }
+}
 
 // Button Methods
 - (IBAction)didTapLogout:(id)sender {
@@ -157,19 +170,18 @@
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-           if (error != nil) {//TODO: add error message
-           }
-           else {
-               NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-                    if (dataDictionary[@"meals"] == [NSNull null] ) {
-                   NSLog(@"null detected from mealdb");
-                   completionHandler(@[]);
-               }
-               else {
-                   completionHandler(dataDictionary[@"meals"]);
-               }
-
-           }
+        if (error != nil) {//TODO: add error message
+        }
+        else {
+            NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            if (dataDictionary[@"meals"] == [NSNull null] ) {
+                NSLog(@"null detected from mealdb");
+                completionHandler(@[]);
+            }
+            else {
+                completionHandler(dataDictionary[@"meals"]);
+            }
+        }
     }];
     [task resume];
 }
@@ -182,7 +194,7 @@
     NSString *apiKeyArg = [NSString stringWithFormat:@"&apiKey=%@", key];
     NSString *queryURL;
     if (option == 0) {
-        queryURL = [NSString stringWithFormat:@"https://api.spoonacular.com/recipes/complexSearch?query=\"%@\"%@", name, apiKeyArg];
+        queryURL = [NSString stringWithFormat:@"https://api.spoonacular.com/recipes/complexSearch?query=\"%@\"%@&addRecipeInformation=TRUE", name, apiKeyArg];
         queryURL = [queryURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     }
     else {
@@ -195,24 +207,24 @@
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-       if (error != nil) { //TODO: Add error message
-       }
-       else {
-           NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-           if (option == 0) {
-               if (![(NSArray *)dataDictionary[@"results"] count]) {
-                   completionHandler(@[]);
-                   NSLog(@"null detected from spoonacular");
-               }
-               else {
-                       completionHandler(dataDictionary[@"results"]);
-                   }
-           }
-           else if (option == 1) {
-               NSArray *arr = (NSArray *)dataDictionary;
-               completionHandler(arr);
-           }
-       }
+        if (error != nil) { //TODO: Add error message
+        }
+        else {
+            NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            if (option == 0) {
+                if (![(NSArray *)dataDictionary[@"results"] count]) {
+                    completionHandler(@[]);
+                    NSLog(@"null detected from spoonacular");
+                }
+                else {
+                    completionHandler(dataDictionary[@"results"]);
+                }
+            }
+            else if (option == 1) {
+                NSArray *arr = (NSArray *)dataDictionary;
+                completionHandler(arr);
+            }
+        }
     }];
     [task resume];
 }
@@ -224,6 +236,28 @@
     dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^ {
         [self querySearchSpoonacular:input withOption:option completionHandler:^(NSArray *returnedMeals) {
             self.spoonResults = returnedMeals;
+            for (NSDictionary *meal in returnedMeals) {
+                NSString *recipeName;
+                NSString *imageLink;
+                NSString *mealID;
+                NSString *source;
+                NSArray *cuisine;
+                recipeName = meal[@"title"];
+                imageLink = meal[@"image"];
+                mealID = [NSString stringWithFormat:@"%@", meal[@"id"]];
+                source = @"Spoonacular";
+                if (((NSArray *)meal[@"cuisines"]).count) {
+                    cuisine = meal[@"cuisines"];
+                    for (NSString *cuisine in meal[@"cuisines"]) {
+                        [self.cuisines addObject:cuisine];
+                    }
+                }
+                else {
+                    cuisine = @[@"Unknown"];
+                }
+                Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:source withID:mealID withCuisine:cuisine];
+                [self.tableViewRecipes addObject:newRecipe];
+            }
             dispatch_group_leave(group);
         }];
     });
@@ -231,11 +265,27 @@
     dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^ {
         [self queryMealDB:input withOption:option completionHandler:^(NSArray *returnedMeals) {
             self.mealDBresults = returnedMeals;
+            NSString *recipeName;
+            NSString *imageLink;
+            NSString *mealID;
+            NSString *source;
+            NSArray *cuisine;
+            for (NSDictionary *meal in returnedMeals) {
+                recipeName = meal[@"strMeal"];
+                imageLink = meal[@"strMealThumb"];
+                mealID = meal[@"idMeal"];
+                source = @"TheMealDB";
+                cuisine = @[meal[@"strArea"]];
+                [self.cuisines addObject:meal[@"strArea"]];
+                Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:source withID:mealID withCuisine:cuisine];
+                [self.tableViewRecipes addObject:newRecipe];
+            }
             dispatch_group_leave(group);
         }];
     });
     dispatch_group_notify(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^ {
-            dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_async(dispatch_get_main_queue(), ^{
+            self.unfilteredTableViewRecipes = [self.tableViewRecipes copy];
             completionHandler();
         });
     });
@@ -259,12 +309,10 @@
     CGContextScaleCTM(context, 1.0, -1.0);
     CGContextClipToMask(context, CGRectMake(0, 0, image.size.width, image.size.height), [image CGImage]);
     CGContextFillRect(context, CGRectMake(0, 0, image.size.width, image.size.height));
-
     UIImage *coloredImg = UIGraphicsGetImageFromCurrentImageContext();
-
     UIGraphicsEndImageContext();
     [rightUtilityButtons sw_addUtilityButtonWithColor:
-         [UIColor colorWithRed:0.0f green:0.92f blue:0.24f alpha:1.0]
+    [UIColor colorWithRed:0.0f green:0.92f blue:0.24f alpha:1.0]
                                                  icon: coloredImg];
     return rightUtilityButtons;
 }
@@ -294,26 +342,28 @@
 }
 
 - (void)searchBarDidTapReturn:(INSSearchBar *)searchBar {
-    //
+    //clear picker view
+    [self.cuisinesSet removeAllObjects];
+    [self.cuisines removeAllObjects];
+    self.cuisineField.text = @"";
+    [self.pickerView reloadAllComponents];
     if (self.searchSegmentedControl.selectedSegmentIndex == 0) {
         [self queryAPIs:searchBar.searchField.text withOption:0 completionHandler:^{
-            [self.tableView reloadData];
+            [self refreshData];
         }];
     }
     else {
         [self queryAPIs:searchBar.searchField.text withOption:1 completionHandler:^{
-            [self.tableView reloadData];
+            [self refreshData];
         }];
     }
 }
 
-//- (NSString *) parseUserInput:(NSString *) input {
-//    //get all the ingredients in an array
-//    NSArray *items = [input componentsSeparatedByString:@","];
-//    
-//    //remove duplicates in array
-//    return
-//}
+- (void) refreshData {
+    [self.tableView reloadData];
+    [self.cuisinesSet addObjectsFromArray:self.cuisines];
+    [self.cuisines setArray:[self.cuisinesSet allObjects]];
+}
 
 #pragma mark - Navigation
 
@@ -321,7 +371,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"detailSegue"]) {
         DetailViewController *detailVC = [segue destinationViewController];
-        detailVC.passedRecipe = self.tableViewRecipes[(((RecipeCell *)[self.tableView cellForRowAtIndexPath:(NSIndexPath *)sender]).index)];
+        detailVC.passedRecipe = ((RecipeCell *)[self.tableView cellForRowAtIndexPath:(NSIndexPath *)sender]).recipe;
     }
     if ([[segue identifier] isEqualToString:@"saveSegue"]) {
         SaveViewController *saveVC = [segue destinationViewController];

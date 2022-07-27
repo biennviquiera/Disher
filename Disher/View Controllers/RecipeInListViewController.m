@@ -24,7 +24,9 @@
     if ([self.passedRecipe.source isEqualToString:@"Spoonacular"]) {
         [Recipe getRecipeInfo:self.passedRecipe.recipeID withSource:@"Spoonacular" withCompletion:^(NSDictionary * _Nonnull recipeInformation) {
             self.dishTitleLabel.text = [recipeInformation objectForKey:@"title"];
-            self.descriptionLabel.text = [self flattenHtml:[recipeInformation objectForKey:@"instructions"]];
+            if ([recipeInformation objectForKey:@"instructions"] != [NSNull null]) {
+                self.descriptionLabel.text = [self flattenHtml:[recipeInformation objectForKey:@"instructions"]];
+            }
             NSString *imageLink = [recipeInformation objectForKey:@"image"];
             NSURL *imageURL = [NSURL URLWithString:imageLink];
             [self.dishImageView setImageWithURL:imageURL];
@@ -55,15 +57,5 @@
         }
         return html;
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
