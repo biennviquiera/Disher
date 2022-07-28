@@ -62,7 +62,6 @@
 }
 
 - (void) uploadRecipeToList:(Recipe *)recipe withList:(List *)list {
-    NSLog(@"recipe id is %@", recipe.objectId);
     [list addUniqueObject:recipe.objectId forKey:@"recipes"];
     [list saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (!error) {
@@ -84,12 +83,7 @@
     [self.tableView reloadData];
 }
 
-
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
     if ([[segue identifier] isEqualToString:@"saveToCreateSegue"]) {
         CreateListViewController *newVC = [segue destinationViewController];
         newVC.saveDelegate = self;

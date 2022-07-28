@@ -31,7 +31,7 @@
 @property (nonatomic, strong) NSMutableSet *cuisinesSet;
 @property (nonatomic, strong) NSArray<Recipe *> *unfilteredTableViewRecipes;
 @property (nonatomic, strong) NSArray<Recipe *> *filteredTableViewRecipes;
-
+@property NSArray *temp;
 @property BOOL seenIngredientMsg;
 @end
 
@@ -104,7 +104,6 @@
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
     return self.cuisines.count + 1;
 }
-
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component {
     if (row == 0) {
         return @"";
@@ -113,11 +112,6 @@
         return self.cuisines[row - 1];
     }
 }
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
-    return NO;
-}
-
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component {
     if (row == 0) {
         self.cuisineField.text = @"";
@@ -129,7 +123,6 @@
         self.cuisineField.text = selectedCuisine;
         [self.tableViewRecipes setArray:self.unfilteredTableViewRecipes];
         self.filteredTableViewRecipes = [self.tableViewRecipes filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(Recipe* object, NSDictionary *bindings) {
-              // Return YES for each object you want in filteredArray.
             if ([object.cuisine containsObject:self.cuisineField.text]) {
                 return YES;
             }
@@ -140,6 +133,9 @@
         [self.tableViewRecipes setArray:self.filteredTableViewRecipes];
         [self refreshData];
     }
+}
+- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
+    return NO;
 }
 
 // Button Methods
@@ -165,7 +161,7 @@
         url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.themealdb.com/api/json/v1/1/search.php?s=%@", name]];
     }
     else {
-        url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.themealdb.com/api/json/v1/1/filter.php?i=%@", name]];
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.themealdb.com/api/json/v2/9973533/filter.php?i=%@", name]];
     }
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
@@ -236,28 +232,59 @@
     dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^ {
         [self querySearchSpoonacular:input withOption:option completionHandler:^(NSArray *returnedMeals) {
             self.spoonResults = returnedMeals;
-            for (NSDictionary *meal in returnedMeals) {
-                NSString *recipeName;
-                NSString *imageLink;
-                NSString *mealID;
-                NSString *source;
-                NSArray *cuisine;
-                recipeName = meal[@"title"];
-                imageLink = meal[@"image"];
-                mealID = [NSString stringWithFormat:@"%@", meal[@"id"]];
-                source = @"Spoonacular";
-                if (((NSArray *)meal[@"cuisines"]).count) {
-                    cuisine = meal[@"cuisines"];
-                    for (NSString *cuisine in meal[@"cuisines"]) {
-                        [self.cuisines addObject:cuisine];
+            NSString *recipeName;
+            NSString *imageLink;
+            NSString *mealID;
+            NSString *source;
+            NSArray<NSString *> *cuisine;
+            if (option == 0) {
+                for (NSDictionary *meal in returnedMeals) {
+                    recipeName = meal[@"title"];
+                    imageLink = meal[@"image"];
+                    mealID = [NSString stringWithFormat:@"%@", meal[@"id"]];
+                    source = @"Spoonacular";
+                    if (((NSArray *)meal[@"cuisines"]).count) {
+                        cuisine = meal[@"cuisines"];
+                        for (NSString *cuisine in meal[@"cuisines"]) {
+                            [self.cuisines addObject:cuisine];
+                        }
                     }
+                    else {
+                        cuisine = @[@"Unknown"];
+                        [self.cuisines addObject:@"Unknown"];
+                    }
+                    Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:source withID:mealID withCuisine:cuisine];
+                    [self.tableViewRecipes addObject:newRecipe];
+                    self.unfilteredTableViewRecipes = [self.tableViewRecipes copy];
+                    [self refreshData];
                 }
-                else {
-                    cuisine = @[@"Unknown"];
-                }
-                Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:source withID:mealID withCuisine:cuisine];
-                [self.tableViewRecipes addObject:newRecipe];
             }
+            else if (option == 1) {
+                for (NSDictionary *meal in returnedMeals) {
+                    recipeName = meal[@"title"];
+                    imageLink = meal[@"image"];
+                    mealID = [NSString stringWithFormat:@"%@", meal[@"id"]];
+                    source = @"Spoonacular";
+                    [Recipe getRecipeInfo:mealID withSource:source withCompletion:^(NSDictionary * _Nonnull recipeInformation) {
+                        NSArray *cuisine;
+                        if (((NSArray *)recipeInformation[@"cuisines"]).count) {
+                            cuisine = recipeInformation[@"cuisines"];
+                            for (NSString *individualCuisine in recipeInformation[@"cuisines"]) {
+                                [self.cuisines addObject:individualCuisine];
+                            }
+                        }
+                        else {
+                            cuisine = @[@"Unknown"];
+                            [self.cuisines addObject:@"Unknown"];
+                        }
+                        Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:source withID:mealID withCuisine:cuisine];
+                        [self.tableViewRecipes addObject:newRecipe];
+                        self.unfilteredTableViewRecipes = [self.tableViewRecipes copy];
+                        [self refreshData];
+                    }];
+                }
+            }
+            
             dispatch_group_leave(group);
         }];
     });
@@ -269,23 +296,43 @@
             NSString *imageLink;
             NSString *mealID;
             NSString *source;
-            NSArray *cuisine;
-            for (NSDictionary *meal in returnedMeals) {
-                recipeName = meal[@"strMeal"];
-                imageLink = meal[@"strMealThumb"];
-                mealID = meal[@"idMeal"];
-                source = @"TheMealDB";
-                cuisine = @[meal[@"strArea"]];
-                [self.cuisines addObject:meal[@"strArea"]];
-                Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:source withID:mealID withCuisine:cuisine];
-                [self.tableViewRecipes addObject:newRecipe];
+            NSArray<NSString *> *cuisine;
+            if (option == 0) {
+                for (NSDictionary *meal in returnedMeals) {
+                    recipeName = meal[@"strMeal"];
+                    imageLink = meal[@"strMealThumb"];
+                    mealID = meal[@"idMeal"];
+                    source = @"TheMealDB";
+                    cuisine = @[meal[@"strArea"]];
+                    [self.cuisines addObject:meal[@"strArea"]];
+                    Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:source withID:mealID withCuisine:cuisine];
+                    [self.tableViewRecipes addObject:newRecipe];
+                    self.unfilteredTableViewRecipes = [self.tableViewRecipes copy];
+                    [self refreshData];
+                }
+            }
+            else if (option == 1) {
+                for (NSDictionary *meal in returnedMeals) {
+                    recipeName = meal[@"strMeal"];
+                    imageLink = meal[@"strMealThumb"];
+                    mealID = meal[@"idMeal"];
+                    source = @"TheMealDB";
+                    [Recipe getRecipeInfo:mealID withSource:@"TheMealDB" withCompletion:^(NSDictionary * _Nonnull recipeInformation) {
+                        [self.cuisines addObject:recipeInformation[@"strArea"]];
+                        self.temp = @[recipeInformation[@"strArea"]];
+                        NSArray *cuisine = self.temp;
+                        Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:source withID:mealID withCuisine:cuisine];
+                        [self.tableViewRecipes addObject:newRecipe];
+                        self.unfilteredTableViewRecipes = [self.tableViewRecipes copy];
+                        [self refreshData];
+                    }];
+                }
             }
             dispatch_group_leave(group);
         }];
     });
     dispatch_group_notify(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^ {
         dispatch_async(dispatch_get_main_queue(), ^{
-            self.unfilteredTableViewRecipes = [self.tableViewRecipes copy];
             completionHandler();
         });
     });
