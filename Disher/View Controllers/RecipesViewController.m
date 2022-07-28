@@ -359,7 +359,7 @@
     UIImage *coloredImg = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     [rightUtilityButtons sw_addUtilityButtonWithColor:
-    [UIColor colorWithRed:0.0f green:0.92f blue:0.24f alpha:1.0]
+     [UIColor colorWithRed:0.0f green:0.92f blue:0.24f alpha:1.0]
                                                  icon: coloredImg];
     return rightUtilityButtons;
 }

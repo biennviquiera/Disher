@@ -28,7 +28,7 @@
 }
 
 - (void)dismissKeyboard {
-     [self.view endEditing:YES];
+    [self.view endEditing:YES];
 }
 
 //BUTTON ACTIONS
@@ -55,8 +55,8 @@
             
             UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error logging in"
                                                                            message:errorString
-                                                                     preferredStyle:UIAlertControllerStyleAlert];
-             
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            
             UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Try again"
                                                                     style:UIAlertActionStyleDefault
                                                                   handler:^(UIAlertAction * action) {}];

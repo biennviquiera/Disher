@@ -45,17 +45,17 @@
 }
 
 - (NSString *)flattenHtml: (NSString *) html {
-        NSScanner *theScanner;
-        NSString *text = nil;
-        theScanner = [NSScanner scannerWithString: html];
-        while ([theScanner isAtEnd] == NO) {
-                [theScanner scanUpToString: @"<" intoString: NULL];
-                [theScanner scanUpToString: @">" intoString: &text];
-                html = [html stringByReplacingOccurrencesOfString:
-                        [NSString stringWithFormat: @"%@>", text]
-                        withString: @" "];
-        }
-        return html;
+    NSScanner *theScanner;
+    NSString *text = nil;
+    theScanner = [NSScanner scannerWithString: html];
+    while ([theScanner isAtEnd] == NO) {
+        [theScanner scanUpToString: @"<" intoString: NULL];
+        [theScanner scanUpToString: @">" intoString: &text];
+        html = [html stringByReplacingOccurrencesOfString:
+                [NSString stringWithFormat: @"%@>", text]
+                                               withString: @" "];
+    }
+    return html;
 }
 
 @end
