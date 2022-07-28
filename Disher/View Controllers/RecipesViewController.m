@@ -122,7 +122,6 @@
         NSString *selectedCuisine = self.cuisines[row - 1];
         self.cuisineField.text = selectedCuisine;
         [self.tableViewRecipes setArray:self.unfilteredTableViewRecipes];
-        NSLog(@"i am filtering %@", self.tableViewRecipes);
         self.filteredTableViewRecipes = [self.tableViewRecipes filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(Recipe* object, NSDictionary *bindings) {
             if ([object.cuisine containsObject:self.cuisineField.text]) {
                 return YES;
@@ -237,7 +236,7 @@
             NSString *imageLink;
             NSString *mealID;
             NSString *source;
-            NSArray *cuisine;
+            NSArray<NSString *> *cuisine;
             if (option == 0) {
                 for (NSDictionary *meal in returnedMeals) {
                     recipeName = meal[@"title"];
@@ -256,6 +255,8 @@
                     }
                     Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:source withID:mealID withCuisine:cuisine];
                     [self.tableViewRecipes addObject:newRecipe];
+                    self.unfilteredTableViewRecipes = [self.tableViewRecipes copy];
+                    [self refreshData];
                 }
             }
             else if (option == 1) {
@@ -268,8 +269,8 @@
                         NSArray *cuisine;
                         if (((NSArray *)recipeInformation[@"cuisines"]).count) {
                             cuisine = recipeInformation[@"cuisines"];
-                            for (NSString *cuisine in recipeInformation[@"cuisines"]) {
-                                [self.cuisines addObject:cuisine];
+                            for (NSString *individualCuisine in recipeInformation[@"cuisines"]) {
+                                [self.cuisines addObject:individualCuisine];
                             }
                         }
                         else {
@@ -295,7 +296,7 @@
             NSString *imageLink;
             NSString *mealID;
             NSString *source;
-            NSArray *cuisine;
+            NSArray<NSString *> *cuisine;
             if (option == 0) {
                 for (NSDictionary *meal in returnedMeals) {
                     recipeName = meal[@"strMeal"];
@@ -307,6 +308,7 @@
                     Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:source withID:mealID withCuisine:cuisine];
                     [self.tableViewRecipes addObject:newRecipe];
                     self.unfilteredTableViewRecipes = [self.tableViewRecipes copy];
+                    [self refreshData];
                 }
             }
             else if (option == 1) {
