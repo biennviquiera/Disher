@@ -142,6 +142,13 @@
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CTM-9O-g4C">
+                                                    <rect key="frame" x="95" y="82" width="200" height="30"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstAttribute="trailing" secondItem="mNB-IV-jP2" secondAttribute="trailing" constant="20" symbolic="YES" id="5az-VF-gL2"/>
@@ -158,6 +165,8 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="ingredientMatchPercent" destination="CTM-9O-g4C" id="iKl-zD-kNz"/>
+                                            <outlet property="matchLabel" destination="CTM-9O-g4C" id="Zoq-Pr-qe3"/>
                                             <outlet property="recipeImage" destination="Sqp-uf-5i8" id="pDj-fv-tbo"/>
                                             <outlet property="recipeName" destination="mNB-IV-jP2" id="WTW-vm-AP5"/>
                                             <outlet property="recipeSource" destination="M49-QA-Nxf" id="IiE-6Q-pA2"/>

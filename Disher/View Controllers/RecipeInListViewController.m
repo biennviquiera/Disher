@@ -20,7 +20,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     if ([self.passedRecipe.source isEqualToString:@"Spoonacular"]) {
         [Recipe getRecipeInfo:self.passedRecipe.recipeID withSource:@"Spoonacular" withCompletion:^(NSDictionary * _Nonnull recipeInformation) {
             self.dishTitleLabel.text = [recipeInformation objectForKey:@"title"];

@@ -29,7 +29,7 @@
     return newRecipe;
 }
 
-+ (void) getRecipeInfo:(NSString *)recipeID withSource:(NSString *) source withCompletion:(void(^)(NSDictionary *recipeInformation))completionHandler {
++ (void) getRecipeInfo:(NSString *) recipeID withSource:(NSString *) source withCompletion:(void(^)(NSDictionary *recipeInformation)) completionHandler {
     NSURL *url;
     if ([source isEqualToString:@"Spoonacular"]) {
         NSString *path = [[NSBundle mainBundle] pathForResource: @"Keys" ofType: @"plist"];
