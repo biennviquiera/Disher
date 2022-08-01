@@ -31,8 +31,10 @@
 @property (nonatomic, strong) NSArray<Recipe *> *filteredTableViewRecipes;
 
 @property (nonatomic, strong) NSArray *spoonacularIngredientsInfo;
-@property (nonatomic, strong) NSMutableDictionary<NSString *, NSString*> *mealDBMatches;
-@property (nonatomic, strong) NSMutableDictionary<NSString *, NSString*> *spoonacularMatches;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, NSString *> *mealDBMatches;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, NSNumber *> *mealDBMatchesValues;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, NSString *> *spoonacularMatches;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, NSNumber *> *spoonacularMatchesValues;
 
 @property NSArray *temp;
 @property BOOL seenIngredientMsg;
@@ -51,7 +53,9 @@
     self.cuisines = [NSMutableArray new];
     self.cuisinesSet = [NSMutableSet new];
     self.mealDBMatches = [NSMutableDictionary new];
+    self.mealDBMatchesValues = [NSMutableDictionary new];
     self.spoonacularMatches = [NSMutableDictionary new];
+    self.spoonacularMatchesValues = [NSMutableDictionary new];
     self.searchQuery = @"chicken";
     self.cuisineField.inputView = self.pickerView;
     self.view.backgroundColor = [UIColor colorWithRed:0.000 green:0.418 blue:0.673 alpha:1.000];
@@ -100,6 +104,9 @@
     cell.rightUtilityButtons = [self rightButtons];
     if ([cell.recipe.source isEqualToString:@"Spoonacular"]) {
         cell.matchLabel.text = [self.spoonacularMatches objectForKey:cell.recipe.recipeID];
+    }
+    else if ([cell.recipe.source isEqualToString:@"TheMealDB"]){
+        cell.matchLabel.text = [self.mealDBMatches objectForKey:cell.recipe.recipeID];
     }
     return cell;
 }
@@ -265,7 +272,7 @@
                     [self refreshData];
                 }
             }
-            else if (option == 1) { //TODO: add information about percentage of ingredients matched
+            else if (option == 1) {
                 self.spoonacularIngredientsInfo = returnedMeals;
                 for (NSDictionary *meal in returnedMeals) {
                     recipeName = meal[@"title"];
@@ -287,13 +294,16 @@
                         Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:source withID:mealID withCuisine:cuisine];
                         [self.tableViewRecipes addObject:newRecipe];
                         self.unfilteredTableViewRecipes = [self.tableViewRecipes copy];
-                        //calculate spoonacular match and store into the dictionary
-                        float numerator = [meal[@"usedIngredientCount"] floatValue];
-                        float denominator = [meal[@"usedIngredientCount"] floatValue] + [meal[@"missedIngredientCount"] floatValue];
-                        NSNumber *percentMatch = [NSNumber numberWithFloat:numerator / denominator];
-                        NSString *matchString = [percentMatch stringValue];
+                        
+                        float numeratorFloat = [meal[@"usedIngredientCount"] floatValue];
+                        float denominatorFloat = [meal[@"usedIngredientCount"] floatValue] + [meal[@"missedIngredientCount"] floatValue];
+                        NSNumber *percentMatch = [NSNumber numberWithFloat:numeratorFloat / denominatorFloat];
+
+                        NSUInteger numerator = [meal[@"usedIngredientCount"] integerValue];
+                        NSUInteger denominator = [meal[@"usedIngredientCount"] integerValue] + [meal[@"missedIngredientCount"] integerValue];
+                        NSString *matchString = [NSString stringWithFormat:@"You have %lu/%lu ingredients", numerator, denominator];
                         [self.spoonacularMatches setObject:matchString forKey:mealID];
-                        NSLog(@"the dictionary is %@", self.spoonacularMatches);
+                        [self.spoonacularMatchesValues setObject:percentMatch forKey:mealID];
                         [self refreshData];
                     }];
                     
@@ -303,48 +313,77 @@
             dispatch_group_leave(group);
         }];
     });
-//    dispatch_group_enter(group);
-//    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^ {
-//        [self queryMealDB:input withOption:option completionHandler:^(NSArray *returnedMeals) {
-//            NSString *recipeName;
-//            NSString *imageLink;
-//            NSString *mealID;
-//            NSString *source;
-//            NSArray<NSString *> *cuisine;
-//            if (option == 0) {
-//                for (NSDictionary *meal in returnedMeals) {
-//                    recipeName = meal[@"strMeal"];
-//                    imageLink = meal[@"strMealThumb"];
-//                    mealID = meal[@"idMeal"];
-//                    source = @"TheMealDB";
-//                    cuisine = @[meal[@"strArea"]];
-//                    [self.cuisines addObject:meal[@"strArea"]];
-//                    Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:source withID:mealID withCuisine:cuisine];
-//                    [self.tableViewRecipes addObject:newRecipe];
-//                    self.unfilteredTableViewRecipes = [self.tableViewRecipes copy];
-//                    [self refreshData];
-//                }
-//            }
-//            else if (option == 1) {
-//                for (NSDictionary *meal in returnedMeals) {
-//                    recipeName = meal[@"strMeal"];
-//                    imageLink = meal[@"strMealThumb"];
-//                    mealID = meal[@"idMeal"];
-//                    source = @"TheMealDB";
-//                    [Recipe getRecipeInfo:mealID withSource:@"TheMealDB" withCompletion:^(NSDictionary * _Nonnull recipeInformation) {
-//                        [self.cuisines addObject:recipeInformation[@"strArea"]];
-//                        self.temp = @[recipeInformation[@"strArea"]];
-//                        NSArray *cuisine = self.temp;
-//                        Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:source withID:mealID withCuisine:cuisine];
-//                        [self.tableViewRecipes addObject:newRecipe];
-//                        self.unfilteredTableViewRecipes = [self.tableViewRecipes copy];
-//                        [self refreshData];
-//                    }];
-//                }
-//            }
-//            dispatch_group_leave(group);
-//        }];
-//    });
+    dispatch_group_enter(group);
+    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^ {
+        [self queryMealDB:input withOption:option completionHandler:^(NSArray *returnedMeals) {
+            NSString *recipeName;
+            NSString *imageLink;
+            NSString *mealID;
+            NSString *source;
+            NSArray<NSString *> *cuisine;
+            if (option == 0) {
+                for (NSDictionary *meal in returnedMeals) {
+                    recipeName = meal[@"strMeal"];
+                    imageLink = meal[@"strMealThumb"];
+                    mealID = meal[@"idMeal"];
+                    source = @"TheMealDB";
+                    cuisine = @[meal[@"strArea"]];
+                    [self.cuisines addObject:meal[@"strArea"]];
+                    Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:source withID:mealID withCuisine:cuisine];
+                    [self.tableViewRecipes addObject:newRecipe];
+                    self.unfilteredTableViewRecipes = [self.tableViewRecipes copy];
+                    [self refreshData];
+                }
+            }
+            else if (option == 1) {
+                for (NSDictionary *meal in returnedMeals) {
+                    recipeName = meal[@"strMeal"];
+                    imageLink = meal[@"strMealThumb"];
+                    mealID = meal[@"idMeal"];
+                    source = @"TheMealDB";
+                    [Recipe getRecipeInfo:mealID withSource:@"TheMealDB" withCompletion:^(NSDictionary * _Nonnull recipeInformation) {
+                        [self.cuisines addObject:recipeInformation[@"strArea"]];
+                        self.temp = @[recipeInformation[@"strArea"]];
+                        NSArray *cuisine = self.temp;
+                        Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:source withID:mealID withCuisine:cuisine];
+                        [self.tableViewRecipes addObject:newRecipe];
+                        self.unfilteredTableViewRecipes = [self.tableViewRecipes copy];
+                        NSArray *ownedIngredients = [input componentsSeparatedByString:@","];
+                        NSMutableArray *recipeIngredients = [NSMutableArray new];
+                        NSInteger i = 1;
+                        BOOL nullFound = NO;
+                        while (!nullFound) {
+                            NSString *ingredient = recipeInformation[[NSString stringWithFormat:@"strIngredient%ld", i]];
+                            if (ingredient != nil && ![ingredient isEqualToString:@""]) {
+                                [recipeIngredients addObject:ingredient];
+                                i++;
+                            }
+                            else {
+                                nullFound = YES;
+                            }
+                        }
+                        NSUInteger ingredientTotal = recipeIngredients.count;
+                        NSUInteger ownedTotal = 0;
+                        for (NSString *ingredient in ownedIngredients) {
+                            for (NSString *usedIngredient in recipeIngredients) {
+                                if ([usedIngredient rangeOfString:ingredient options:NSCaseInsensitiveSearch].location != NSNotFound) {
+                                    ownedTotal++;
+                                }
+                            }
+                        }
+                        float numeratorFloat = ownedTotal;
+                        float denominatorFloat = ingredientTotal;
+                        NSNumber *percentMatch = [NSNumber numberWithFloat:numeratorFloat / denominatorFloat];
+                        [self.mealDBMatchesValues setObject:percentMatch forKey:mealID];
+                        NSString *matchString = [NSString stringWithFormat:@"You have %lu/%lu ingredients", ownedTotal, ingredientTotal];
+                        [self.mealDBMatches setObject:matchString forKey:mealID];
+                        [self refreshData];
+                    }];
+                }
+            }
+            dispatch_group_leave(group);
+        }];
+    });
     dispatch_group_notify(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^ {
         dispatch_async(dispatch_get_main_queue(), ^{
             completionHandler();
