@@ -20,7 +20,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     if ([self.passedRecipe.source isEqualToString:@"Spoonacular"]) {
         [Recipe getRecipeInfo:self.passedRecipe.recipeID withSource:@"Spoonacular" withCompletion:^(NSDictionary * _Nonnull recipeInformation) {
             self.dishTitleLabel.text = [recipeInformation objectForKey:@"title"];
@@ -45,17 +44,17 @@
 }
 
 - (NSString *)flattenHtml: (NSString *) html {
-        NSScanner *theScanner;
-        NSString *text = nil;
-        theScanner = [NSScanner scannerWithString: html];
-        while ([theScanner isAtEnd] == NO) {
-                [theScanner scanUpToString: @"<" intoString: NULL];
-                [theScanner scanUpToString: @">" intoString: &text];
-                html = [html stringByReplacingOccurrencesOfString:
-                        [NSString stringWithFormat: @"%@>", text]
-                        withString: @" "];
-        }
-        return html;
+    NSScanner *theScanner;
+    NSString *text = nil;
+    theScanner = [NSScanner scannerWithString: html];
+    while ([theScanner isAtEnd] == NO) {
+        [theScanner scanUpToString: @"<" intoString: NULL];
+        [theScanner scanUpToString: @">" intoString: &text];
+        html = [html stringByReplacingOccurrencesOfString:
+                [NSString stringWithFormat: @"%@>", text]
+                                               withString: @" "];
+    }
+    return html;
 }
 
 @end

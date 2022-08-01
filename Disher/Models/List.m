@@ -25,7 +25,7 @@
     [newList saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (!error) {
             PFUser *current = [PFUser currentUser];
-
+            
             [current addObject:newList.objectId forKey:@"lists"];
             [current saveInBackground];
             completionHandler();
