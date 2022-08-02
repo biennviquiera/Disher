@@ -251,26 +251,7 @@
             NSString *source;
             NSArray<NSString *> *cuisine;
             if (option == 0) {
-                for (NSDictionary *meal in returnedMeals) {
-                    recipeName = meal[@"title"];
-                    imageLink = meal[@"image"];
-                    mealID = [NSString stringWithFormat:@"%@", meal[@"id"]];
-                    source = @"Spoonacular";
-                    if (((NSArray *)meal[@"cuisines"]).count) {
-                        cuisine = meal[@"cuisines"];
-                        for (NSString *cuisine in meal[@"cuisines"]) {
-                            [self.cuisines addObject:cuisine];
-                        }
-                    }
-                    else {
-                        cuisine = @[@"Unknown"];
-                        [self.cuisines addObject:@"Unknown"];
-                    }
-                    Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:source withID:mealID withCuisine:cuisine];
-                    [self.tableViewRecipes addObject:newRecipe];
-                    self.unfilteredTableViewRecipes = [self.tableViewRecipes copy];
-                    [self refreshData];
-                }
+                [self handleSimpleSearch:@"Spoonacular" withResult:returnedMeals];
             }
             else if (option == 1) {
                 self.spoonacularIngredientsInfo = returnedMeals;
@@ -321,20 +302,8 @@
             NSString *imageLink;
             NSString *mealID;
             NSString *source;
-            NSArray<NSString *> *cuisine;
             if (option == 0) {
-                for (NSDictionary *meal in returnedMeals) {
-                    recipeName = meal[@"strMeal"];
-                    imageLink = meal[@"strMealThumb"];
-                    mealID = meal[@"idMeal"];
-                    source = @"TheMealDB";
-                    cuisine = @[meal[@"strArea"]];
-                    [self.cuisines addObject:meal[@"strArea"]];
-                    Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:source withID:mealID withCuisine:cuisine];
-                    [self.tableViewRecipes addObject:newRecipe];
-                    self.unfilteredTableViewRecipes = [self.tableViewRecipes copy];
-                    [self refreshData];
-                }
+                [self handleSimpleSearch:@"TheMealDB" withResult:returnedMeals];
             }
             else if (option == 1) {
                 for (NSDictionary *meal in returnedMeals) {
@@ -351,15 +320,15 @@
                         NSArray *ownedIngredients = [input componentsSeparatedByString:@","];
                         NSMutableArray *recipeIngredients = [NSMutableArray new];
                         NSInteger i = 1;
-                        BOOL nullFound = NO;
-                        while (!nullFound) {
+                        BOOL reachedEndOfIngredientList = NO;
+                        while (!reachedEndOfIngredientList) {
                             NSString *ingredient = recipeInformation[[NSString stringWithFormat:@"strIngredient%ld", i]];
                             if (ingredient != nil && ![ingredient isEqualToString:@""]) {
                                 [recipeIngredients addObject:ingredient];
                                 i++;
                             }
                             else {
-                                nullFound = YES;
+                                reachedEndOfIngredientList = YES;
                             }
                         }
                         NSUInteger ingredientTotal = recipeIngredients.count;
@@ -398,6 +367,50 @@
     NSString *newString = input;
     newString = [newString stringByReplacingOccurrencesOfString:@" " withString:@","];
     return newString;
+}
+
+- (void) handleSimpleSearch:(NSString *) type withResult:(NSArray *)meals {
+    NSString *recipeName;
+    NSString *imageLink;
+    NSString *mealID;
+    NSString *source;
+    NSArray<NSString *> *cuisine;
+    if ([type isEqualToString:@"Spoonacular"]) {
+        for (NSDictionary *meal in meals) {
+            recipeName = meal[@"title"];
+            imageLink = meal[@"image"];
+            mealID = [NSString stringWithFormat:@"%@", meal[@"id"]];
+            source = @"Spoonacular";
+            if (((NSArray *)meal[@"cuisines"]).count) {
+                cuisine = meal[@"cuisines"];
+                for (NSString *cuisine in meal[@"cuisines"]) {
+                    [self.cuisines addObject:cuisine];
+                }
+            }
+            else {
+                cuisine = @[@"Unknown"];
+                [self.cuisines addObject:@"Unknown"];
+            }
+            Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:source withID:mealID withCuisine:cuisine];
+            [self.tableViewRecipes addObject:newRecipe];
+            self.unfilteredTableViewRecipes = [self.tableViewRecipes copy];
+            [self refreshData];
+        }
+    }
+    else if ([type isEqualToString:@"TheMealDB"]) {
+        for (NSDictionary *meal in meals) {
+            recipeName = meal[@"strMeal"];
+            imageLink = meal[@"strMealThumb"];
+            mealID = meal[@"idMeal"];
+            source = @"TheMealDB";
+            cuisine = @[meal[@"strArea"]];
+            [self.cuisines addObject:meal[@"strArea"]];
+            Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:source withID:mealID withCuisine:cuisine];
+            [self.tableViewRecipes addObject:newRecipe];
+            self.unfilteredTableViewRecipes = [self.tableViewRecipes copy];
+            [self refreshData];
+        }
+    }
 }
 
 //Table View Cell Methods
@@ -450,6 +463,7 @@
     [self.cuisines removeAllObjects];
     self.cuisineField.text = @"";
     [self.pickerView reloadAllComponents];
+    [self.pickerView selectRow:0 inComponent:0 animated:YES];
     if (self.searchSegmentedControl.selectedSegmentIndex == 0) {
         [self queryAPIs:searchBar.searchField.text withOption:0 completionHandler:^{
             [self refreshData];
@@ -490,6 +504,7 @@
     [self.cuisines setArray:[self.cuisinesSet allObjects]];
     [self.cuisines setArray:[self.cuisines sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]];
     [self.pickerView reloadAllComponents];
+
 }
 
 #pragma mark - Navigation
