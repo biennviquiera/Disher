@@ -1,6 +1,3 @@
-
-<<<<<<< HEAD
-=======
 #import "RecipesViewController.h"
 #import "Parse/Parse.h"
 #import "SceneDelegate.h"
@@ -486,4 +483,3 @@
 
 
 @end
->>>>>>> parent of 10bfa1b (Added sorting by ingredients matched to ingredient search tab)
