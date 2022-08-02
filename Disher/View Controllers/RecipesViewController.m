@@ -31,10 +31,8 @@
 @property (nonatomic, strong) NSArray<Recipe *> *filteredTableViewRecipes;
 
 @property (nonatomic, strong) NSArray *spoonacularIngredientsInfo;
-@property (nonatomic, strong) NSMutableDictionary<NSString *, NSString *> *mealDBMatches;
-@property (nonatomic, strong) NSMutableDictionary<NSString *, NSNumber *> *mealDBMatchesValues;
-@property (nonatomic, strong) NSMutableDictionary<NSString *, NSString *> *spoonacularMatches;
-@property (nonatomic, strong) NSMutableDictionary<NSString *, NSNumber *> *spoonacularMatchesValues;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, NSString*> *mealDBMatches;
+@property (nonatomic, strong) NSMutableDictionary<NSString *, NSString*> *spoonacularMatches;
 
 @property NSArray *temp;
 @property BOOL seenIngredientMsg;
@@ -53,9 +51,7 @@
     self.cuisines = [NSMutableArray new];
     self.cuisinesSet = [NSMutableSet new];
     self.mealDBMatches = [NSMutableDictionary new];
-    self.mealDBMatchesValues = [NSMutableDictionary new];
     self.spoonacularMatches = [NSMutableDictionary new];
-    self.spoonacularMatchesValues = [NSMutableDictionary new];
     self.searchQuery = @"chicken";
     self.cuisineField.inputView = self.pickerView;
     self.view.backgroundColor = [UIColor colorWithRed:0.000 green:0.418 blue:0.673 alpha:1.000];
@@ -104,9 +100,6 @@
     cell.rightUtilityButtons = [self rightButtons];
     if ([cell.recipe.source isEqualToString:@"Spoonacular"]) {
         cell.matchLabel.text = [self.spoonacularMatches objectForKey:cell.recipe.recipeID];
-    }
-    else if ([cell.recipe.source isEqualToString:@"TheMealDB"]){
-        cell.matchLabel.text = [self.mealDBMatches objectForKey:cell.recipe.recipeID];
     }
     return cell;
 }
@@ -253,7 +246,7 @@
             if (option == 0) {
                 [self handleSimpleSearch:@"Spoonacular" withResult:returnedMeals];
             }
-            else if (option == 1) {
+            else if (option == 1) { //TODO: add information about percentage of ingredients matched
                 self.spoonacularIngredientsInfo = returnedMeals;
                 for (NSDictionary *meal in returnedMeals) {
                     recipeName = meal[@"title"];
@@ -274,6 +267,7 @@
                         }
                         Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:source withID:mealID withCuisine:cuisine];
                         [self.tableViewRecipes addObject:newRecipe];
+<<<<<<< HEAD
                         
                         float numeratorFloat = [meal[@"usedIngredientCount"] floatValue];
                         float denominatorFloat = [meal[@"usedIngredientCount"] floatValue] + [meal[@"missedIngredientCount"] floatValue];
@@ -286,6 +280,16 @@
                         [self.spoonacularMatchesValues setValue:percentMatch forKey:mealID];
                         [self sortIngredients];
                         self.unfilteredTableViewRecipes = [self.tableViewRecipes copy];
+=======
+                        self.unfilteredTableViewRecipes = [self.tableViewRecipes copy];
+                        //calculate spoonacular match and store into the dictionary
+                        float numerator = [meal[@"usedIngredientCount"] floatValue];
+                        float denominator = [meal[@"usedIngredientCount"] floatValue] + [meal[@"missedIngredientCount"] floatValue];
+                        NSNumber *percentMatch = [NSNumber numberWithFloat:numerator / denominator];
+                        NSString *matchString = [percentMatch stringValue];
+                        [self.spoonacularMatches setObject:matchString forKey:mealID];
+                        NSLog(@"the dictionary is %@", self.spoonacularMatches);
+>>>>>>> parent of 4abcbbd (Changed text label to indicate a fraction of how many ingredients the user has out of the required ingredients)
                         [self refreshData];
                     }];
                     
@@ -295,6 +299,7 @@
             dispatch_group_leave(group);
         }];
     });
+<<<<<<< HEAD
     dispatch_group_enter(group);
     dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^ {
         [self queryMealDB:input withOption:option completionHandler:^(NSArray *returnedMeals) {
@@ -355,6 +360,50 @@
             dispatch_group_leave(group);
         }];
     });
+=======
+//    dispatch_group_enter(group);
+//    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^ {
+//        [self queryMealDB:input withOption:option completionHandler:^(NSArray *returnedMeals) {
+//            NSString *recipeName;
+//            NSString *imageLink;
+//            NSString *mealID;
+//            NSString *source;
+//            NSArray<NSString *> *cuisine;
+//            if (option == 0) {
+//                for (NSDictionary *meal in returnedMeals) {
+//                    recipeName = meal[@"strMeal"];
+//                    imageLink = meal[@"strMealThumb"];
+//                    mealID = meal[@"idMeal"];
+//                    source = @"TheMealDB";
+//                    cuisine = @[meal[@"strArea"]];
+//                    [self.cuisines addObject:meal[@"strArea"]];
+//                    Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:source withID:mealID withCuisine:cuisine];
+//                    [self.tableViewRecipes addObject:newRecipe];
+//                    self.unfilteredTableViewRecipes = [self.tableViewRecipes copy];
+//                    [self refreshData];
+//                }
+//            }
+//            else if (option == 1) {
+//                for (NSDictionary *meal in returnedMeals) {
+//                    recipeName = meal[@"strMeal"];
+//                    imageLink = meal[@"strMealThumb"];
+//                    mealID = meal[@"idMeal"];
+//                    source = @"TheMealDB";
+//                    [Recipe getRecipeInfo:mealID withSource:@"TheMealDB" withCompletion:^(NSDictionary * _Nonnull recipeInformation) {
+//                        [self.cuisines addObject:recipeInformation[@"strArea"]];
+//                        self.temp = @[recipeInformation[@"strArea"]];
+//                        NSArray *cuisine = self.temp;
+//                        Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:source withID:mealID withCuisine:cuisine];
+//                        [self.tableViewRecipes addObject:newRecipe];
+//                        self.unfilteredTableViewRecipes = [self.tableViewRecipes copy];
+//                        [self refreshData];
+//                    }];
+//                }
+//            }
+//            dispatch_group_leave(group);
+//        }];
+//    });
+>>>>>>> parent of 4abcbbd (Changed text label to indicate a fraction of how many ingredients the user has out of the required ingredients)
     dispatch_group_notify(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^ {
         dispatch_async(dispatch_get_main_queue(), ^{
             completionHandler();
