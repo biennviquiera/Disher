@@ -293,7 +293,6 @@
                         }
                         Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:source withID:mealID withCuisine:cuisine];
                         [self.tableViewRecipes addObject:newRecipe];
-                        self.unfilteredTableViewRecipes = [self.tableViewRecipes copy];
                         
                         float numeratorFloat = [meal[@"usedIngredientCount"] floatValue];
                         float denominatorFloat = [meal[@"usedIngredientCount"] floatValue] + [meal[@"missedIngredientCount"] floatValue];
@@ -303,7 +302,9 @@
                         NSUInteger denominator = [meal[@"usedIngredientCount"] integerValue] + [meal[@"missedIngredientCount"] integerValue];
                         NSString *matchString = [NSString stringWithFormat:@"You have %lu/%lu ingredients", numerator, denominator];
                         [self.spoonacularMatches setObject:matchString forKey:mealID];
-                        [self.spoonacularMatchesValues setObject:percentMatch forKey:mealID];
+                        [self.spoonacularMatchesValues setValue:percentMatch forKey:mealID];
+                        [self sortIngredients];
+                        self.unfilteredTableViewRecipes = [self.tableViewRecipes copy];
                         [self refreshData];
                     }];
                     
@@ -347,7 +348,6 @@
                         NSArray *cuisine = self.temp;
                         Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:source withID:mealID withCuisine:cuisine];
                         [self.tableViewRecipes addObject:newRecipe];
-                        self.unfilteredTableViewRecipes = [self.tableViewRecipes copy];
                         NSArray *ownedIngredients = [input componentsSeparatedByString:@","];
                         NSMutableArray *recipeIngredients = [NSMutableArray new];
                         NSInteger i = 1;
@@ -374,9 +374,11 @@
                         float numeratorFloat = ownedTotal;
                         float denominatorFloat = ingredientTotal;
                         NSNumber *percentMatch = [NSNumber numberWithFloat:numeratorFloat / denominatorFloat];
-                        [self.mealDBMatchesValues setObject:percentMatch forKey:mealID];
+                        [self.mealDBMatchesValues setValue:percentMatch forKey:mealID];
                         NSString *matchString = [NSString stringWithFormat:@"You have %lu/%lu ingredients", ownedTotal, ingredientTotal];
                         [self.mealDBMatches setObject:matchString forKey:mealID];
+                        [self sortIngredients];
+                        self.unfilteredTableViewRecipes = [self.tableViewRecipes copy];
                         [self refreshData];
                     }];
                 }
@@ -387,6 +389,7 @@
     dispatch_group_notify(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^ {
         dispatch_async(dispatch_get_main_queue(), ^{
             completionHandler();
+            
         });
     });
 }
@@ -459,6 +462,28 @@
     }
 }
 
+//sorting
+- (void) sortIngredients {
+    NSArray *sortedArray = [self.tableViewRecipes sortedArrayUsingComparator: ^(Recipe *obj1, Recipe *obj2) {
+        NSNumber *firstPercentage;
+        NSNumber *secondPercentage;
+        if ([obj1.source isEqualToString:@"Spoonacular"]) {
+            firstPercentage = [self.spoonacularMatchesValues objectForKey:obj1.recipeID];
+        }
+        else if ([obj1.source isEqualToString:@"TheMealDB"]) {
+            firstPercentage = [self.mealDBMatchesValues objectForKey:obj1.recipeID];
+        }
+        if ([obj2.source isEqualToString:@"Spoonacular"]) {
+            secondPercentage = [self.spoonacularMatchesValues objectForKey:obj2.recipeID];
+        }
+        else if ([obj2.source isEqualToString:@"TheMealDB"]) {
+            secondPercentage = [self.mealDBMatchesValues objectForKey:obj2.recipeID];
+        }
+        return [secondPercentage compare:firstPercentage];
+    }];
+    [self.tableViewRecipes setArray:sortedArray];
+}
+
 - (void) refreshData {
     [self.tableView reloadData];
     [self.cuisinesSet addObjectsFromArray:self.cuisines];
@@ -466,15 +491,6 @@
     [self.cuisines setArray:[self.cuisines sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]];
     [self.pickerView reloadAllComponents];
 }
-//
-//- (NSComparisonResult)compare:(Recipe *)otherObject {
-//    [Recipe getRecipeInfo:otherObject.recipeID withSource:otherObject.source withCompletion:^(NSDictionary * _Nonnull recipeInformation) {
-//        //mealdb: store all ingredients in
-//
-//        //spoonacular: get
-//    }]
-//    return [self.birthDate compare:otherObject.birthDate];
-//}
 
 #pragma mark - Navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
