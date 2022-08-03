@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		40239AE3F067D09FA4035A8F /* Pods_Disher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9E50CEFC9C8F1EC139AE23A2 /* Pods_Disher.framework */; };
 		463A8D1D2877A8BD00A6F01C /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 463A8D1C2877A8BD00A6F01C /* LoginViewController.m */; };
-		465E460D287CCD3F0017943B /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 465E460C287CCD3F0017943B /* DetailViewController.m */; };
 		466CABE52874B7A10017AE06 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 466CABE42874B7A10017AE06 /* AppDelegate.m */; };
 		466CABE82874B7A10017AE06 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 466CABE72874B7A10017AE06 /* SceneDelegate.m */; };
 		466CABEE2874B7A10017AE06 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 466CABEC2874B7A10017AE06 /* Main.storyboard */; };
@@ -67,8 +66,6 @@
 
 /* Begin PBXFileReference section */
 		463A8D1C2877A8BD00A6F01C /* LoginViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
-		465E460B287CCD3F0017943B /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
-		465E460C287CCD3F0017943B /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		466CABE02874B7A10017AE06 /* Disher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Disher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		466CABE32874B7A10017AE06 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		466CABE42874B7A10017AE06 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -234,8 +231,6 @@
 				46AABAB628764D26006E1E49 /* ListsViewController.m */,
 				46AABAB828764D33006E1E49 /* RecipesViewController.h */,
 				46AABAB928764D33006E1E49 /* RecipesViewController.m */,
-				465E460B287CCD3F0017943B /* DetailViewController.h */,
-				465E460C287CCD3F0017943B /* DetailViewController.m */,
 				46E2ABE92880D82500803A0C /* SaveViewController.h */,
 				46E2ABEA2880D82500803A0C /* SaveViewController.m */,
 				46B262B02887795700FE8503 /* ListContentViewController.h */,
@@ -579,7 +574,6 @@
 				46B262B82889CE2900FE8503 /* RecipeInListViewController.m in Sources */,
 				46AC91B2287F392800A766C8 /* INSAppDelegate.m in Sources */,
 				463A8D1D2877A8BD00A6F01C /* LoginViewController.m in Sources */,
-				465E460D287CCD3F0017943B /* DetailViewController.m in Sources */,
 				46AABABA28764D33006E1E49 /* RecipesViewController.m in Sources */,
 				466CABE82874B7A10017AE06 /* SceneDelegate.m in Sources */,
 				46AABABD28764DD8006E1E49 /* RecipeCell.m in Sources */,
