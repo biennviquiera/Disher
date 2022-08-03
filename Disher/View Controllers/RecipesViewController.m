@@ -62,7 +62,6 @@
     [self.view addSubview:self.searchBarWithDelegate];
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     [self.searchSegmentedControl addTarget:self action:@selector(didTapSearchByIngredient:) forControlEvents:UIControlEventTouchUpInside];
-    
     [self queryAPIs:self.searchQuery withOption:0 completionHandler:^{
         [self refreshData];
     }];
@@ -82,7 +81,6 @@
         self.seenIngredientMsg = 1;
     }
 }
-
 
 #pragma mark - Table view data source
 // Table View Methods
@@ -443,11 +441,8 @@
             [Recipe getRecipeInfo:mealID withSource:@"TheMealDB" withCompletion:^(NSDictionary * _Nonnull recipeInformation) {
                 NSArray *cuisine = [self handleCuisineFilteringWithDictionary:recipeInformation withSource:@"TheMealDB"];
                 Recipe *newRecipe = [Recipe initWithRecipe:recipeName withURL:imageLink withSource:source withID:mealID withCuisine:cuisine];
+                [self handleIngredientMatching:recipeInformation withMealID:mealID withSource:@"TheMealDB" withInput:input];
                 [self.tableViewRecipes addObject:newRecipe];
-                [self handleCuisineFilteringWithDictionary:recipeInformation withSource:@"TheMealDB"];
-                [self handleIngredientMatching:meal withMealID:mealID withSource:@"TheMealDB" withInput:input];
-                
-                
                 self.unfilteredTableViewRecipes = [self.tableViewRecipes copy];
                 [self refreshData];
             }];
