@@ -44,6 +44,10 @@
     List *currentList = self.lists[indexPath.row];
     cell.listName.text = currentList[@"listName"];
     cell.list = currentList;
+    if (currentList[@"listImage"]) {
+        cell.listImage.file = currentList[@"listImage"];
+        [cell.listImage loadInBackground];
+    }
     return cell;
 }
 

@@ -7,15 +7,17 @@
 
 #import "ListContentViewController.h"
 #import "ListContentCell.h"
-#import "Parse/Parse.h"
+#import <Parse/Parse.h>
 #import "Recipe.h"
 #import "ListContentCell.h"
 #import "UIKit+AFNetworking.h"
 #import "RecipeInListViewController.h"
 
-@interface ListContentViewController () <UITableViewDelegate, UITableViewDataSource>
+@import Parse;
+
+@interface ListContentViewController () <UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *listName;
-@property (weak, nonatomic) IBOutlet UIImageView *listImg;
+@property (weak, nonatomic) IBOutlet PFImageView *listImg;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *recipeListIDs;
 @property (strong, nonatomic) NSArray *recipeList;
@@ -31,12 +33,50 @@
     self.tableView.dataSource = self;
     self.listName.text = self.passedList.listName;
     self.recipeListIDs = self.passedList.recipes;
+    
+    UILongPressGestureRecognizer *photoHold = [[UILongPressGestureRecognizer alloc] initWithTarget:self  action:@selector(heldPhoto:)];
+    photoHold.minimumPressDuration = 0.5;
+    [self.listImg addGestureRecognizer:photoHold];
+    if (self.passedList[@"listImage"]) {
+        self.listImg.file = self.passedList[@"listImage"];
+        [self.listImg loadInBackground];
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.passedList.recipes.count;
 }
 
+
+- (void) heldPhoto:(UILongPressGestureRecognizer *) gesture{
+    //on tap, want to show gallery
+    UIImagePickerController *imagePickerVC = [UIImagePickerController new];
+    imagePickerVC.delegate = self;
+    imagePickerVC.allowsEditing = YES;
+    imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+
+    [self presentViewController:imagePickerVC animated:YES completion:nil];
+    
+    
+}
+//delegate for tapped photo
+- (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
+    UIImage *editedImage = info[UIImagePickerControllerEditedImage];
+    //upload as current user's image
+    List *currentList = self.passedList;
+    [self.listImg setImage:editedImage];
+    
+    PFFileObject *img = [PFFileObject fileObjectWithName:@"listImage.png" data:UIImagePNGRepresentation(editedImage)];
+    currentList[@"listImage"] = img;
+    [currentList saveInBackground];
+    
+    self.listImg.file = currentList[@"listImage"];
+    [self.listImg loadInBackground];
+    
+    
+    // Dismiss UIImagePickerController to go back to your original view controller
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     ListContentCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ListContentCell"];
