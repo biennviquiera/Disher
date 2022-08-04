@@ -13,7 +13,6 @@
 
 @interface SaveViewController () <UITableViewDelegate, UITableViewDataSource, SaveDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UILabel *listName;
 @property (nonatomic, strong) NSMutableArray *lists;
 @end
 
@@ -40,6 +39,8 @@
     List *currentList = self.lists[indexPath.row];
     cell.list = currentList;
     cell.listName.text = currentList[@"listName"];
+    cell.listImage.file = currentList[@"listImage"];
+    [cell.listImage loadInBackground];
     return cell;
 }
 
