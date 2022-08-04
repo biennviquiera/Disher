@@ -12,9 +12,9 @@
 #import "RecipeCell.h"
 #import "UIKit+AFNetworking.h"
 #import "Recipe.h"
-#import "DetailViewController.h"
 #import "SaveViewController.h"
 #import "INSSearchBar.h"
+#import "RecipeInListViewController.h"
 
 @interface RecipesViewController () <UITableViewDelegate, UITableViewDataSource, SWTableViewCellDelegate, UITableViewDelegate, INSSearchBarDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UITextFieldDelegate>
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *logoutButton;
@@ -538,7 +538,7 @@
 #pragma mark - Navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"detailSegue"]) {
-        DetailViewController *detailVC = [segue destinationViewController];
+        RecipeInListViewController *detailVC = [segue destinationViewController];
         detailVC.passedRecipe = ((RecipeCell *)[self.tableView cellForRowAtIndexPath:(NSIndexPath *)sender]).recipe;
     }
     if ([[segue identifier] isEqualToString:@"saveSegue"]) {
