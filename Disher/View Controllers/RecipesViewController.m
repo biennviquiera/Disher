@@ -36,6 +36,7 @@
 
 @property NSArray *temp;
 @property BOOL seenIngredientMsg;
+@property BOOL showIngredientMatch;
 @end
 
 @implementation RecipesViewController
@@ -98,7 +99,11 @@
     [cell.recipeImage setImageWithURL:imageURL];
     cell.recipeSource.text = currRecipe.source;
     cell.rightUtilityButtons = [self rightButtons];
-    if ([cell.recipe.source isEqualToString:@"Spoonacular"]) {
+    if (!self.showIngredientMatch) {
+        cell.matchLabel.text = @"";
+    }
+    else if ([cell.recipe.source isEqualToString:@"Spoonacular"]) {
+        
         cell.matchLabel.text = [self.spoonacularMatches objectForKey:cell.recipe.recipeID];
     }
     else if ([cell.recipe.source isEqualToString:@"TheMealDB"]){
@@ -242,9 +247,11 @@
     dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^ {
         [self querySearchSpoonacular:input withOption:option completionHandler:^(NSArray *returnedMeals) {
             if (option == 0) {
+                self.showIngredientMatch = NO;
                 [self handleSimpleSearch:@"Spoonacular" withMeals:returnedMeals];
             }
             else if (option == 1) {
+                self.showIngredientMatch = YES;
                 [self handleIngredientSearch:@"Spoonacular" withMeals:returnedMeals withInput:input];
             }
             dispatch_group_leave(group);
