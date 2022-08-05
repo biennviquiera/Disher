@@ -33,7 +33,6 @@
 @property (nonatomic, strong) NSMutableDictionary<NSString *, NSNumber *> *mealDBMatchesValues;
 @property (nonatomic, strong) NSMutableDictionary<NSString *, NSString *> *spoonacularMatches;
 @property (nonatomic, strong) NSMutableDictionary<NSString *, NSNumber *> *spoonacularMatchesValues;
-
 @property NSArray *temp;
 @property BOOL seenIngredientMsg;
 @property BOOL showIngredientMatch;
@@ -82,13 +81,11 @@
         self.seenIngredientMsg = 1;
     }
 }
-
 #pragma mark - Table view data source
 // Table View Methods
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.tableViewRecipes.count;
 }
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     RecipeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RecipeCell" forIndexPath:indexPath];
     cell.delegate = self;
@@ -103,7 +100,6 @@
         cell.matchLabel.text = @"";
     }
     else if ([cell.recipe.source isEqualToString:@"Spoonacular"]) {
-        
         cell.matchLabel.text = [self.spoonacularMatches objectForKey:cell.recipe.recipeID];
     }
     else if ([cell.recipe.source isEqualToString:@"TheMealDB"]){
@@ -111,7 +107,6 @@
     }
     return cell;
 }
-
 // Picker View Methods
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
     return 1;
@@ -153,7 +148,6 @@
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     return NO;
 }
-
 // Button Methods
 - (IBAction)didTapLogout:(id)sender {
     [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
@@ -169,7 +163,6 @@
         }
     }];
 }
-
 // API Querying Methods
 - (void) queryMealDB:(NSString *)name withOption:(NSInteger)option completionHandler:(void(^)(NSArray *returnedMeals))completionHandler {
     NSURL *url;
@@ -197,7 +190,6 @@
     }];
     [task resume];
 }
-
 - (void) querySearchSpoonacular:(NSString *)name withOption:(NSInteger)option completionHandler:(void(^)(NSArray *returnedMeals))completionHandler {
     //Use API Key in Keys.plist file
     NSString *path = [[NSBundle mainBundle] pathForResource: @"Keys" ofType: @"plist"];
@@ -239,7 +231,6 @@
     }];
     [task resume];
 }
-
 - (void) queryAPIs:(NSString *) input withOption:(NSInteger) option completionHandler:(void(^)(void))completionHandler {
     [self.tableViewRecipes removeAllObjects];
     dispatch_group_t group = dispatch_group_create();
@@ -276,11 +267,11 @@
         });
     });
 }
-//Table View Cell Methods
+// Table View Cell Methods
 - (NSArray *)rightButtons {
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
     UIColor *color = [UIColor whiteColor];
-    UIImage *image = [UIImage systemImageNamed:@"heart.fill"];// Image to mask with
+    UIImage *image = [UIImage systemImageNamed:@"heart.fill"];
     UIGraphicsBeginImageContextWithOptions(image.size, NO, image.scale);
     CGContextRef context = UIGraphicsGetCurrentContext();
     [color setFill];
@@ -295,11 +286,9 @@
                                                  icon: coloredImg];
     return rightUtilityButtons;
 }
-
 - (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell {
     return YES;
 }
-
 - (void)swipeableTableViewCell:(RecipeCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
     switch (index) {
         case 0: { //click on save button
@@ -310,16 +299,13 @@
             break;
     }
 }
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self performSegueWithIdentifier:@"detailSegue" sender:indexPath];
 }
-
 //search bar delegate methods
 - (CGRect)destinationFrameForSearchBar:(INSSearchBar *)searchBar {
     return CGRectMake(20.0, 100.0, CGRectGetWidth(self.view.bounds) - 40.0, 34.0);
 }
-
 - (void)searchBarDidTapReturn:(INSSearchBar *)searchBar {
     //clear picker view
     [self.cuisinesSet removeAllObjects];
@@ -338,7 +324,6 @@
         }];
     }
 }
-
 //sorting
 - (void) sortIngredients {
     NSArray *sortedArray = [self.tableViewRecipes sortedArrayUsingComparator: ^(Recipe *obj1, Recipe *obj2) {
@@ -360,14 +345,12 @@
     }];
     [self.tableViewRecipes setArray:sortedArray];
 }
-
 //API Helper methods
 - (NSString *) ingredientFormatSpoonacular:(NSString *)input {
     NSString *newString = input;
     newString = [newString stringByReplacingOccurrencesOfString:@" " withString:@","];
     return newString;
 }
-
 - (void) handleSimpleSearch:(NSString *)type withMeals:(NSArray *)meals {
     if ([type isEqualToString:@"Spoonacular"]) {
         for (NSDictionary *meal in meals) {
@@ -380,7 +363,6 @@
         }
     }
 }
-
 - (void) createRecipe:(NSString *)type withDictionary:(NSDictionary *)recipe {
     NSString *recipeName;
     NSString *imageLink;
@@ -416,8 +398,6 @@
     self.unfilteredTableViewRecipes = [self.tableViewRecipes copy];
     [self refreshData];
 }
-
-
 - (void) handleIngredientSearch:(NSString *)type withMeals:(NSArray *)meals withInput:(NSString *) input {
     NSString *recipeName;
     NSString *imageLink;
@@ -456,8 +436,6 @@
         }
     }
 }
-
-
 - (NSArray *) handleCuisineFilteringWithDictionary:(NSDictionary *)recipeInformation withSource:(NSString *)source {
     if ([source isEqualToString:@"Spoonacular"]) {
         NSArray<NSString *> *cuisine;
@@ -480,7 +458,6 @@
     }
     return @[@"Unknown"];
 }
-
 - (void) handleIngredientMatching:(NSDictionary *)meal withMealID:(NSString *)mealID withSource:(NSString *)source withInput:(NSString *)input{
     if ([source isEqualToString:@"Spoonacular"]) {
         float numeratorFloat = [meal[@"usedIngredientCount"] floatValue];
@@ -526,7 +503,6 @@
     }
     [self sortIngredients];
 }
-
 - (void) refreshData {
     [self.tableView reloadData];
     [self.cuisinesSet addObjectsFromArray:self.cuisines];
@@ -534,7 +510,9 @@
     [self.cuisines setArray:[self.cuisines sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]];
     [self.pickerView reloadAllComponents];
 }
-
+- (UIInterfaceOrientation) preferredInterfaceOrientationForPresentation {
+    return UIInterfaceOrientationPortrait;
+}
 #pragma mark - Navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"detailSegue"]) {
@@ -546,6 +524,4 @@
         saveVC.passedRecipe = ((RecipeCell *)sender).recipe;
     }
 }
-
-
 @end

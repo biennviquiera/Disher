@@ -21,11 +21,9 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSArray *recipeListIDs;
 @property (strong, nonatomic) NSArray *recipeList;
-
 @end
 
 @implementation ListContentViewController
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -42,42 +40,27 @@
         [self.listImg loadInBackground];
     }
 }
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.passedList.recipes.count;
 }
-
-
 - (void) heldPhoto:(UILongPressGestureRecognizer *)gesture {
-    //on tap, want to show gallery
     UIImagePickerController *imagePickerVC = [UIImagePickerController new];
     imagePickerVC.delegate = self;
     imagePickerVC.allowsEditing = YES;
     imagePickerVC.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-
     [self presentViewController:imagePickerVC animated:YES completion:nil];
-    
-    
 }
-//delegate for tapped photo
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info {
     UIImage *editedImage = info[UIImagePickerControllerEditedImage];
-    //upload as current user's image
     List *currentList = self.passedList;
     [self.listImg setImage:editedImage];
-    
     PFFileObject *img = [PFFileObject fileObjectWithName:@"listImage.png" data:UIImagePNGRepresentation(editedImage)];
     currentList[@"listImage"] = img;
     [currentList saveInBackground];
-    
     self.listImg.file = currentList[@"listImage"];
     [self.listImg loadInBackground];
-    
-    
-    // Dismiss UIImagePickerController to go back to your original view controller
     [self dismissViewControllerAnimated:YES completion:nil];
 }
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     ListContentCell *cell = [self.tableView dequeueReusableCellWithIdentifier:@"ListContentCell"];
     Recipe *currRecipe = self.recipeList[indexPath.row];
@@ -88,8 +71,6 @@
     [cell.recipeImg setImageWithURL:imageURL];
     return cell;
 }
-
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     PFQuery *new = [PFQuery queryWithClassName:@"List"];
@@ -100,13 +81,10 @@
         [self.tableView reloadData];
     }];
 }
-
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     Recipe *selectedRecipe = ((ListContentCell *)[self.tableView cellForRowAtIndexPath:indexPath]).recipe;
     [self performSegueWithIdentifier:@"listRecipeSegue" sender:selectedRecipe];
 }
-
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         PFQuery *query = [PFQuery queryWithClassName:@"List"];
@@ -118,7 +96,6 @@
         }];
     }
 }
-
 - (void) reloadListRecipes:(id)something completionHandler:(void(^)(NSArray *returnedRecipes))completionHandler{
     PFQuery *query = [PFQuery queryWithClassName:@"Recipe"];
     [query whereKey:@"objectId" containedIn:self.recipeListIDs];
@@ -128,7 +105,6 @@
         }
     }];
 }
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"listRecipeSegue"]) {
         RecipeInListViewController *newVC = [segue destinationViewController];
@@ -136,6 +112,4 @@
     }
     
 }
-
-
 @end

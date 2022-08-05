@@ -8,7 +8,6 @@
 #import "Recipe.h"
 
 @implementation Recipe
-
 @dynamic dishName;
 @dynamic imageURL;
 @dynamic source;
@@ -18,7 +17,6 @@
 + (NSString *) parseClassName {
     return @"Recipe";
 }
-
 + (Recipe *) initWithRecipe:(NSString *) name withURL:(NSString *) imgURL withSource:(NSString *) dishSource withID:(NSString *) recipeNum withCuisine:(nonnull NSArray *)cuisine{
     Recipe *newRecipe = [Recipe new];
     newRecipe.dishName = name;
@@ -28,8 +26,7 @@
     newRecipe.cuisine = cuisine;
     return newRecipe;
 }
-
-+ (void) getRecipeInfo:(NSString *) recipeID withSource:(NSString *) source withCompletion:(void(^)(NSDictionary *recipeInformation)) completionHandler {
++ (void) getRecipeInfo:(NSString *)recipeID withSource:(NSString *)source withCompletion:(void(^)(NSDictionary *recipeInformation))completionHandler {
     NSURL *url;
     if ([source isEqualToString:@"Spoonacular"]) {
         NSString *path = [[NSBundle mainBundle] pathForResource: @"Keys" ofType: @"plist"];
@@ -57,5 +54,4 @@
         [task resume];
     }
 }
-
 @end

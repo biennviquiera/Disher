@@ -13,11 +13,9 @@
 @property (weak, nonatomic) IBOutlet UILabel *dishTitleLabel;
 @property (weak, nonatomic) IBOutlet UITextView *descriptionLabel;
 @property (weak, nonatomic) IBOutlet UIImageView *dishImageView;
-
 @end
 
 @implementation RecipeInListViewController
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     if ([self.passedRecipe.source isEqualToString:@"Spoonacular"]) {
@@ -42,7 +40,6 @@
         }];
     }
 }
-
 - (NSString *)flattenHtml: (NSString *) html {
     NSScanner *theScanner;
     NSString *text = nil;
@@ -56,5 +53,4 @@
     }
     return html;
 }
-
 @end

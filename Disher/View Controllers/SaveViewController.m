@@ -20,7 +20,6 @@
 - (IBAction)didTapCreate:(id)sender {
     [self performSegueWithIdentifier:@"saveToCreateSegue" sender:nil];
 }
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.tableView.delegate = self;
@@ -29,11 +28,9 @@
     [self.lists setArray:[List queryLists]];
     [self.tableView reloadData];
 }
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.lists.count;
 }
-
 - (nonnull UITableViewCell *)tableView:(nonnull UITableView *)tableView cellForRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     SaveCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SaveCell" forIndexPath:indexPath];
     List *currentList = self.lists[indexPath.row];
@@ -43,7 +40,6 @@
     [cell.listImage loadInBackground];
     return cell;
 }
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(nonnull NSIndexPath *)indexPath {
     Recipe *selectedRecipe = self.passedRecipe;
     List *selectedList = self.lists[indexPath.row];
@@ -61,7 +57,6 @@
         }];
     }
 }
-
 - (void) uploadRecipeToList:(Recipe *)recipe withList:(List *)list {
     [list addUniqueObject:recipe.objectId forKey:@"recipes"];
     [list saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
@@ -73,23 +68,17 @@
         }
     }];
 }
-
-// delegate methods for creating a new list inside of the save view controller
 - (void) didCreateList {
     [self refreshData];
 }
-
 - (void) refreshData {
     [self.lists setArray:[List queryLists]];
     [self.tableView reloadData];
 }
-
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"saveToCreateSegue"]) {
         CreateListViewController *newVC = [segue destinationViewController];
         newVC.saveDelegate = self;
     }
 }
-
-
 @end
