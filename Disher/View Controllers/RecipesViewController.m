@@ -56,8 +56,8 @@
     self.spoonacularMatchesValues = [NSMutableDictionary new];
     self.searchQuery = @"chicken";
     self.cuisineField.inputView = self.pickerView;
-    self.view.backgroundColor = [UIColor colorWithRed:0.000 green:0.418 blue:0.673 alpha:1.000];
-    self.searchBarWithDelegate = [[INSSearchBar alloc] initWithFrame:CGRectMake(20.0, 100.0, 44.0, 34.0)];
+    self.view.backgroundColor = [UIColor colorWithRed:0.031 green:0.403 blue:0.533 alpha:1.000];
+    self.searchBarWithDelegate = [[INSSearchBar alloc] initWithFrame:CGRectMake(20.0, 92.0, 44.0, 34.0)];
     self.searchBarWithDelegate.delegate = self;
     [self.view addSubview:self.searchBarWithDelegate];
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
@@ -88,7 +88,8 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     RecipeCell *cell = [tableView dequeueReusableCellWithIdentifier:@"RecipeCell" forIndexPath:indexPath];
-    cell.delegate = self;
+    cell.contentView.exclusiveTouch = YES;
+    cell.exclusiveTouch = YES;
     Recipe *currRecipe = self.tableViewRecipes[indexPath.row];
     cell.recipe = currRecipe;
     cell.recipeName.text = currRecipe.dishName;
@@ -96,6 +97,7 @@
     [cell.recipeImage setImageWithURL:imageURL];
     cell.recipeSource.text = currRecipe.source;
     cell.rightUtilityButtons = [self rightButtons];
+    cell.delegate = self;
     if (!self.showIngredientMatch) {
         cell.matchLabel.text = @"";
     }
@@ -287,6 +289,7 @@
     return rightUtilityButtons;
 }
 - (BOOL)swipeableTableViewCellShouldHideUtilityButtonsOnSwipe:(SWTableViewCell *)cell {
+    [cell hideUtilityButtonsAnimated:YES];
     return YES;
 }
 - (void)swipeableTableViewCell:(RecipeCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
@@ -304,7 +307,7 @@
 }
 //search bar delegate methods
 - (CGRect)destinationFrameForSearchBar:(INSSearchBar *)searchBar {
-    return CGRectMake(20.0, 100.0, CGRectGetWidth(self.view.bounds) - 40.0, 34.0);
+    return CGRectMake(5.0, 92.0, CGRectGetWidth(self.view.bounds) - 10.0, 34.0);
 }
 - (void)searchBarDidTapReturn:(INSSearchBar *)searchBar {
     //clear picker view
@@ -513,6 +516,11 @@
 - (UIInterfaceOrientation) preferredInterfaceOrientationForPresentation {
     return UIInterfaceOrientationPortrait;
 }
+
+- (BOOL)shouldAutorotate {
+    return NO;
+}
+
 #pragma mark - Navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"detailSegue"]) {

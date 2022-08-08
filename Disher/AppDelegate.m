@@ -31,6 +31,8 @@
         configuration.clientKey = clientIDKey;
         configuration.server = @"https://parseapi.back4app.com";
     }]];
+    [[UITabBar appearance] setTintColor:[UIColor systemRedColor]];
+    [[UITabBar appearance] setUnselectedItemTintColor:[UIColor whiteColor]];
     return YES;
 }
 

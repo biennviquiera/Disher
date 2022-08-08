@@ -20,9 +20,11 @@
 @implementation ListsViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor colorWithRed:0.031 green:0.403 blue:0.533 alpha:1.000];
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    self.navigationItem.rightBarButtonItem = nil;
     self.lists = [NSMutableArray new];
 }
 - (void)viewWillAppear:(BOOL)animated {
