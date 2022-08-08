@@ -15,6 +15,7 @@
 @interface ListsViewController () <UITableViewDelegate, UITableViewDataSource, ListDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) NSMutableArray *lists;
+@property(nonatomic,strong) UIRefreshControl *refreshControl;
 @end
 
 @implementation ListsViewController
@@ -26,6 +27,9 @@
     self.tableView.dataSource = self;
     self.navigationItem.rightBarButtonItem = nil;
     self.lists = [NSMutableArray new];
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(beginRefresh:) forControlEvents:UIControlEventValueChanged];
+    [self.tableView insertSubview:self.refreshControl atIndex:0];
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -56,10 +60,15 @@
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         PFQuery *query = [PFQuery queryWithClassName:@"List"];
         List *listToRemove = [query getObjectWithId:((ListCell *)[self.tableView cellForRowAtIndexPath:indexPath]).list.objectId];
-        [listToRemove deleteInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
-            [self refreshData];
-        }];
+        [listToRemove deleteInBackground];
+        [self.lists removeObjectAtIndex:indexPath.row];
+        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
     }
+}
+- (void) beginRefresh:(UIRefreshControl *) refreshControl {
+    [refreshControl beginRefreshing];
+    [self refreshData];
+    [refreshControl endRefreshing];
 }
 #pragma mark - Navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
