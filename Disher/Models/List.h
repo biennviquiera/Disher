@@ -14,7 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSString *listName;
 @property (nonatomic, strong) NSArray<Recipe *> *recipes;
-@property (nonatomic, strong) PFFileObject *image;
+@property (nonatomic, strong) PFFileObject *listImage;
 
 + (void) createList:(NSString *) name completionHandler:(void(^)(void))completionHandler;
 

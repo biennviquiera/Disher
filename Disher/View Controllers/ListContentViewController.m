@@ -48,7 +48,7 @@
 }
 
 
-- (void) heldPhoto:(UILongPressGestureRecognizer *) gesture{
+- (void) heldPhoto:(UILongPressGestureRecognizer *)gesture {
     //on tap, want to show gallery
     UIImagePickerController *imagePickerVC = [UIImagePickerController new];
     imagePickerVC.delegate = self;
