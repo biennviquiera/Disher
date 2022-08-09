@@ -18,8 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UIImageView *recipeImage;
 @property (weak, nonatomic) IBOutlet UILabel *recipeSource;
 @property (weak, nonatomic) IBOutlet UILabel *matchLabel;
-@property (strong, nonatomic) Recipe *recipe;
 @property (weak, nonatomic) IBOutlet UILabel *ingredientMatchPercent;
+@property (strong, nonatomic) Recipe *recipe;
 @end
 
 NS_ASSUME_NONNULL_END

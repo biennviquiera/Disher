@@ -17,7 +17,6 @@
 @end
 
 @implementation LoginViewController
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
@@ -26,24 +25,20 @@
     self.usernameField.delegate = self;
     self.passwordField.delegate = self;
 }
-
 - (void)dismissKeyboard {
     [self.view endEditing:YES];
 }
-
 //BUTTON ACTIONS
 - (IBAction)didTapLogin:(id)sender {
     [self.loginButton setEnabled:NO];
     [self.signupButton setEnabled:NO];
     [self loginUser];
 }
-
 - (IBAction)didTapSignup:(id)sender {
     [self.signupButton setEnabled:NO];
     [self.loginButton setEnabled:NO];
     [self registerUser];
 }
-
 //HELPER METHODS
 - (void) loginUser {
     NSString *username = self.usernameField.text;
@@ -70,7 +65,6 @@
         }
     }];
 }
-
 - (void) registerUser {
     PFUser *newUser = [PFUser user];
     newUser.username = self.usernameField.text;
@@ -96,11 +90,8 @@
         }
     }];
 }
-
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [self didTapLogin:nil];
     return YES;
 }
-
-
 @end

@@ -25,7 +25,6 @@
     [self.createButton setEnabled:NO];
     [List createList:self.textField.text completionHandler:^() {
         [self dismissViewControllerAnimated:YES completion:nil];
-        //reload after creating list
         [self.delegate didCreateList:self.textField.text];
         [self.saveDelegate didCreateList];
     }];

@@ -10,9 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 @protocol SaveDelegate <NSObject>
-
 - (void)didCreateList;
-
 @end
 
 @interface SaveViewController : UIViewController

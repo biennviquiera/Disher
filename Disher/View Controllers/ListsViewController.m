@@ -18,7 +18,6 @@
 @end
 
 @implementation ListsViewController
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.rightBarButtonItem = self.editButtonItem;
@@ -26,19 +25,15 @@
     self.tableView.dataSource = self;
     self.lists = [NSMutableArray new];
 }
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self.lists setArray:[List queryLists]];
     [self.tableView reloadData];
 }
-
 #pragma mark - Table view data source
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.lists.count;
 }
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     ListCell *cell = [tableView dequeueReusableCellWithIdentifier:@"ListCell" forIndexPath:indexPath];
     List *currentList = self.lists[indexPath.row];
@@ -46,19 +41,15 @@
     cell.list = currentList;
     cell.listImage.file = currentList[@"listImage"];
     [cell.listImage loadInBackground];
-    
     return cell;
 }
-
 - (void) didCreateList:(NSString *) listName {
     [self refreshData];
 }
-
 - (void) refreshData {
     [self.lists setArray:[List queryLists]];
     [self.tableView reloadData];
 }
-
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         PFQuery *query = [PFQuery queryWithClassName:@"List"];
@@ -68,13 +59,8 @@
         }];
     }
 }
-
-
 #pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
     if ([[segue identifier] isEqualToString:@"createSegue"]) {
         CreateListViewController *newVC = [segue destinationViewController];
         newVC.delegate = self;
@@ -84,6 +70,4 @@
         newVC.passedList = ((ListCell *)sender).list;
     }
 }
-
-
 @end

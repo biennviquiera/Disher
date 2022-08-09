@@ -11,14 +11,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface List : PFObject<PFSubclassing>
-
 @property (nonatomic, strong) NSString *listName;
 @property (nonatomic, strong) NSArray<Recipe *> *recipes;
 @property (nonatomic, strong) PFFileObject *listImage;
 
-+ (void) createList:(NSString *) name completionHandler:(void(^)(void))completionHandler;
-
-
++ (void) createList:(NSString *)name completionHandler:(void(^)(void))completionHandler;
 + (NSArray *) queryLists;
 @end
 
