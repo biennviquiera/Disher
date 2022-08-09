@@ -33,8 +33,8 @@
     self.tableView.dataSource = self;
     self.listName.text = self.passedList.listName;
     self.recipeListIDs = self.passedList.recipes;
-    
     UILongPressGestureRecognizer *photoHold = [[UILongPressGestureRecognizer alloc] initWithTarget:self  action:@selector(heldPhoto:)];
+    [self.listImg addGestureRecognizer:photoHold];
     photoHold.minimumPressDuration = 0.5;
     
     if (self.passedList[@"listImage"]) {
