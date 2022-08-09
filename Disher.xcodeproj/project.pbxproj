@@ -39,6 +39,7 @@
 		46B262B22887795700FE8503 /* ListContentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46B262B12887795700FE8503 /* ListContentViewController.m */; };
 		46B262B528877AE800FE8503 /* ListContentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 46B262B428877AE800FE8503 /* ListContentCell.m */; };
 		46B262B82889CE2900FE8503 /* RecipeInListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46B262B72889CE2900FE8503 /* RecipeInListViewController.m */; };
+		46BB069428A2F4390005051A /* EditListNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46BB069328A2F4390005051A /* EditListNameViewController.m */; };
 		46CEAC8628789AE500C10B1B /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 46CEAC8528789AE500C10B1B /* Keys.plist */; };
 		46CEAC892878D2F900C10B1B /* List.m in Sources */ = {isa = PBXBuildFile; fileRef = 46CEAC882878D2F900C10B1B /* List.m */; };
 		46E2ABEB2880D82500803A0C /* SaveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 46E2ABEA2880D82500803A0C /* SaveViewController.m */; };
@@ -114,6 +115,8 @@
 		46B262B428877AE800FE8503 /* ListContentCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ListContentCell.m; sourceTree = "<group>"; };
 		46B262B62889CE2900FE8503 /* RecipeInListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RecipeInListViewController.h; sourceTree = "<group>"; };
 		46B262B72889CE2900FE8503 /* RecipeInListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RecipeInListViewController.m; sourceTree = "<group>"; };
+		46BB069228A2F4390005051A /* EditListNameViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EditListNameViewController.h; sourceTree = "<group>"; };
+		46BB069328A2F4390005051A /* EditListNameViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EditListNameViewController.m; sourceTree = "<group>"; };
 		46CEAC8528789AE500C10B1B /* Keys.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		46CEAC872878D2F900C10B1B /* List.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = List.h; sourceTree = "<group>"; };
 		46CEAC882878D2F900C10B1B /* List.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = List.m; sourceTree = "<group>"; };
@@ -237,6 +240,8 @@
 				46B262B12887795700FE8503 /* ListContentViewController.m */,
 				46B262B62889CE2900FE8503 /* RecipeInListViewController.h */,
 				46B262B72889CE2900FE8503 /* RecipeInListViewController.m */,
+				46BB069228A2F4390005051A /* EditListNameViewController.h */,
+				46BB069328A2F4390005051A /* EditListNameViewController.m */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -573,6 +578,7 @@
 				46CEAC892878D2F900C10B1B /* List.m in Sources */,
 				46B262B82889CE2900FE8503 /* RecipeInListViewController.m in Sources */,
 				46AC91B2287F392800A766C8 /* INSAppDelegate.m in Sources */,
+				46BB069428A2F4390005051A /* EditListNameViewController.m in Sources */,
 				463A8D1D2877A8BD00A6F01C /* LoginViewController.m in Sources */,
 				46AABABA28764D33006E1E49 /* RecipesViewController.m in Sources */,
 				466CABE82874B7A10017AE06 /* SceneDelegate.m in Sources */,

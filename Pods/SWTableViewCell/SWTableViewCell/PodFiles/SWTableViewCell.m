@@ -269,7 +269,6 @@ static NSString * const kTableViewPanState = @"state";
         [self.rightUtilityButtonsView layoutIfNeeded];
         [self layoutIfNeeded];
     }
-    NSLog(@"setright called w param: %@", rightUtilityButtons);
 }
 
 - (void)setRightUtilityButtons:(NSArray *)rightUtilityButtons WithButtonWidth:(CGFloat) width
@@ -490,7 +489,6 @@ static NSString * const kTableViewPanState = @"state";
 {
     if (_cellState != kCellStateCenter)
     {
-        NSLog(@"hideUtilityButtonsAnimated");
         [UIView animateWithDuration:.25 animations:^{
             [self.cellScrollView setContentOffset:[self contentOffsetForCellState:kCellStateCenter]];
         }];

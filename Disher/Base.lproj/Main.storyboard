@@ -518,7 +518,14 @@
                             <constraint firstItem="U6C-nB-J7k" firstAttribute="trailing" secondItem="cf8-7p-aik" secondAttribute="trailing" constant="45" id="t5z-tx-EG9"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="DYY-p2-bz7"/>
+                    <navigationItem key="navigationItem" id="DYY-p2-bz7">
+                        <barButtonItem key="rightBarButtonItem" title="Edit Name" id="d43-K1-FFO">
+                            <color key="tintColor" systemColor="systemTealColor"/>
+                            <connections>
+                                <segue destination="r8C-64-Nzb" kind="presentation" identifier="editListNameSegue" id="krL-2e-xkJ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="listImg" destination="b6c-5F-UWk" id="tph-Sn-cSM"/>
                         <outlet property="listName" destination="cf8-7p-aik" id="hbK-Vn-Sht"/>
@@ -589,6 +596,55 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VbM-R8-ggk" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="4570.7692307692305" y="1712.5592417061609"/>
+        </scene>
+        <!--Edit List Name View Controller-->
+        <scene sceneID="gqg-zy-0oD">
+            <objects>
+                <viewController id="r8C-64-Nzb" customClass="EditListNameViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="8ib-hy-r5H">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GFq-CD-JAy">
+                                <rect key="frame" x="75" y="94" width="240" height="240"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Give your list a new name:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WCX-N9-tDh">
+                                <rect key="frame" x="68" y="352" width="254" height="26"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="GPU-LQ-fde">
+                                <rect key="frame" x="88" y="400" width="215" height="34"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rWq-GG-x5D">
+                                <rect key="frame" x="116" y="462" width="159" height="54"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Save" cornerStyle="capsule"/>
+                                <connections>
+                                    <action selector="didPressSave:" destination="r8C-64-Nzb" eventType="touchUpInside" id="hvs-bg-1g0"/>
+                                    <action selector="didTapCreate:" destination="0zu-T1-B05" eventType="touchUpInside" id="hlP-DX-Lp6"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Cn3-y5-g5f"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <connections>
+                        <outlet property="listImage" destination="GFq-CD-JAy" id="Wbl-LF-wG5"/>
+                        <outlet property="listNameField" destination="GPU-LQ-fde" id="MBg-t4-2GK"/>
+                        <outlet property="saveButton" destination="rWq-GG-x5D" id="5S7-5W-NXz"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1cM-Cx-7XS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5367.6923076923076" y="949.76303317535542"/>
         </scene>
         <!--Recipes-->
         <scene sceneID="FDL-da-ga8">
@@ -720,6 +776,9 @@
         </systemColor>
         <systemColor name="systemPurpleColor">
             <color red="0.68627450980392157" green="0.32156862745098042" blue="0.87058823529411766" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+        <systemColor name="systemTealColor">
+            <color red="0.18823529411764706" green="0.69019607843137254" blue="0.7803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="tintColor">
             <color red="0.0" green="0.47843137254901963" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

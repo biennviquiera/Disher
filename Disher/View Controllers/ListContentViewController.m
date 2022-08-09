@@ -13,10 +13,11 @@
 #import "UIKit+AFNetworking.h"
 #import "RecipeInListViewController.h"
 #import "ListsViewController.h"
+#import "EditListNameViewController.h"
 
 @import Parse;
 
-@interface ListContentViewController () <UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate>
+@interface ListContentViewController () <UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UINavigationControllerDelegate, UIImagePickerControllerDelegate, ListContentDelegate>
 @property (weak, nonatomic) IBOutlet UILabel *listName;
 @property (weak, nonatomic) IBOutlet PFImageView *listImg;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -99,7 +100,7 @@
         }];
     }
 }
-- (void) reloadListRecipes:(id)something completionHandler:(void(^)(NSArray *returnedRecipes))completionHandler{
+- (void)reloadListRecipes:(id)something completionHandler:(void(^)(NSArray *returnedRecipes))completionHandler{
     PFQuery *query = [PFQuery queryWithClassName:@"Recipe"];
     [query whereKey:@"objectId" containedIn:self.recipeListIDs];
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
@@ -108,11 +109,20 @@
         }
     }];
 }
+- (void)didUpdateName:(NSString *)name {
+    self.listName.text = name;
+}
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"listRecipeSegue"]) {
         RecipeInListViewController *newVC = [segue destinationViewController];
         newVC.passedRecipe = sender;
     }
-    
+    if ([[segue identifier] isEqualToString:@"editListNameSegue"]) {
+        EditListNameViewController *newVC = [segue destinationViewController];
+        newVC.listContentDelegate = self;
+        newVC.passedListID = self.passedList.objectId;
+        newVC.listDelegate = self.listDelegate;
+        newVC.passedImage = self.listImg.image;
+    }
 }
 @end
