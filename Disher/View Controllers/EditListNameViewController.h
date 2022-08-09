@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) id <ListContentDelegate> listContentDelegate;
 @property (weak, nonatomic) id <ListDelegate> listDelegate;
 @property (strong, nonatomic) NSString *passedListID;
+@property (strong, nonatomic) NSString *passedListName;
 @property (strong, nonatomic) UIImage *passedImage;
 
 @end

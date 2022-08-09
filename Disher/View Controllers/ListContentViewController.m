@@ -36,7 +36,7 @@
     
     UILongPressGestureRecognizer *photoHold = [[UILongPressGestureRecognizer alloc] initWithTarget:self  action:@selector(heldPhoto:)];
     photoHold.minimumPressDuration = 0.5;
-    [self.listImg addGestureRecognizer:photoHold];
+    
     if (self.passedList[@"listImage"]) {
         self.listImg.file = self.passedList[@"listImage"];
         [self.listImg loadInBackground];
@@ -109,8 +109,9 @@
         }
     }];
 }
-- (void)didUpdateName:(NSString *)name {
+- (void)didUpdateName:(NSString *)name withImage:(UIImage *)image{
     self.listName.text = name;
+    self.listImg.image = image;
 }
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"listRecipeSegue"]) {
@@ -123,6 +124,7 @@
         newVC.passedListID = self.passedList.objectId;
         newVC.listDelegate = self.listDelegate;
         newVC.passedImage = self.listImg.image;
+        newVC.passedListName = self.listName.text;
     }
 }
 @end
