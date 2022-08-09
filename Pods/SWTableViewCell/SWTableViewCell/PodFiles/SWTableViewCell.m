@@ -490,8 +490,8 @@ static NSString * const kTableViewPanState = @"state";
 {
     if (_cellState != kCellStateCenter)
     {
-        [self.cellScrollView setContentOffset:[self contentOffsetForCellState:kCellStateCenter] animated:animated];
-        
+        [self.cellScrollView setContentOffset:[self contentOffsetForCellState:0] animated:animated];
+
         if ([self.delegate respondsToSelector:@selector(swipeableTableViewCell:scrollingToState:)])
         {
             [self.delegate swipeableTableViewCell:self scrollingToState:kCellStateCenter];
