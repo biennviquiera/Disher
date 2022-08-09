@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 @protocol ListDelegate <NSObject>
-- (void)didCreateList:(NSString *) listName;
+- (void)didCreateList;
 @end
 
 @interface ListsViewController : UIViewController

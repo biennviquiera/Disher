@@ -90,6 +90,12 @@
         }
     }];
 }
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+  return UIInterfaceOrientationMaskPortrait;
+}
+
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [self didTapLogin:nil];
     return YES;

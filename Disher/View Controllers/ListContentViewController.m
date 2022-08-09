@@ -12,6 +12,7 @@
 #import "ListContentCell.h"
 #import "UIKit+AFNetworking.h"
 #import "RecipeInListViewController.h"
+#import "ListsViewController.h"
 
 @import Parse;
 
@@ -56,7 +57,9 @@
     [self.listImg setImage:editedImage];
     PFFileObject *img = [PFFileObject fileObjectWithName:@"listImage.png" data:UIImagePNGRepresentation(editedImage)];
     currentList[@"listImage"] = img;
-    [currentList saveInBackground];
+    [currentList saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
+        [self.listDelegate didCreateList];
+    }];
     self.listImg.file = currentList[@"listImage"];
     [self.listImg loadInBackground];
     [self dismissViewControllerAnimated:YES completion:nil];
