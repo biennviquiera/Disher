@@ -22,7 +22,6 @@
     [super viewDidLoad];
     UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
     [self.view addGestureRecognizer:gestureRecognizer];
-//    gestureRecognizer.cancelsTouchesInView = NO;
     self.listNameField.delegate = self;
     self.listNameField.text = self.passedListName;
     [self.listImage setImage:self.passedImage];
@@ -49,34 +48,43 @@
     [self.view endEditing:YES];
 }
 - (IBAction)didPressEditImage:(id)sender {
-    [self profilePicAction:nil];
+    [self handleImagePicker:nil];
 }
 
-- (IBAction)profilePicAction:(id)sender {
-  UIAlertController *alertController=[UIAlertController alertControllerWithTitle:@"" message:@"Change Profile image" preferredStyle:UIAlertControllerStyleActionSheet];
-  UIAlertAction *takePhoto=[UIAlertAction actionWithTitle:@"Take Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-      UIImagePickerController *picker = [[UIImagePickerController alloc] init];
-      picker.delegate = self;
-      picker.allowsEditing = YES;
-      picker.sourceType = UIImagePickerControllerSourceTypeCamera;
-      [self presentViewController:picker animated:YES completion:NULL];
-      [alertController dismissViewControllerAnimated:YES completion:nil];
-  }];
-  [alertController addAction:takePhoto];
-  UIAlertAction *choosePhoto=[UIAlertAction actionWithTitle:@"Select From Photos" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-      UIImagePickerController *pickerView = [[UIImagePickerController alloc] init];
-      pickerView.allowsEditing = YES;
-      pickerView.delegate = self;
-      [pickerView setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
-      [self presentViewController:pickerView animated:YES completion:nil];
-      [alertController dismissViewControllerAnimated:YES completion:nil];
-  }];
-  [alertController addAction:choosePhoto];
-  UIAlertAction *actionCancel=[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-     [alertController dismissViewControllerAnimated:YES completion:nil];
-  }];
-  [alertController addAction:actionCancel];
-  [self presentViewController:alertController animated:YES completion:nil];
+- (IBAction)handleImagePicker:(id)sender {
+    UIAlertController *alertController=[UIAlertController alertControllerWithTitle:@"" message:@"Change List Image" preferredStyle:UIAlertControllerStyleActionSheet];
+    [self handleCameraWithController:alertController];
+    [self handleGalleryWithController:alertController];
+    [self handleCancelWithController:alertController];
+    [self presentViewController:alertController animated:YES completion:nil];
+}
+- (void)handleCameraWithController:(UIAlertController *)alertController {
+    UIAlertAction *takePhoto=[UIAlertAction actionWithTitle:@"Take Photo" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UIImagePickerController *picker = [[UIImagePickerController alloc] init];
+        picker.delegate = self;
+        picker.allowsEditing = YES;
+        picker.sourceType = UIImagePickerControllerSourceTypeCamera;
+        [self presentViewController:picker animated:YES completion:NULL];
+        [alertController dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alertController addAction:takePhoto];
+}
+- (void)handleGalleryWithController:(UIAlertController *)alertController {
+    UIAlertAction *choosePhoto=[UIAlertAction actionWithTitle:@"Select From Photos" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        UIImagePickerController *pickerView = [[UIImagePickerController alloc] init];
+        pickerView.allowsEditing = YES;
+        pickerView.delegate = self;
+        [pickerView setSourceType:UIImagePickerControllerSourceTypePhotoLibrary];
+        [self presentViewController:pickerView animated:YES completion:nil];
+        [alertController dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alertController addAction:choosePhoto];
+}
+- (void)handleCancelWithController:(UIAlertController *)alertController {
+    UIAlertAction *actionCancel=[UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+       [alertController dismissViewControllerAnimated:YES completion:nil];
+    }];
+    [alertController addAction:actionCancel];
 }
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     UIImage *chosenImage = info[UIImagePickerControllerEditedImage];
