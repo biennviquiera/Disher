@@ -20,6 +20,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    UITapGestureRecognizer *gestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissKeyboard)];
+    [self.view addGestureRecognizer:gestureRecognizer];
+//    gestureRecognizer.cancelsTouchesInView = NO;
     self.listNameField.delegate = self;
     self.listNameField.text = self.passedListName;
     [self.listImage setImage:self.passedImage];
@@ -41,6 +44,9 @@
             self.saveButton.enabled = YES;
         }
     }];
+}
+- (void)dismissKeyboard {
+    [self.view endEditing:YES];
 }
 - (IBAction)didPressEditImage:(id)sender {
     [self profilePicAction:nil];

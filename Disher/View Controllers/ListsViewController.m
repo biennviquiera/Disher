@@ -78,7 +78,7 @@
         ListContentViewController *newVC = [segue destinationViewController];
         newVC.passedList = ((ListCell *)sender).list;
         newVC.listDelegate = self;
-//newVC.hidesBottomBarWhenPushed = YES;
+        newVC.hidesBottomBarWhenPushed = YES;
     }
 }
 @end

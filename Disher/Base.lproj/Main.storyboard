@@ -126,10 +126,11 @@
             <objects>
                 <tabBarController storyboardIdentifier="TabBarController" modalPresentationStyle="fullScreen" id="ZFS-EP-tOn" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="pg8-y5-cBe"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="4f7-vW-DkW">
+                    <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" translucent="NO" id="4f7-vW-DkW">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="0.031372549019607843" green="0.40392156862745099" blue="0.53333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.031372549019607843" green="0.40392156862745099" blue="0.53333333333333333" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </tabBar>
                     <connections>
                         <segue destination="khl-Y8-xMq" kind="relationship" relationship="viewControllers" id="MhR-PM-0M6"/>
@@ -145,7 +146,7 @@
             <objects>
                 <viewController id="EXT-wB-Cd6" customClass="RecipesViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="jKt-qn-xS7">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="761"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <pickerView clipsSubviews="YES" contentMode="scaleToFill" id="aIq-fq-QmZ">
@@ -358,11 +359,11 @@
             <objects>
                 <viewController modalPresentationStyle="fullScreen" id="BDl-pL-aD0" customClass="ListsViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="4gU-nY-VBN">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="707"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="Dfm-F0-rMj">
-                                <rect key="frame" x="0.0" y="56" width="390" height="700"/>
+                                <rect key="frame" x="0.0" y="56" width="390" height="646"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ListCell" rowHeight="93" id="Pug-Nc-gz1" customClass="ListCell">
@@ -435,7 +436,7 @@
             <objects>
                 <viewController id="D4Y-uW-bdG" customClass="ListContentViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="2Ic-UF-ZqH">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="707"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="questionmark.square" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="b6c-5F-UWk" customClass="PFImageView">
@@ -452,7 +453,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="FPN-Kn-s0y">
-                                <rect key="frame" x="0.0" y="158" width="390" height="632"/>
+                                <rect key="frame" x="0.0" y="158" width="390" height="578"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ListContentCell" rowHeight="90" id="rX5-82-FJm" customClass="ListContentCell">
@@ -541,18 +542,18 @@
         <scene sceneID="qsO-cl-gyS">
             <objects>
                 <viewController id="mxf-Cm-LqC" customClass="RecipeInListViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="0fF-iS-Gez">
-                        <rect key="frame" x="0.0" y="0.0" width="390" height="790"/>
+                    <view key="view" contentMode="scaleToFill" ambiguous="YES" id="0fF-iS-Gez">
+                        <rect key="frame" x="0.0" y="0.0" width="390" height="761"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="X3n-d4-u8v">
-                                <rect key="frame" x="118" y="65" width="155" height="155"/>
+                                <rect key="frame" x="118" y="97" width="155" height="155"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="155" id="hEU-ey-miY"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="M0x-0X-e7i">
-                                <rect key="frame" x="20" y="228" width="350" height="30"/>
+                                <rect key="frame" x="20" y="260" width="350" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="Jdk-RR-9U0"/>
                                 </constraints>
@@ -560,7 +561,7 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="No instructions available." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="pDf-do-aQ4">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" editable="NO" text="No instructions available." textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="pDf-do-aQ4">
                                 <rect key="frame" x="16" y="279" width="358" height="418"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
@@ -696,6 +697,7 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="AAt-Yn-aaG">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.031372549020000001" green="0.4039215686" blue="0.53333333329999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -715,6 +717,8 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="M8q-so-rMg">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" red="0.031372549020000001" green="0.4039215686" blue="0.53333333329999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="barTintColor" red="0.031372549020000001" green="0.4039215686" blue="0.53333333329999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -786,8 +790,8 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="3uB-zT-T0t"/>
-        <segue reference="4I1-fs-hIP"/>
+        <segue reference="bGF-lc-iBA"/>
+        <segue reference="eS0-bj-5nA"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="NavBarIconSearch_blue.png" width="22" height="22"/>
