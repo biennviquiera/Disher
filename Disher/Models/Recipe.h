@@ -21,6 +21,4 @@ NS_ASSUME_NONNULL_BEGIN
 + (void) getRecipeInfo:(NSString *)recipeID withSource:(NSString *)source withCompletion:(void(^)(NSDictionary *recipeInformation))completionHandler;
 @end
 
-
-
 NS_ASSUME_NONNULL_END
