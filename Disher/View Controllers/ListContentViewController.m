@@ -80,7 +80,7 @@
     PFQuery *new = [PFQuery queryWithClassName:@"List"];
     self.passedList = [new getObjectWithId:self.passedList.objectId];
     self.recipeListIDs = self.passedList.recipes;
-    [self reloadListRecipes:(id)nil completionHandler:^(NSArray *returnedRecipes) {
+    [self reloadListRecipesWithBlock:^(NSArray *returnedRecipes) {
         self.recipeList = returnedRecipes;
         [self.tableView reloadData];
     }];
@@ -100,7 +100,7 @@
         }];
     }
 }
-- (void)reloadListRecipes:(id)something completionHandler:(void(^)(NSArray *returnedRecipes))completionHandler{
+- (void)reloadListRecipesWithBlock:(void(^)(NSArray *returnedRecipes))completionHandler{
     PFQuery *query = [PFQuery queryWithClassName:@"Recipe"];
     [query whereKey:@"objectId" containedIn:self.recipeListIDs];
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {

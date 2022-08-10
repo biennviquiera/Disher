@@ -418,6 +418,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="81a-3U-ti9">
                         <barButtonItem key="leftBarButtonItem" systemItem="add" id="iGk-LC-hkp">
+                            <color key="tintColor" red="1" green="0.71764705880000002" blue="0.01176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <connections>
                                 <segue destination="0zu-T1-B05" kind="presentation" identifier="createSegue" id="bGF-lc-iBA"/>
                             </connections>
