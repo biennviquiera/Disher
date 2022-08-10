@@ -27,7 +27,6 @@
             NSString *imageLink = [recipeInformation objectForKey:@"image"];
             NSURL *imageURL = [NSURL URLWithString:imageLink];
             [self.dishImageView setImageWithURL:imageURL];
-            
         }];
     }
     else if ([self.passedRecipe.source isEqualToString:@"TheMealDB"]) {
@@ -39,6 +38,12 @@
             [self.dishImageView setImageWithURL:imageURL];
         }];
     }
+    [self.dishImageView.layer setShadowRadius: 8];
+    [self.dishImageView.layer setShadowColor:[[UIColor whiteColor] CGColor]];
+    [self.dishImageView.layer setShadowOpacity:1];
+    [self.dishImageView.layer setShadowOffset:CGSizeMake(0,0)];
+    self.dishImageView.layer.masksToBounds = NO;
+    self.dishImageView.clipsToBounds = NO;
 }
 - (NSString *)flattenHtml: (NSString *) html {
     NSScanner *theScanner;
