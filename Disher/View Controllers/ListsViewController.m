@@ -27,15 +27,13 @@
     self.tableView.dataSource = self;
     self.navigationItem.rightBarButtonItem = nil;
     self.lists = [NSMutableArray new];
+    [self.lists setArray:[List queryLists]];
     self.refreshControl = [[UIRefreshControl alloc] init];
     [self.refreshControl addTarget:self action:@selector(beginRefresh:) forControlEvents:UIControlEventValueChanged];
     [self.tableView insertSubview:self.refreshControl atIndex:0];
 }
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-    [self.lists setArray:[List queryLists]];
-    [self.tableView reloadData];
-}
+
+
 #pragma mark - Table view data source
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.lists.count;
@@ -49,7 +47,7 @@
     [cell.listImage loadInBackground];
     return cell;
 }
-- (void) didCreateList:(NSString *) listName {
+- (void) didCreateList {
     [self refreshData];
 }
 - (void) refreshData {
@@ -79,6 +77,8 @@
     else if ([[segue identifier] isEqualToString:@"listContentSegue"]) {
         ListContentViewController *newVC = [segue destinationViewController];
         newVC.passedList = ((ListCell *)sender).list;
+        newVC.listDelegate = self;
+        newVC.hidesBottomBarWhenPushed = YES;
     }
 }
 @end

@@ -25,7 +25,7 @@
     [self.createButton setEnabled:NO];
     [List createList:self.textField.text completionHandler:^() {
         [self dismissViewControllerAnimated:YES completion:nil];
-        [self.delegate didCreateList:self.textField.text];
+        [self.delegate didCreateList];
         [self.saveDelegate didCreateList];
     }];
 }

@@ -264,7 +264,6 @@ static NSString * const kTableViewPanState = @"state";
 {
     if (![_rightUtilityButtons sw_isEqualToButtons:rightUtilityButtons]) {
         _rightUtilityButtons = rightUtilityButtons;
-        
         self.rightUtilityButtonsView.utilityButtons = rightUtilityButtons;
 
         [self.rightUtilityButtonsView layoutIfNeeded];
@@ -490,7 +489,9 @@ static NSString * const kTableViewPanState = @"state";
 {
     if (_cellState != kCellStateCenter)
     {
-        [self.cellScrollView setContentOffset:[self contentOffsetForCellState:0] animated:animated];
+        [UIView animateWithDuration:.25 animations:^{
+            [self.cellScrollView setContentOffset:[self contentOffsetForCellState:kCellStateCenter]];
+        }];
 
         if ([self.delegate respondsToSelector:@selector(swipeableTableViewCell:scrollingToState:)])
         {
@@ -525,6 +526,7 @@ static NSString * const kTableViewPanState = @"state";
 
 - (BOOL)isUtilityButtonsHidden {
     return _cellState == kCellStateCenter;
+//    return YES;
 }
 
 
