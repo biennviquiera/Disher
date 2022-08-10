@@ -447,13 +447,13 @@
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name Of List Goes Here" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cf8-7p-aik">
-                                <rect key="frame" x="111" y="98" width="234" height="26"/>
+                                <rect key="frame" x="119" y="98" width="226" height="26"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="21"/>
                                 <color key="textColor" red="1" green="0.94509803921568625" blue="0.81568627450980391" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="FPN-Kn-s0y">
-                                <rect key="frame" x="0.0" y="158" width="390" height="578"/>
+                                <rect key="frame" x="0.0" y="170.33333333333331" width="390" height="565.66666666666674"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="ListContentCell" rowHeight="90" id="rX5-82-FJm" customClass="ListContentCell">
@@ -508,11 +508,11 @@
                         <viewLayoutGuide key="safeArea" id="U6C-nB-J7k"/>
                         <color key="backgroundColor" red="0.031372549020000001" green="0.4039215686" blue="0.53333333329999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="cf8-7p-aik" firstAttribute="leading" secondItem="b6c-5F-UWk" secondAttribute="trailing" constant="8" symbolic="YES" id="94a-5A-PyP"/>
+                            <constraint firstItem="cf8-7p-aik" firstAttribute="leading" secondItem="b6c-5F-UWk" secondAttribute="trailing" constant="16" id="94a-5A-PyP"/>
                             <constraint firstItem="U6C-nB-J7k" firstAttribute="trailing" secondItem="FPN-Kn-s0y" secondAttribute="trailing" id="FEZ-Ou-qtF"/>
                             <constraint firstItem="FPN-Kn-s0y" firstAttribute="bottom" secondItem="U6C-nB-J7k" secondAttribute="bottom" constant="29" id="RAU-fv-L4X"/>
                             <constraint firstItem="cf8-7p-aik" firstAttribute="centerY" secondItem="b6c-5F-UWk" secondAttribute="centerY" id="V5b-aD-2bd"/>
-                            <constraint firstItem="FPN-Kn-s0y" firstAttribute="top" secondItem="b6c-5F-UWk" secondAttribute="bottom" constant="3.6666666666666572" id="dm1-qR-ekw"/>
+                            <constraint firstItem="FPN-Kn-s0y" firstAttribute="top" secondItem="b6c-5F-UWk" secondAttribute="bottom" constant="16" id="dm1-qR-ekw"/>
                             <constraint firstItem="FPN-Kn-s0y" firstAttribute="leading" secondItem="U6C-nB-J7k" secondAttribute="leading" id="gqN-uj-F6d"/>
                             <constraint firstItem="b6c-5F-UWk" firstAttribute="top" secondItem="U6C-nB-J7k" secondAttribute="top" constant="11.333333333333343" id="kgs-nc-Lnu"/>
                             <constraint firstItem="b6c-5F-UWk" firstAttribute="leading" secondItem="U6C-nB-J7k" secondAttribute="leading" constant="16" id="sW0-63-SWu"/>
