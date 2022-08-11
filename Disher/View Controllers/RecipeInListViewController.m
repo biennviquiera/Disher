@@ -52,8 +52,7 @@
     while ([theScanner isAtEnd] == NO) {
         [theScanner scanUpToString: @"<" intoString: NULL];
         [theScanner scanUpToString: @">" intoString: &text];
-        html = [html stringByReplacingOccurrencesOfString:
-                [NSString stringWithFormat: @"%@>", text]
+        html = [html stringByReplacingOccurrencesOfString:[NSString stringWithFormat: @"%@>", text]
                                                withString: @" "];
     }
     return html;

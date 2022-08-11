@@ -28,7 +28,6 @@
 @implementation ListContentViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.listName.text = self.passedList.listName;
@@ -100,7 +99,7 @@
         }];
     }
 }
-- (void)reloadListRecipesWithBlock:(void(^)(NSArray *returnedRecipes))completionHandler{
+- (void)reloadListRecipesWithBlock:(void(^)(NSArray *returnedRecipes))completionHandler {
     PFQuery *query = [PFQuery queryWithClassName:@"Recipe"];
     [query whereKey:@"objectId" containedIn:self.recipeListIDs];
     [query findObjectsInBackgroundWithBlock:^(NSArray * _Nullable objects, NSError * _Nullable error) {
@@ -109,7 +108,7 @@
         }
     }];
 }
-- (void)didUpdateName:(NSString *)name withImage:(UIImage *)image{
+- (void)didUpdateName:(NSString *)name withImage:(UIImage *)image {
     self.listName.text = name;
     self.listImg.image = image;
 }

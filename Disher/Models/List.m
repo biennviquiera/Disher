@@ -16,7 +16,7 @@
 + (nonnull NSString *)parseClassName {
     return @"List";
 }
-+ (void) createList:(NSString *)name completionHandler:(nonnull void (^)(void))completionHandler{
++ (void)createList:(NSString *)name completionHandler:(nonnull void (^)(void))completionHandler{
     List *newList = [List new];
     newList.listName = name;
     newList.recipes = @[];
@@ -33,7 +33,7 @@
         }
     }];
 }
-+ (NSArray *) queryLists {
++ (NSArray *)queryLists {
     PFQuery *query = [PFQuery queryWithClassName:@"List"];
     [query orderByDescending:@"updatedAt"];
     NSArray *userLists = [PFUser currentUser][@"lists"];

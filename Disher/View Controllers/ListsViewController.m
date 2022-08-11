@@ -47,10 +47,10 @@
     [cell.listImage loadInBackground];
     return cell;
 }
-- (void) didCreateList {
+- (void)didCreateList {
     [self refreshData];
 }
-- (void) refreshData {
+- (void)refreshData {
     [self.lists setArray:[List queryLists]];
     [self.tableView reloadData];
 }
@@ -63,7 +63,7 @@
         [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationRight];
     }
 }
-- (void) beginRefresh:(UIRefreshControl *) refreshControl {
+- (void)beginRefresh:(UIRefreshControl *) refreshControl {
     [refreshControl beginRefreshing];
     [self refreshData];
     [refreshControl endRefreshing];

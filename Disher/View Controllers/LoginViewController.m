@@ -40,10 +40,9 @@
     [self registerUser];
 }
 //HELPER METHODS
-- (void) loginUser {
+- (void)loginUser {
     NSString *username = self.usernameField.text;
     NSString *password = self.passwordField.text;
-    
     [PFUser logInWithUsernameInBackground:username password:password block:^(PFUser * user, NSError *  error) {
         if (error != nil) {
             NSString *errorString = [error userInfo][@"error"];
@@ -54,7 +53,7 @@
             
             UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"Try again"
                                                                     style:UIAlertActionStyleDefault
-                                                                  handler:^(UIAlertAction * action) {}];
+                                                                  handler:^(UIAlertAction * action){}];
             [alert addAction:defaultAction];
             [self presentViewController:alert animated:YES completion:nil];
             [self.loginButton setEnabled:YES];
@@ -65,7 +64,7 @@
         }
     }];
 }
-- (void) registerUser {
+- (void)registerUser {
     PFUser *newUser = [PFUser user];
     newUser.username = self.usernameField.text;
     newUser.password = self.passwordField.text;
@@ -91,8 +90,7 @@
     }];
 }
 
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
-{
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
   return UIInterfaceOrientationMaskPortrait;
 }
 

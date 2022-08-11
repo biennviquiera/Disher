@@ -12,8 +12,9 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @protocol ListContentDelegate<NSObject>
-- (void) didUpdateName:(NSString *)name withImage:(UIImage *)image;
+- (void)didUpdateName:(NSString *)name withImage:(UIImage *)image;
 @end
+
 @interface ListContentViewController : UIViewController
 @property (strong, nonatomic) List *passedList;
 @property (weak, nonatomic) id <ListDelegate> listDelegate;

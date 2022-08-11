@@ -57,7 +57,7 @@
         }];
     }
 }
-- (void) uploadRecipeToList:(Recipe *)recipe withList:(List *)list {
+- (void)uploadRecipeToList:(Recipe *)recipe withList:(List *)list {
     [list addUniqueObject:recipe.objectId forKey:@"recipes"];
     [list saveInBackgroundWithBlock:^(BOOL succeeded, NSError * _Nullable error) {
         if (!error) {
@@ -68,10 +68,10 @@
         }
     }];
 }
-- (void) didCreateList {
+- (void)didCreateList {
     [self refreshData];
 }
-- (void) refreshData {
+- (void)refreshData {
     [self.lists setArray:[List queryLists]];
     [self.tableView reloadData];
 }

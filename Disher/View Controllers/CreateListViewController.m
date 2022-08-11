@@ -7,16 +7,14 @@
 
 #import "CreateListViewController.h"
 #import "List.h"
-
 @import Parse;
+
 @interface CreateListViewController ()
 @property (weak, nonatomic) IBOutlet UIButton *createButton;
-
 @property (weak, nonatomic) IBOutlet UITextField *textField;
 @end
 
 @implementation CreateListViewController
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -29,5 +27,4 @@
         [self.saveDelegate didCreateList];
     }];
 }
-
 @end

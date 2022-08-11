@@ -113,7 +113,6 @@
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
     return 1;
 }
-
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
     return self.cuisines.count + 1;
 }
@@ -166,7 +165,7 @@
     }];
 }
 // API Querying Methods
-- (void) queryMealDB:(NSString *)name withOption:(NSInteger)option completionHandler:(void(^)(NSArray *returnedMeals))completionHandler {
+- (void)queryMealDB:(NSString *)name withOption:(NSInteger)option completionHandler:(void(^)(NSArray *returnedMeals))completionHandler {
     NSURL *url;
     if (option == 0) {
         url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.themealdb.com/api/json/v1/1/search.php?s=%@", name]];
@@ -192,7 +191,7 @@
     }];
     [task resume];
 }
-- (void) querySearchSpoonacular:(NSString *)name withOption:(NSInteger)option completionHandler:(void(^)(NSArray *returnedMeals))completionHandler {
+- (void)querySearchSpoonacular:(NSString *)name withOption:(NSInteger)option completionHandler:(void(^)(NSArray *returnedMeals))completionHandler {
     //Use API Key in Keys.plist file
     NSString *path = [[NSBundle mainBundle] pathForResource: @"Keys" ofType: @"plist"];
     NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: path];
@@ -233,7 +232,7 @@
     }];
     [task resume];
 }
-- (void) queryAPIs:(NSString *) input withOption:(NSInteger) option completionHandler:(void(^)(void))completionHandler {
+- (void)queryAPIs:(NSString *)input withOption:(NSInteger)option completionHandler:(void(^)(void))completionHandler {
     [self.tableViewRecipes removeAllObjects];
     dispatch_group_t group = dispatch_group_create();
     dispatch_group_enter(group);
@@ -328,7 +327,7 @@
     }
 }
 //sorting
-- (void) sortIngredients {
+- (void)sortIngredients {
     NSArray *sortedArray = [self.tableViewRecipes sortedArrayUsingComparator: ^(Recipe *obj1, Recipe *obj2) {
         NSNumber *firstPercentage;
         NSNumber *secondPercentage;
@@ -349,7 +348,7 @@
     [self.tableViewRecipes setArray:sortedArray];
 }
 //API Helper methods
-- (NSString *) ingredientFormatSpoonacular:(NSString *)input {
+- (NSString *)ingredientFormatSpoonacular:(NSString *)input {
     NSString *newString = input;
     newString = [newString stringByReplacingOccurrencesOfString:@" " withString:@","];
     return newString;
@@ -366,7 +365,7 @@
         }
     }
 }
-- (void) createRecipe:(NSString *)type withDictionary:(NSDictionary *)recipe {
+- (void)createRecipe:(NSString *)type withDictionary:(NSDictionary *)recipe {
     NSString *recipeName;
     NSString *imageLink;
     NSString *mealID;
@@ -401,7 +400,7 @@
     self.unfilteredTableViewRecipes = [self.tableViewRecipes copy];
     [self refreshData];
 }
-- (void) handleIngredientSearch:(NSString *)type withMeals:(NSArray *)meals withInput:(NSString *) input {
+- (void)handleIngredientSearch:(NSString *)type withMeals:(NSArray *)meals withInput:(NSString *) input {
     NSString *recipeName;
     NSString *imageLink;
     NSString *mealID;
@@ -439,7 +438,7 @@
         }
     }
 }
-- (NSArray *) handleCuisineFilteringWithDictionary:(NSDictionary *)recipeInformation withSource:(NSString *)source {
+- (NSArray *)handleCuisineFilteringWithDictionary:(NSDictionary *)recipeInformation withSource:(NSString *)source {
     if ([source isEqualToString:@"Spoonacular"]) {
         NSArray<NSString *> *cuisine;
         if (((NSArray *)recipeInformation[@"cuisines"]).count) {
@@ -461,7 +460,7 @@
     }
     return @[@"Unknown"];
 }
-- (void) handleIngredientMatching:(NSDictionary *)meal withMealID:(NSString *)mealID withSource:(NSString *)source withInput:(NSString *)input{
+- (void)handleIngredientMatching:(NSDictionary *)meal withMealID:(NSString *)mealID withSource:(NSString *)source withInput:(NSString *)input{
     if ([source isEqualToString:@"Spoonacular"]) {
         float numeratorFloat = [meal[@"usedIngredientCount"] floatValue];
         float denominatorFloat = [meal[@"usedIngredientCount"] floatValue] + [meal[@"missedIngredientCount"] floatValue];
@@ -506,7 +505,7 @@
     }
     [self sortIngredients];
 }
-- (void) refreshData {
+- (void)refreshData {
     [self.tableView reloadData];
     [self.cuisinesSet addObjectsFromArray:self.cuisines];
     [self.cuisines setArray:[self.cuisinesSet allObjects]];
@@ -516,7 +515,6 @@
 - (UIInterfaceOrientation) preferredInterfaceOrientationForPresentation {
     return UIInterfaceOrientationPortrait;
 }
-
 - (BOOL)shouldAutorotate {
     return NO;
 }

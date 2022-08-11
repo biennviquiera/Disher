@@ -15,8 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSArray<Recipe *> *recipes;
 @property (nonatomic, strong) PFFileObject *listImage;
 
-+ (void) createList:(NSString *)name completionHandler:(void(^)(void))completionHandler;
-+ (NSArray *) queryLists;
++ (void)createList:(NSString *)name completionHandler:(void(^)(void))completionHandler;
++ (NSArray *)queryLists;
 @end
 
 NS_ASSUME_NONNULL_END

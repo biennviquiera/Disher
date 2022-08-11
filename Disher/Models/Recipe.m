@@ -14,10 +14,10 @@
 @dynamic recipeID;
 @dynamic cuisine;
 
-+ (NSString *) parseClassName {
++ (NSString *)parseClassName {
     return @"Recipe";
 }
-+ (Recipe *) initWithRecipe:(NSString *) name withURL:(NSString *) imgURL withSource:(NSString *) dishSource withID:(NSString *) recipeNum withCuisine:(nonnull NSArray *)cuisine{
++ (Recipe *)initWithRecipe:(NSString *)name withURL:(NSString *)imgURL withSource:(NSString *)dishSource withID:(NSString *)recipeNum withCuisine:(nonnull NSArray *)cuisine {
     Recipe *newRecipe = [Recipe new];
     newRecipe.dishName = name;
     newRecipe.imageURL = imgURL;
@@ -26,7 +26,7 @@
     newRecipe.cuisine = cuisine;
     return newRecipe;
 }
-+ (void) getRecipeInfo:(NSString *)recipeID withSource:(NSString *)source withCompletion:(void(^)(NSDictionary *recipeInformation))completionHandler {
++ (void)getRecipeInfo:(NSString *)recipeID withSource:(NSString *)source withCompletion:(void(^)(NSDictionary *recipeInformation))completionHandler {
     NSURL *url;
     if ([source isEqualToString:@"Spoonacular"]) {
         NSString *path = [[NSBundle mainBundle] pathForResource: @"Keys" ofType: @"plist"];
@@ -39,7 +39,6 @@
         NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
             NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             completionHandler(dataDictionary);
-            
         }];
         [task resume];
     }

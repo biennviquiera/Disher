@@ -17,7 +17,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic) NSString *passedListID;
 @property (strong, nonatomic) NSString *passedListName;
 @property (strong, nonatomic) UIImage *passedImage;
-
 @end
 
 NS_ASSUME_NONNULL_END
