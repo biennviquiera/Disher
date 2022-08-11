@@ -24,7 +24,6 @@
     [super viewDidLoad];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.lists = [NSMutableArray new];
     [self.lists setArray:[List queryLists]];
     [self.tableView reloadData];
