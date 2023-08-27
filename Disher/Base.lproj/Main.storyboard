@@ -266,6 +266,20 @@
                                 <action selector="didTapLogout:" destination="EXT-wB-Cd6" id="p52-kn-qt0"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" style="plain" id="f92-xO-w15">
+                            <button key="customView" opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" id="94g-e0-mDg">
+                                <rect key="frame" x="265.33333333333331" y="5" width="108.66666666666669" height="34.333333333333336"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="filled" title="Randomize"/>
+                                <connections>
+                                    <action selector="didTapRandomize:" destination="EXT-wB-Cd6" eventType="touchUpInside" id="9DB-Tn-3Xt"/>
+                                </connections>
+                            </button>
+                            <connections>
+                                <action selector="didTapRandomize:" destination="EXT-wB-Cd6" id="KBH-Nr-M6j"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
@@ -794,6 +808,7 @@
         <segue reference="bGF-lc-iBA"/>
         <segue reference="eS0-bj-5nA"/>
     </inferredMetricsTieBreakers>
+    <color key="tintColor" red="1" green="0.71764705880000002" blue="0.01176470588" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
     <resources>
         <image name="NavBarIconSearch_blue.png" width="22" height="22"/>
         <image name="fork.knife" catalog="system" width="92" height="128"/>

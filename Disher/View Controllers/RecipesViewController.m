@@ -32,6 +32,7 @@
 @property (nonatomic, strong) NSMutableDictionary<NSString *, NSString *> *mealDBMatches;
 @property (nonatomic, strong) NSMutableDictionary<NSString *, NSNumber *> *mealDBMatchesValues;
 @property (nonatomic, strong) NSMutableDictionary<NSString *, NSString *> *spoonacularMatches;
+@property (weak, nonatomic) IBOutlet UIButton *randomizeButton;
 @property (nonatomic, strong) NSMutableDictionary<NSString *, NSNumber *> *spoonacularMatchesValues;
 @property NSArray *temp;
 @property BOOL seenIngredientMsg;
@@ -62,9 +63,27 @@
     [self.view addSubview:self.searchBarWithDelegate];
     self.tableView.keyboardDismissMode = UIScrollViewKeyboardDismissModeOnDrag;
     [self.searchSegmentedControl addTarget:self action:@selector(didTapSearchByIngredient:) forControlEvents:UIControlEventTouchUpInside];
-    [self queryAPIs:self.searchQuery withOption:0 completionHandler:^{
+    [self getRandomRecipesWithCompletion:^{
         [self refreshData];
     }];
+}
+- (IBAction)didTapRandomize:(id)sender {
+    [self killScroll];
+    [self clearPickerView];
+    self.randomizeButton.enabled = NO;
+    [self getRandomRecipesWithCompletion:^{
+        [self refreshData];
+        self.randomizeButton.enabled = YES;
+    }];
+}
+- (void)killScroll {
+    CGPoint offset = self.tableView.contentOffset;
+    offset.x -= 1.0;
+    offset.y -= 1.0;
+    [self.tableView setContentOffset:offset animated:NO];
+    offset.x += 1.0;
+    offset.y += 1.0;
+    [self.tableView setContentOffset:offset animated:NO];
 }
 - (IBAction)didTapSearchByIngredient:(UISegmentedControl *)sender {
     NSInteger selectedSegment = sender.selectedSegmentIndex;
@@ -113,7 +132,6 @@
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
     return 1;
 }
-
 - (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component {
     return self.cuisines.count + 1;
 }
@@ -154,7 +172,16 @@
 - (IBAction)didTapLogout:(id)sender {
     [PFUser logOutInBackgroundWithBlock:^(NSError * _Nullable error) {
         [self.logoutButton setEnabled:NO];
-        if (error) { //TODO: Add error alert for logout
+        if (error) {
+            NSString *message = @"Unable to log out. Please try again.";
+            UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Error"
+                                                                           message:message
+                                                                    preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK"
+                                                                    style:UIAlertActionStyleDefault
+                                                                  handler:^(UIAlertAction * action) {}];
+            [alert addAction:defaultAction];
+            [self presentViewController:alert animated:YES completion:nil];
             [self.logoutButton setEnabled:YES];
         }
         else {
@@ -166,7 +193,7 @@
     }];
 }
 // API Querying Methods
-- (void) queryMealDB:(NSString *)name withOption:(NSInteger)option completionHandler:(void(^)(NSArray *returnedMeals))completionHandler {
+- (void)queryMealDB:(NSString *)name withOption:(NSInteger)option completionHandler:(void(^)(NSArray *returnedMeals))completionHandler {
     NSURL *url;
     if (option == 0) {
         url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.themealdb.com/api/json/v1/1/search.php?s=%@", name]];
@@ -177,9 +204,7 @@
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        if (error != nil) {//TODO: add error message
-        }
-        else {
+        if (!error) {
             NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             if (dataDictionary[@"meals"] == [NSNull null] ) {
                 NSLog(@"null detected from mealdb");
@@ -192,7 +217,7 @@
     }];
     [task resume];
 }
-- (void) querySearchSpoonacular:(NSString *)name withOption:(NSInteger)option completionHandler:(void(^)(NSArray *returnedMeals))completionHandler {
+- (void)querySearchSpoonacular:(NSString *)name withOption:(NSInteger)option completionHandler:(void(^)(NSArray *returnedMeals))completionHandler {
     //Use API Key in Keys.plist file
     NSString *path = [[NSBundle mainBundle] pathForResource: @"Keys" ofType: @"plist"];
     NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: path];
@@ -200,26 +225,25 @@
     NSString *apiKeyArg = [NSString stringWithFormat:@"&apiKey=%@", key];
     NSString *queryURL;
     if (option == 0) {
-        queryURL = [NSString stringWithFormat:@"https://api.spoonacular.com/recipes/complexSearch?query=\"%@\"%@&addRecipeInformation=TRUE", name, apiKeyArg];
+        queryURL = [NSString stringWithFormat:@"https://api.spoonacular.com/recipes/complexSearch?query=\"%@\"%@&addRecipeInformation=TRUE&number=99", name, apiKeyArg];
         queryURL = [queryURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     }
     else {
         name = [self ingredientFormatSpoonacular:name];
-        queryURL = [NSString stringWithFormat:@"https://api.spoonacular.com/recipes/findByIngredients?ingredients=\"%@\"%@", name, apiKeyArg];
+        queryURL = [NSString stringWithFormat:@"https://api.spoonacular.com/recipes/findByIngredients?ingredients=\"%@\"%@&number=99", name, apiKeyArg];
         queryURL = [queryURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
     }
     NSURL *url = [NSURL URLWithString:queryURL];
     NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
-        if (error != nil) { //TODO: Add error message
+        if (error != nil) {
         }
         else {
             NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
             if (option == 0) {
                 if (![(NSArray *)dataDictionary[@"results"] count]) {
                     completionHandler(@[]);
-                    NSLog(@"null detected from spoonacular");
                 }
                 else {
                     completionHandler(dataDictionary[@"results"]);
@@ -233,7 +257,7 @@
     }];
     [task resume];
 }
-- (void) queryAPIs:(NSString *) input withOption:(NSInteger) option completionHandler:(void(^)(void))completionHandler {
+- (void)queryAPIs:(NSString *)input withOption:(NSInteger)option completionHandler:(void(^)(void))completionHandler {
     [self.tableViewRecipes removeAllObjects];
     dispatch_group_t group = dispatch_group_create();
     dispatch_group_enter(group);
@@ -265,9 +289,65 @@
     dispatch_group_notify(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^ {
         dispatch_async(dispatch_get_main_queue(), ^{
             completionHandler();
-            
         });
     });
+}
+- (void)getRandomRecipesWithCompletion:(void(^)(void))completionHandler {
+    [self.tableViewRecipes removeAllObjects];
+    self.showIngredientMatch = NO;
+    dispatch_group_t group = dispatch_group_create();
+    dispatch_group_enter(group);
+    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^ {
+        [self getRandomSpoonacularMealsWithCompletion:^(NSArray *returnedMeals) {
+            [self handleSimpleSearch:@"Spoonacular" withMeals:returnedMeals];
+            dispatch_group_leave(group);
+        }];
+    });
+    dispatch_group_enter(group);
+    dispatch_group_async(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^ {
+        [self getRandomMealDBMealsWithCompletion:^(NSArray *returnedMeals) {
+            [self handleSimpleSearch:@"TheMealDB" withMeals:returnedMeals];
+            dispatch_group_leave(group);
+        }];
+    });
+    dispatch_group_notify(group, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^ {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            completionHandler();
+        });
+    });
+}
+- (void)getRandomSpoonacularMealsWithCompletion:(void(^)(NSArray *returnedMeals))completionHandler {
+    NSString *path = [[NSBundle mainBundle] pathForResource: @"Keys" ofType: @"plist"];
+    NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile: path];
+    NSString *key = [dict objectForKey: @"spoon_key"];
+    NSString *apiKeyArg = [NSString stringWithFormat:@"&apiKey=%@", key];
+    NSString *queryURL;
+    queryURL = [NSString stringWithFormat:@"https://api.spoonacular.com/recipes/random?number=100&%@", apiKeyArg];
+    queryURL = [queryURL stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLQueryAllowedCharacterSet]];
+    NSLog(@"url is %@", queryURL);
+    NSURL *url = [NSURL URLWithString:queryURL];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (!error) {
+            NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            completionHandler(dataDictionary[@"recipes"]);
+        }
+    }];
+    [task resume];
+}
+- (void)getRandomMealDBMealsWithCompletion:(void(^)(NSArray *returnedMeals))completionHandler {
+    NSURL *url;
+    url = [NSURL URLWithString:[NSString stringWithFormat:@"https://www.themealdb.com/api/json/v2/9973533/randomselection.php"]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
+    NSURLSession *session = [NSURLSession sessionWithConfiguration:[NSURLSessionConfiguration defaultSessionConfiguration] delegate:nil delegateQueue:[NSOperationQueue mainQueue]];
+    NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
+        if (!error) {
+            NSDictionary *dataDictionary = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+            completionHandler(dataDictionary[@"meals"]);
+        }
+    }];
+    [task resume];
 }
 // Table View Cell Methods
 - (NSArray *)rightButtons {
@@ -310,12 +390,7 @@
     return CGRectMake(5.0, 92.0, CGRectGetWidth(self.view.bounds) - 10.0, 34.0);
 }
 - (void)searchBarDidTapReturn:(INSSearchBar *)searchBar {
-    //clear picker view
-    [self.cuisinesSet removeAllObjects];
-    [self.cuisines removeAllObjects];
-    self.cuisineField.text = @"";
-    [self.pickerView reloadAllComponents];
-    [self.pickerView selectRow:0 inComponent:0 animated:NO];
+    [self clearPickerView];
     if (self.searchSegmentedControl.selectedSegmentIndex == 0) {
         [self queryAPIs:searchBar.searchField.text withOption:0 completionHandler:^{
             [self refreshData];
@@ -328,7 +403,7 @@
     }
 }
 //sorting
-- (void) sortIngredients {
+- (void)sortIngredients {
     NSArray *sortedArray = [self.tableViewRecipes sortedArrayUsingComparator: ^(Recipe *obj1, Recipe *obj2) {
         NSNumber *firstPercentage;
         NSNumber *secondPercentage;
@@ -349,7 +424,7 @@
     [self.tableViewRecipes setArray:sortedArray];
 }
 //API Helper methods
-- (NSString *) ingredientFormatSpoonacular:(NSString *)input {
+- (NSString *)ingredientFormatSpoonacular:(NSString *)input {
     NSString *newString = input;
     newString = [newString stringByReplacingOccurrencesOfString:@" " withString:@","];
     return newString;
@@ -366,7 +441,7 @@
         }
     }
 }
-- (void) createRecipe:(NSString *)type withDictionary:(NSDictionary *)recipe {
+- (void)createRecipe:(NSString *)type withDictionary:(NSDictionary *)recipe {
     NSString *recipeName;
     NSString *imageLink;
     NSString *mealID;
@@ -401,7 +476,7 @@
     self.unfilteredTableViewRecipes = [self.tableViewRecipes copy];
     [self refreshData];
 }
-- (void) handleIngredientSearch:(NSString *)type withMeals:(NSArray *)meals withInput:(NSString *) input {
+- (void)handleIngredientSearch:(NSString *)type withMeals:(NSArray *)meals withInput:(NSString *) input {
     NSString *recipeName;
     NSString *imageLink;
     NSString *mealID;
@@ -439,7 +514,7 @@
         }
     }
 }
-- (NSArray *) handleCuisineFilteringWithDictionary:(NSDictionary *)recipeInformation withSource:(NSString *)source {
+- (NSArray *)handleCuisineFilteringWithDictionary:(NSDictionary *)recipeInformation withSource:(NSString *)source {
     if ([source isEqualToString:@"Spoonacular"]) {
         NSArray<NSString *> *cuisine;
         if (((NSArray *)recipeInformation[@"cuisines"]).count) {
@@ -461,7 +536,7 @@
     }
     return @[@"Unknown"];
 }
-- (void) handleIngredientMatching:(NSDictionary *)meal withMealID:(NSString *)mealID withSource:(NSString *)source withInput:(NSString *)input{
+- (void)handleIngredientMatching:(NSDictionary *)meal withMealID:(NSString *)mealID withSource:(NSString *)source withInput:(NSString *)input{
     if ([source isEqualToString:@"Spoonacular"]) {
         float numeratorFloat = [meal[@"usedIngredientCount"] floatValue];
         float denominatorFloat = [meal[@"usedIngredientCount"] floatValue] + [meal[@"missedIngredientCount"] floatValue];
@@ -506,17 +581,23 @@
     }
     [self sortIngredients];
 }
-- (void) refreshData {
+- (void)refreshData {
     [self.tableView reloadData];
     [self.cuisinesSet addObjectsFromArray:self.cuisines];
     [self.cuisines setArray:[self.cuisinesSet allObjects]];
     [self.cuisines setArray:[self.cuisines sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)]];
     [self.pickerView reloadAllComponents];
 }
+-(void)clearPickerView {
+    [self.cuisinesSet removeAllObjects];
+    [self.cuisines removeAllObjects];
+    self.cuisineField.text = @"";
+    [self.pickerView reloadAllComponents];
+    [self.pickerView selectRow:0 inComponent:0 animated:NO];
+}
 - (UIInterfaceOrientation) preferredInterfaceOrientationForPresentation {
     return UIInterfaceOrientationPortrait;
 }
-
 - (BOOL)shouldAutorotate {
     return NO;
 }
